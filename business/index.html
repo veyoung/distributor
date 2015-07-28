@@ -1,34 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>index page</title>
+<title>会员分销管理系统</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
 <link rel="stylesheet" href="css/bootstrap.min.css"/>
 <link rel="stylesheet" href="css/font-awesome.css"/>
 <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-default">
-		<div class="container">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="/">Angular Routing Example</a>
-			</div>
-
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-				<li><a href="#about"><i class="fa fa-shield"></i> About</a></li>
-				<li><a href="#contact"><i class="fa fa-comment"></i> Contact</a></li>
-			</ul>
-		</div>
-		</nav>
-	</header>
-	
-    <div id="content-wrapper">
-		<div id="mod-menu">
-		</div>
-		<div id="mod-content"
-		</div>
+<div class="navbar navbar-duomi navbar-static-top" role="navigation">
+<div class="container-fluid">
+    <div class="navbar-header">
+            <a class="navbar-brand" href="#" id="logo">会员分销管理系统</a>
+        </div>
     </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <ul id="main-nav" class="main-nav nav nav-tabs nav-stacked" style="">
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-th-large"></i> 首页 		
+                    </a>
+                </li>
+                <li>
+                    <a href="#systemSetting" class="nav-header collapsed" data-toggle="collapse">
+                        <i class="glyphicon glyphicon-cog"></i>订单消费
+                        <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
+                    </a>
+                    <ul id="systemSetting" class="nav nav-list secondmenu collapse" style="height: 0px;">
+                        <li><a href="#"><i class="glyphicon glyphicon-user"></i>&nbsp;用户管理</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-th-list"></i>&nbsp;菜单管理</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-asterisk"></i>&nbsp;角色管理</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-edit"></i>&nbsp;修改密码</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;日志查看</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#configSetting" class="nav-header collapsed" data-toggle="collapse">
+                        <i class="glyphicon glyphicon-user"></i> 分销商管理	
+                        <span class="pull-right glyphicon  glyphicon-chevron-toggle"></span>
+                    </a>
+                    <ul id="configSetting" class="nav nav-list secondmenu collapse">
+                        <li><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;分销商列表</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-star-empty"></i>&nbsp;分销商消费明细</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-star"></i>&nbsp;分销商积分明细</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#disSetting" class="nav-header collapsed" data-toggle="collapse">
+                        <i class="glyphicon glyphicon-globe"></i> 商品管理
+			 			<span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
+                    </a>
+                    <ul id="disSetting" class="nav nav-list secondmenu collapse">
+                        <li><a href="#"><i class="glyphicon glyphicon-th-list"></i>&nbsp;商品列表</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-th-list"></i>&nbsp;新增商品</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#dicSetting" class="nav-header collapsed" data-toggle="collapse">
+                        <i class="glyphicon glyphicon-bold"></i>运营管理
+                        <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
+                    </a>
+                    <ul id="dicSetting" class="nav nav-list secondmenu collapse">
+                        <li><a href="#"><i class="glyphicon glyphicon-text-width"></i>&nbsp;销售排行</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-text-width"></i>&nbsp;销售明细</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#sysSetting" class="nav-header collapsed" data-toggle="collapse">
+                        <i class="glyphicon glyphicon-bold"></i>系统管理
+                        <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
+                    </a>
+                    <ul id="sysSetting" class="nav nav-list secondmenu collapse">
+                        <li><a href="#"><i class="glyphicon glyphicon-text-width"></i>&nbsp;角色管理</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-text-width"></i>&nbsp;日志查看</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="glyphicon glyphicon-fire"></i>关于系统
+                        <span class="badge pull-right"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+        	<iframe src="pages/distributorlist.html" width="100%" height="900px" scrolling="no" frameborder="0"></iframe>
+        </div>
+    </div>
+</div>
 <script src="js/jquery-1.9.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 </body>
