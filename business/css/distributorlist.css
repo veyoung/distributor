@@ -1,12 +1,4 @@
-body, button, input, select, textarea {
-  font-size: 14px;
-  font-family: "\5FAE\8F6F\96C5\9ED1",sans-serif,Arial,"\5b8b\4f53",sans-serif;
-}
-.table-tile td{
-background-color: #3498db;
-color: #fff;
-font-weight:bold;
-}
+
 .distributor-font{
 color: #007fbf;
 text-align:middle;

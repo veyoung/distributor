@@ -135,3 +135,19 @@ content: "\e113";
 .collapsed.glyphicon-chevron-toggle:before {
 content: "\e114";
 }
+
+.login-box{
+float:right;
+color:white;
+line-height:50px;
+font-size:15px;
+margin-right:20px;
+}
+.mod-nav {
+  width: 9px;
+  height: 5px;
+  background: url(../images/nav-dropdown.png) no-repeat;
+  position: absolute;
+  right: 0;
+  top: 6px;
+}

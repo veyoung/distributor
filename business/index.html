@@ -10,9 +10,12 @@
 </head>
 <body>
 <div class="navbar navbar-duomi navbar-static-top" role="navigation">
-<div class="container-fluid">
-    <div class="navbar-header">
+	<div class="container-fluid">
+    	<div class="navbar-header">
             <a class="navbar-brand" href="#" id="logo">会员分销管理系统</a>
+        </div>
+        <div class="login-box">
+           	<span>欢迎您：余扬&nbsp;</span> 
         </div>
     </div>
 </div>
@@ -31,11 +34,8 @@
                         <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="systemSetting" class="nav nav-list secondmenu collapse" style="height: 0px;">
-                        <li><a href="#"><i class="glyphicon glyphicon-user"></i>&nbsp;用户管理</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-th-list"></i>&nbsp;菜单管理</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-th-list"></i>&nbsp;订单消费</a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-asterisk"></i>&nbsp;角色管理</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-edit"></i>&nbsp;修改密码</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;日志查看</a></li>
                     </ul>
                 </li>
                 <li>
@@ -44,9 +44,9 @@
                         <span class="pull-right glyphicon  glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="configSetting" class="nav nav-list secondmenu collapse">
-                        <li><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;分销商列表</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-star-empty"></i>&nbsp;分销商消费明细</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-star"></i>&nbsp;分销商积分明细</a></li>
+                        <li><a href="pages/distributorlist.html" target="view_window"><i class="glyphicon glyphicon-user"></i>&nbsp;分销商列表</a></li>
+                        <li><a href="pages/distributorconsumedetail.html" target="view_window"><i class="glyphicon glyphicon-star-empty"></i>&nbsp;分销商消费明细</a></li>
+                        <li><a href="pages/distributorpointsdetail.html" target="view_window"><i class="glyphicon glyphicon-star"></i>&nbsp;分销商积分明细</a></li>
                     </ul>
                 </li>
 
@@ -56,8 +56,8 @@
 			 			<span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="disSetting" class="nav nav-list secondmenu collapse">
-                        <li><a href="#"><i class="glyphicon glyphicon-th-list"></i>&nbsp;商品列表</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-th-list"></i>&nbsp;新增商品</a></li>
+                        <li><a href="pages/commoditylist.html" target="view_window"><i class="glyphicon glyphicon-th-list"></i>&nbsp;商品列表</a></li>
+                        <li><a href="pages/commoditysearch.html" target="view_window"><i class="glyphicon glyphicon-search"></i>&nbsp;商品搜索</a></li>
                     </ul>
                 </li>
 
@@ -67,7 +67,7 @@
                         <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="dicSetting" class="nav nav-list secondmenu collapse">
-                        <li><a href="#"><i class="glyphicon glyphicon-text-width"></i>&nbsp;销售排行</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-sort-by-order"></i>&nbsp;销售排行</a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-text-width"></i>&nbsp;销售明细</a></li>
                     </ul>
                 </li>
@@ -77,20 +77,14 @@
                         <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="sysSetting" class="nav nav-list secondmenu collapse">
-                        <li><a href="#"><i class="glyphicon glyphicon-text-width"></i>&nbsp;角色管理</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-text-width"></i>&nbsp;日志查看</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-user"></i>&nbsp;角色管理</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;日志查看</a></li>
                     </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="glyphicon glyphicon-fire"></i>关于系统
-                        <span class="badge pull-right"></span>
-                    </a>
                 </li>
             </ul>
         </div>
         <div class="col-md-10">
-        	<iframe src="pages/distributorlist.html" width="100%" height="900px" scrolling="no" frameborder="0"></iframe>
+        	<iframe name="view_window" src="pages/distributorlist.html" width="100%" height="900px" scrolling="no" frameborder="0"></iframe>
         </div>
     </div>
 </div>
