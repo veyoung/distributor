@@ -1,7 +1,7 @@
 .page-header{
 padding-bottom: 9px;
 border-bottom: 1px solid #eee;
-margin: 0 0 5px 0;
+margin: 0 0 15px 0;
 }
 body, button, input, select, textarea {
   font-size: 14px;
@@ -28,6 +28,9 @@ color: #4cae4c!important;
 }
 .orange{
 color: #ff892a!important;
+}
+.red{
+color: red!important;
 }
 .wid1{
 width:200px;
