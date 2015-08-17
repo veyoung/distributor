@@ -20,7 +20,7 @@
         <!-- 数据库用户名称 -->
         <property name="username" value="root" />
         <!-- 数据库密码 -->
-        <property name="password" value="root" />
+        <property name="password" value="" />
         <!-- 连接池最大使用连接数量 -->
         <property name="maxActive" value="30" />
         <!-- 初始化大小 -->
