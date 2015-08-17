@@ -183,6 +183,16 @@
     where status = 1
   </update>
   
+  <update id="addCountBycommodityId" parameterType="java.lang.Long">
+    update order_commodity_include oc
+    set commodity_count = oc.commodity_count + 1
+    where commodity_id = #{commodityId,jdbcType=BIGINT}
+  </update>
+  <update id="subtractCountBycommodityId" parameterType="java.lang.Long">
+    update order_commodity_include oc
+    set commodity_count = oc.commodity_count - 1
+    where commodity_id = #{commodityId,jdbcType=BIGINT}
+  </update>
   <update id="setAllLatestWithOrderId" parameterType="java.lang.Long">
     <!--
       WARNING - @mbggenerated

@@ -63,5 +63,9 @@ public interface OrderCommodityIncludeMapper {
     
     void updateAllLatest();//所有最新的商品都设置为已使用
     
+    void addCountBycommodityId(Long commodityId);
+    
+    void subtractCountBycommodityId(Long commodityId);
+    
     
 }
