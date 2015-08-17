@@ -1,12 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>会员分销管理系统</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<link rel="stylesheet" href="css/bootstrap.min.css"/>
-<link rel="stylesheet" href="css/font-awesome.css"/>
-<link rel="stylesheet" href="css/main.css"/>
+<link rel="stylesheet" href="/distributor/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/distributor/css/font-awesome.css"/>
+<link rel="stylesheet" href="/distributor/css/main.css"/>
 </head>
 <body>
 <div class="navbar navbar-duomi navbar-static-top" role="navigation">
@@ -24,7 +26,7 @@
         <div class="col-md-2">
             <ul id="main-nav" class="main-nav nav nav-tabs nav-stacked">
                 <li>
-                    <a href="pages/mainbody.html" target="view_window">
+                    <a href="mainbody.jsp" target="view_window">
                         <i class="glyphicon glyphicon-th-large"></i> 首页 		
                     </a>
                 </li>
@@ -34,8 +36,8 @@
                         <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="orderManage" class="nav nav-list secondmenu collapse" style="height: 0px;">
-                        <li><a href="pages/ordersubmit.html" target="view_window"><i class="glyphicon glyphicon-th-list"></i>&nbsp;订单消费</a></li>
-                        <li><a href="pages/orderlist.html" target="view_window"><i class="glyphicon glyphicon-asterisk"></i>&nbsp;订单列表</a></li>
+                        <li><a href="/distributor/ordersubmit" target="view_window"><i class="glyphicon glyphicon-th-list"></i>&nbsp;订单消费</a></li>
+                        <li><a href="/distributor/pages/orderlist.jsp" target="view_window"><i class="glyphicon glyphicon-asterisk"></i>&nbsp;订单列表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -44,9 +46,9 @@
                         <span class="pull-right glyphicon  glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="distributorManage" class="nav nav-list secondmenu collapse">
-                        <li><a href="pages/distributorlist.html" target="view_window"><i class="glyphicon glyphicon-user"></i>&nbsp;分销商列表</a></li>
-                        <li><a href="pages/distributorconsumedetail.html" target="view_window"><i class="glyphicon glyphicon-star-empty"></i>&nbsp;分销商消费明细</a></li>
-                        <li><a href="pages/distributorpointsdetail.html" target="view_window"><i class="glyphicon glyphicon-star"></i>&nbsp;分销商积分明细</a></li>
+                        <li><a href="/distributor/pages/distributorlist.jsp" target="view_window"><i class="glyphicon glyphicon-user"></i>&nbsp;分销商列表</a></li>
+                        <li><a href="/distributor/pages/distributorconsumedetail.jsp" target="view_window"><i class="glyphicon glyphicon-star-empty"></i>&nbsp;分销商消费明细</a></li>
+                        <li><a href="/distributor/pages/distributorpointsdetail.jsp" target="view_window"><i class="glyphicon glyphicon-star"></i>&nbsp;分销商积分明细</a></li>
                     </ul>
                 </li>
 
@@ -56,8 +58,9 @@
 			 			<span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="commodityManage" class="nav nav-list secondmenu collapse">
-                        <li><a href="pages/commoditylist.html" target="view_window"><i class="glyphicon glyphicon-th-list"></i>&nbsp;商品列表</a></li>
-                        <li><a href="pages/commoditysearch.html" target="view_window"><i class="glyphicon glyphicon-search"></i>&nbsp;商品搜索</a></li>
+                   		<li><a href="/distributor/commodityCategoryList" target="view_window"><i class="glyphicon glyphicon-adjust"></i>&nbsp;商品分类</a></li>
+                        <li><a href="/distributor/pages/commoditylist.jsp" target="view_window"><i class="glyphicon glyphicon-th-list"></i>&nbsp;商品列表</a></li>
+                        <li><a href="/distributor/pages/commoditysearch.jsp" target="view_window"><i class="glyphicon glyphicon-search"></i>&nbsp;商品搜索</a></li>
                     </ul>
                 </li>
 
@@ -67,8 +70,8 @@
                         <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="operationManage" class="nav nav-list secondmenu collapse">
-                        <li><a href="pages/salesrank.html" target="view_window"><i class="glyphicon glyphicon-sort-by-order"></i>&nbsp;销售排行</a></li>
-                        <li><a href="pages/salesdetail.html" target="view_window"><i class="glyphicon glyphicon-text-width"></i>&nbsp;销售明细</a></li>
+                        <li><a href="/distributor/pages/rankingsale.jsp" target="view_window"><i class="glyphicon glyphicon-sort-by-order"></i>&nbsp;消费排行</a></li>
+                        <li><a href="/distributor/pages/rankingcommission.jsp" target="view_window"><i class="glyphicon glyphicon-text-width"></i>&nbsp;提成排行</a></li>
                     </ul>
                 </li>
                 <li>
@@ -77,18 +80,18 @@
                         <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="systemManage" class="nav nav-list secondmenu collapse">
-                        <li><a href="pages/systemusers.html" target="view_window"><i class="glyphicon glyphicon-user"></i>&nbsp;角色管理</a></li>
-                        <li><a href="pages/systemlogs.html" target="view_window"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;日志查看</a></li>
+                        <li><a href="/distributor/pages/systemusers.jsp" target="view_window"><i class="glyphicon glyphicon-user"></i>&nbsp;角色管理</a></li>
+                        <li><a href="/distributor/pages/systemlogs.jsp" target="view_window"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;日志查看</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
         <div class="col-md-10">
-        	<iframe name="view_window" src="pages/mainbody.html" width="100%" height="900px" scrolling="no" frameborder="0"></iframe>
+        	<iframe name="view_window" src="/distributor/pages/distributorlist.jsp" width="100%" height="700px" scrolling="no" frameborder="0"></iframe>
         </div>
     </div>
 </div>
-<script src="js/jquery-1.9.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="/distributor/js/jquery-1.9.1.min.js"></script>
+<script src="/distributor/js/bootstrap.min.js"></script>
 </body>
 </html>

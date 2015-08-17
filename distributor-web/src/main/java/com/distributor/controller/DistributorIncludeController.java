@@ -1,0 +1,115 @@
+package com.distributor.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.distributor.mapper.DistributorIncludeMapper;
+import com.distributor.mapper.DistributorMapper;
+import com.distributor.model.Distributor;
+import com.distributor.model.DistributorInclude;
+import com.distributor.utils.IdGenerator;
+
+@Controller
+public class DistributorIncludeController extends BaseController{
+	@Autowired
+	DistributorMapper distributorMapper;
+	@Autowired
+	DistributorIncludeMapper distributorIncludeMapper;
+	
+	/**
+	 * 下属分销商列表
+	 * @param distributor
+	 * @return
+	 */
+	@RequestMapping(value="distributorSubmember/{id}", method = RequestMethod.GET)
+	public String distributorSubmember(@PathVariable("id") Long id, Model model){	
+		try {
+			List<Distributor> subMembers = new ArrayList<Distributor>();
+			List<DistributorInclude> distributorIncludes = distributorIncludeMapper.selectSubmemberIdsByOwnerId(id);
+			if(distributorIncludes != null){
+				for(DistributorInclude distributorInclude : distributorIncludes){
+					subMembers.add(distributorMapper.selectByPrimaryKey(distributorInclude.getChildId()));
+				}
+			}
+			Distributor distributor = distributorMapper.selectByPrimaryKey(id);
+			model.addAttribute("distributor", distributor);
+			model.addAttribute("subMembers", subMembers);
+			return "distributorsubmembers";
+		} catch (Exception e) {
+			return "error";
+		}
+		
+	}
+	
+	/**
+	 * 下属分销商添加
+	 * @param distributor
+	 * @return
+	 */
+	@RequestMapping(value="distributorSubmemberAdd", method = RequestMethod.POST)
+	public String distributorSubmemberAdd(
+			@RequestParam("ownerId") Long ownerId,
+			@RequestParam("childId") Long childId){
+		try {
+			if(distributorMapper.selectByPrimaryKey(childId) != null 
+					&& ownerId != childId ){//子分销商存在
+				
+				Map<String, Object> param = new HashMap<String, Object>();
+				param.put("parentId", ownerId);
+				param.put("childId", childId);
+				DistributorInclude include = distributorIncludeMapper.selectByParentIdAndChildId(param);
+				
+				//如果当前不存在该子分销商
+				if(include == null){
+					DistributorInclude distributorInclude = new DistributorInclude();
+					distributorInclude.setId(IdGenerator.getInstance().nextId());
+					distributorInclude.setParentId(ownerId);
+					distributorInclude.setChildId(childId);
+					distributorIncludeMapper.insert(distributorInclude);//更新map表
+					return "redirect:/distributorSubmember/" + ownerId;
+				}
+			}
+			return "error";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	/**
+	 * 下属分销商移除
+	 * @param distributor
+	 * @return
+	 */
+	@RequestMapping(value="distributorSubmemberDelete/{childId}/{ownerId}", method = RequestMethod.GET)
+	public String distributorSubmemberDelete(
+			@PathVariable("ownerId") Long ownerId,
+			@PathVariable("childId") Long childId){
+		try {
+			if(childId != null && ownerId != null){
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("ownerId", ownerId);
+				params.put("childId", childId);
+				distributorIncludeMapper.deleteByOwnerIdAndChildId(params);
+				
+				Distributor childDistributor = distributorMapper.selectByPrimaryKey(childId);
+				distributorMapper.updateByPrimaryKeySelective(childDistributor);
+			}
+			return "redirect:/distributorSubmember/" + ownerId;
+		} catch (Exception e) {
+			return "error";
+		}
+		
+	}
+	
+}

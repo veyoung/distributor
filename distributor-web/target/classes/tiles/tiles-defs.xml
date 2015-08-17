@@ -1,0 +1,79 @@
+<!DOCTYPE tiles-definitions PUBLIC  
+      "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"  
+      "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">  
+<tiles-definitions>  
+	<definition name="base.homepage" template="/layout/layout.jsp">  
+		<put-attribute name="header" value="/tiles/header.jsp" />  
+		<put-attribute name="menu" value="/tiles/menu.jsp" /> 
+	</definition> 
+	
+	<definition name="index" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/index.jsp" /> 
+    </definition>  
+	<definition name="current" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/current.jsp" /> 
+    </definition>  
+	<definition name="warning" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/warning.jsp" /> 
+    </definition>  
+	<definition name="areas" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/areas.jsp" /> 
+    </definition> 
+	<definition name="customers" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/customers.jsp" /> 
+    </definition> 
+    <definition name="details" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/details.jsp" /> 
+    </definition> 
+    <definition name="meters" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/meters.jsp" /> 
+    </definition>
+    
+	<definition name="addArea" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/addArea.jsp" /> 
+    </definition> 
+	<definition name="addCustomer" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/addCustomer.jsp" /> 
+    </definition> 
+	<definition name="addPay" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/addPay.jsp" /> 
+    </definition> 
+	<definition name="setting" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/settingsys.jsp" /> 
+    </definition> 
+
+    
+ 	<definition name="status" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/status.jsp" /> 
+    </definition> 
+    <definition name="statusDetails" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/statusDetails.jsp" /> 
+    </definition> 
+    
+	<definition name="payaly" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/payaly.jsp" /> 
+    </definition> 
+	<definition name="usealy" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/usealy.jsp" /> 
+    </definition>   
+   
+    
+    
+ 	<definition name="users" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/users.jsp" /> 
+    </definition>   
+    <definition name="logger" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/logger.jsp" /> 
+    </definition>   
+    <definition name="auditUsers" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/auditUsers.jsp" /> 
+    </definition>  
+     <definition name="payHistory" extends="base.homepage"> 
+        <put-attribute name="body" value="/tiles/payHistory.jsp" /> 
+    </definition>  
+    
+ 	<definition name="login" template="/tiles/login.jsp">  
+	</definition>    
+    <definition name="register" template="/tiles/register.jsp">  
+	</definition>   
+</tiles-definitions>  
