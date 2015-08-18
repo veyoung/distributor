@@ -59,6 +59,7 @@ public class CommodityController extends BaseController{
 		    result.put("categoriesStr", categoriesStr);
 		    return result;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return fail();
 		}	
 	}
@@ -95,6 +96,7 @@ public class CommodityController extends BaseController{
 			Commodity commodity = commodityMapper.selectByPrimaryKey(id);
 			return success(commodity);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return fail();
 		}
 	} 
@@ -120,6 +122,7 @@ public class CommodityController extends BaseController{
 		    model.addAttribute("categoriesStr", categoriesStr);
 			return "commodityedit";	
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 	} 
@@ -153,6 +156,7 @@ public class CommodityController extends BaseController{
 			
 			return "commoditylist";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 		
@@ -184,6 +188,7 @@ public class CommodityController extends BaseController{
 			
 			return "commoditylist";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 	}
@@ -202,6 +207,7 @@ public class CommodityController extends BaseController{
 			commodityMapper.updateByPrimaryKeySelective(commodity);
 			return "commoditylist";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 	}
@@ -222,6 +228,7 @@ public class CommodityController extends BaseController{
 			}
 			return fail();			
 		} catch (Exception e) {
+			e.printStackTrace();
 			return fail();
 		}
 	}

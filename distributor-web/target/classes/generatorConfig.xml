@@ -55,7 +55,30 @@
                selectByPrimaryKeyQueryId="false"
                selectByExampleQueryId="false"></table>  
 		  
-		 
+        <table tableName="distributor_commission" domainObjectName="DistributorCommission"
+               enableInsert="true"
+               enableSelectByPrimaryKey="true"
+               enableSelectByExample="false"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true"
+               enableDeleteByExample="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               selectByPrimaryKeyQueryId="false"
+               selectByExampleQueryId="false"></table> 
+               
+        <table tableName="distributor_balance" domainObjectName="DistributorBalance"
+               enableInsert="true"
+               enableSelectByPrimaryKey="true"
+               enableSelectByExample="false"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true"
+               enableDeleteByExample="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               selectByPrimaryKeyQueryId="false"
+               selectByExampleQueryId="false"></table> 
+                              		 
 		<table tableName="category" domainObjectName="Category"
                enableInsert="true"
                enableSelectByPrimaryKey="true"
@@ -129,8 +152,9 @@
                selectByPrimaryKeyQueryId="false"
                selectByExampleQueryId="false"></table> 
         -->     
-               
-        <table tableName="distributor_commission" domainObjectName="DistributorCommission"
+           
+           
+        <table tableName="commodity" domainObjectName="Commodity"
                enableInsert="true"
                enableSelectByPrimaryKey="true"
                enableSelectByExample="false"
@@ -140,7 +164,8 @@
                enableCountByExample="false"
                enableUpdateByExample="false"
                selectByPrimaryKeyQueryId="false"
-               selectByExampleQueryId="false"></table> 
+               selectByExampleQueryId="false"></table>      
+
          
     </context>
     <!--

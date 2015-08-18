@@ -55,7 +55,7 @@ public class OrderService{
 			Distributor bossDistributor = null;
 			if(distributorInclude != null){
 				bossDistributor = distributorMapper.selectByPrimaryKey(distributorInclude.getParentId());
-				commissionPrice = totalPrice * bossDistributor.getCommission() / 100;
+				//commissionPrice = totalPrice * bossDistributor.getCommission() / 100;
 			}
 			
 			//产生订单
@@ -73,7 +73,7 @@ public class OrderService{
 				current.setId(IdGenerator.getInstance().nextId());
 				current.setDistributorId(bossDistributor.getId());
 				current.setOrderId(order.getId());
-				current.setPercent(bossDistributor.getCommission());
+				//current.setPercent(bossDistributor.getCommission());
 				current.setCommission(commissionPrice);//提成金额
 				if (former == null){
 					current.setTotalcommission(0);

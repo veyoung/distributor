@@ -64,6 +64,60 @@
 					    </div>
 					 </div>	
 					 <div class="form-group">
+					    <label class="col-sm-3 control-label" for="commodityPrice">vip消费自身提成</label>
+					    <div class="col-sm-8">
+					    	<div class="input-group">
+					    		<input type="text" name="vipVip" class="form-control" id="vipVip" placeholder="输入vip消费自身提成金额">
+					    		<div class="input-group-addon">元</div>
+					    	</div>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label class="col-sm-3 control-label" for="commodityPrice">vip消费金牌提成</label>
+					    <div class="col-sm-8">
+					    	<div class="input-group">
+					    		<input type="text" name="vipGold" class="form-control" id="vipGold" placeholder="输入vip消费金牌上级提成金额">
+					    		<div class="input-group-addon">元</div>
+					    	</div>
+					    </div>
+					 </div>	
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label" for="commodityPrice">vip消费钻石提成</label>
+					    <div class="col-sm-8">
+					    	<div class="input-group">
+					    		<input type="text" name="vipDiamond" class="form-control" id="vipDiamond" placeholder="输入vip消费钻上级提成金额">
+					    		<div class="input-group-addon">元</div>
+					    	</div>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label class="col-sm-3 control-label" for="commodityPrice">金牌消费自身提成</label>
+					    <div class="col-sm-8">
+					    	<div class="input-group">
+					    		<input type="text" name="goldGold" class="form-control" id=""goldGold"" placeholder="输入金牌消费自身提成金额">
+					    		<div class="input-group-addon">元</div>
+					    	</div>
+					    </div>
+					 </div>	
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label" for="commodityPrice">金牌消费钻石提成</label>
+					    <div class="col-sm-8">
+					    	<div class="input-group">
+					    		<input type="text" name="goldDiamond" class="form-control" id="goldDiamond" placeholder="输入金牌消费钻石上级提成金额">
+					    		<div class="input-group-addon">元</div>
+					    	</div>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label class="col-sm-3 control-label" for="commodityPrice">钻石消费自身提成</label>
+					    <div class="col-sm-8">
+					    	<div class="input-group">
+					    		<input type="text" name="diamondDiamond" class="form-control" id=""diamondDiamond" placeholder="输入钻石消费自身提成金额">
+					    		<div class="input-group-addon">元</div>
+					    	</div>
+					    </div>
+					 </div>	
+					 <div class="form-group">
 					    <label class="col-sm-3 control-label" for="commodityDescription">商品说明</label>
 					    <div class="col-sm-8">
 					    	<input type="text" name="description" class="form-control" id="commodityDescription" placeholder="输入商品说明">

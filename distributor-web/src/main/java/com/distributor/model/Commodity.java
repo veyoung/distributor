@@ -213,6 +213,65 @@ public class Commodity {
 	public void setPriceDisplay(String priceDisplay) {
 		//this.priceDisplay = priceDisplay;
 	}
+	
+	public Integer vipVip;
+	
+	public Integer vipGold;
+	
+	public Integer vipDiamond;
+	
+	public Integer goldGold;
+	
+	public Integer goldDiamond;
+	
+	public Integer diamondDiamond;
 
+	public Integer getVipVip() {
+		return vipVip;
+	}
+
+	public void setVipVip(Integer vipVip) {
+		this.vipVip = vipVip;
+	}
+
+	public Integer getVipGold() {
+		return vipGold;
+	}
+
+	public void setVipGold(Integer vipGold) {
+		this.vipGold = vipGold;
+	}
+
+	public Integer getVipDiamond() {
+		return vipDiamond;
+	}
+
+	public void setVipDiamond(Integer vipDiamond) {
+		this.vipDiamond = vipDiamond;
+	}
+
+	public Integer getGoldGold() {
+		return goldGold;
+	}
+
+	public void setGoldGold(Integer goldGold) {
+		this.goldGold = goldGold;
+	}
+
+	public Integer getGoldDiamond() {
+		return goldDiamond;
+	}
+
+	public void setGoldDiamond(Integer goldDiamond) {
+		this.goldDiamond = goldDiamond;
+	}
+
+	public Integer getDiamondDiamond() {
+		return diamondDiamond;
+	}
+
+	public void setDiamondDiamond(Integer diamondDiamond) {
+		this.diamondDiamond = diamondDiamond;
+	}
 
 }

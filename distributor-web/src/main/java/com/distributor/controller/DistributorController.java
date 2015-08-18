@@ -150,7 +150,7 @@ public class DistributorController extends BaseController{
 				}else{
 					Distributor defaultDistributor = new Distributor();
 					defaultDistributor.setName("暂无");
-					defaultDistributor.setCommission(0);
+					defaultDistributor.setBalance(0);
 					distributor.setOwner(defaultDistributor);
 				}
 				return success(distributor);
