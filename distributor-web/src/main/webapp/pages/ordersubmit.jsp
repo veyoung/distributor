@@ -109,6 +109,24 @@
 		</div>
 	</div>
 	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   		aria-labelledby="myModalLabel" aria-hidden="true">
+   		<div class="modal-dialog">
+      		<div class="modal-content">
+         		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<h4 class="modal-title" id="myModalLabel">
+              		提示
+            	</h4>
+         		</div>
+         		<div class="modal-body"></div>
+         		<div class="modal-footer">
+            		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            		<button type="button" class="btn btn-primary btn-ok">确定</button>
+         		</div>
+      		</div>
+		</div>
+	</div>
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
@@ -121,25 +139,29 @@ $(document).ready(function(){
     		type: "GET",
     		url:"/distributor/addCommodity/" + $("#commodityId").val(),
     		error: function(request) {
-    			alert("发送请求失败！");
+    			$('#myModal').modal('show');
+    			$('.modal-body').html('发送请求失败！');
+    			$('.btn-ok').attr("style","display:none;");
+    			//alert("发送请求失败！");
     		},
     		success: function(data) {
     			if(data.success){
     				var t = "";
     				var totalPrice = 0;
         			$(data.content).each(function (key,value) { //遍历返回的json                     
-                        t += '<tr><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td><a class="adjustbox">-</a><span class="countbox">1</span>'
-                        		+ '<a class="adjustbox">+</a></td><td>' 
+                        t += '<tr><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                        		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
                         		+ value.priceDisplay * 1 + '</td><td>'
     							+ '<a href="/distributor/deleteCommodity/' 
     							+ value.id + '" class="orange"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
                         		+ '</td></tr>';
                         totalPrice += parseFloat(value.priceDisplay);
                     });
+        			
         			$("#content-table").empty();
                     $("#content-table").append(t);
                     $("#totalPrice").text(totalPrice);
-                    
+                    $("#content-table").find('.subtracting').addClass("disable-background");
                     
     			} else{
     				alert(data.content);
@@ -149,7 +171,67 @@ $(document).ready(function(){
         return false;
     });
     
+	//减少商品数量
+    $("#content-table").on('click', '.subtracting', function(){
+    	if(parseInt($(this).next('.countbox').text()) == 1){
+    		 return;
+    	}
+    	var currentCount = parseInt($(this).next('.countbox').text())
+    	var avgPrice = parseInt($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
+    	var count = parseInt($(this).next('.countbox').text()) - 1;
+    	var dom = $(this).next('.countbox');
+    	$.ajax({
+    		type: "GET",
+    		url:"/distributor/subtractCommodityCount/" + $("#commodityId").val(),
+    		success: function(data) {
+    			if(data.success){
+    				dom.text(count);
+    		    	if(count > 1){
+    		    		$("#content-table").find('.subtracting').removeClass("disable-background");
+    		    	}else if(count == 1){
+    		    		$("#content-table").find('.subtracting').addClass("disable-background");
+    		    	}
+    		    	dom.closest('#commodity-count').next("#priceDisplay").text(avgPrice*count)
+    			} else{
+    				$('#myModal').modal('show');
+        			$('.modal-body').html(data.content);
+        			$('.btn-ok').attr("style","display:none;");
+    				//alert("分销商不存在!!");
+    			}
+    		}
+    	});
+    	
+    });
 
+  //增加商品数量
+    $("#content-table").on('click', '.adding', function(){
+    	var currentCount = parseInt($(this).prev('.countbox').text())
+    	var avgPrice = parseInt($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
+    	var count = currentCount + 1;
+    	var dom = $(this).prev('.countbox');
+    	$.ajax({
+    		type: "GET",
+    		url:"/distributor/addCommodityCount/" + $("#commodityId").val(),
+    		success: function(data) {
+    			if(data.success){
+    				dom.text(count);
+    		    	if(count > 1){
+    		    		dom.prev('.subtracting').removeClass("disable-background");
+    		    	}else if(count == 1){
+    		    		dom.prev('.subtracting').addClass("disable-background");
+    		    	}
+    		    	dom.closest('#commodity-count').next("#priceDisplay").text(avgPrice*count)
+    			} else{
+    				$('#myModal').modal('show');
+        			$('.modal-body').html(data.content);
+        			$('.btn-ok').attr("style","display:none;");
+    				//alert("分销商不存在!!");
+    			}
+    		}
+    	});
+    	
+    });
+	
     //校验分销商
     $('#checkDistributorForm').bind('submit', function(){
     	$.ajax({

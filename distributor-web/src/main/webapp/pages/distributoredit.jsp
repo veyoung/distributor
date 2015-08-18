@@ -28,8 +28,8 @@
          <div class="form-group">
 		    <label class="col-sm-3 control-label" for="distributorName">会员等级</label>
 		    <div class="col-sm-6">
-		    	<select name="level" class="selectpicker col-sm-12 form-control" >
-				     <option value="1">钻石会员</option>
+		    	<select id="level" name="level" class="selectpicker col-sm-12 form-control" >
+				    <option value="1">钻石会员</option>
 				    <option value="2">金牌会员</option>
 				    <option value="3">VIP会员</option>
 				  </select>
@@ -60,5 +60,10 @@
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(function (){
+	$('#level').val('${distributor.level}');
+});
+</script>
 </body>
 </html>

@@ -68,6 +68,48 @@ public class OrderCommodityIncludeController extends BaseController{
 		}
 	}
 	
+	@RequestMapping(value = "addCommodityCount/{commodityId}", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> addCommodityCount(
+			@PathVariable("commodityId") Long commodityId) {
+		try {
+			if (commodityMapper.selectByPrimaryKey(commodityId) == null) {
+				String tips = "该商品不存在";
+				return fail(tips);
+				
+			}
+			if(orderCommodityIncludeMapper.selectLatestByCommodityId(commodityId) == null){//不是最新的
+				String tips = "该商品不存在";
+				return fail(tips);
+			}
+			orderCommodityIncludeMapper.addCountBycommodityId(commodityId);
+			return success();
+		} catch (Exception e) {
+			return fail();
+		}
+	}
+	
+	@RequestMapping(value = "subtractCommodityCount/{commodityId}", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> subtractCommodityCount(
+			@PathVariable("commodityId") Long commodityId) {
+		try {
+			if (commodityMapper.selectByPrimaryKey(commodityId) == null) {
+				String tips = "该商品不存在";
+				return fail(tips);
+				
+			}
+			if(orderCommodityIncludeMapper.selectLatestByCommodityId(commodityId) == null){//不是最新的
+				String tips = "该商品不存在";
+				return fail(tips);
+			}
+			orderCommodityIncludeMapper.subtractCountBycommodityId(commodityId);
+			return success();
+		} catch (Exception e) {
+			return fail();
+		}
+	}
+
 	@RequestMapping(value = "deleteCommodity/{commodityId}", method=RequestMethod.GET)
 	public String deleteCommodity(@PathVariable("commodityId") Long commodityId,
 			Model model){
