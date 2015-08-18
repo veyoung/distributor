@@ -25,7 +25,7 @@ public class DistributorController extends BaseController{
 	@Autowired
 	DistributorMapper distributorMapper;
 	@Autowired
-	DistributorIncludeMapper distributorIncludeMapper;
+	DistributorIncludeMapper distributorIncludeMapper; 
 	
 	/**
 	 * 分销商列表
@@ -109,6 +109,7 @@ public class DistributorController extends BaseController{
 	public String distributorDelete(@PathVariable("id") Long id){	
 		try {
 			distributorMapper.deleteDistributor(id);
+			distributorIncludeMapper.deleteDistributorIncludeByParentId(id);
 			return "distributorlist";
 		} catch (Exception e) {
 			e.printStackTrace();
