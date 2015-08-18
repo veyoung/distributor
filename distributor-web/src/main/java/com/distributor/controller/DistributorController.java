@@ -109,6 +109,7 @@ public class DistributorController extends BaseController{
 	public String distributorDelete(@PathVariable("id") Long id){	
 		try {
 			distributorMapper.deleteDistributor(id);
+			distributorIncludeMapper.deleteDistributorIncludeByParentId(id);
 			return "distributorlist";
 		} catch (Exception e) {
 			e.printStackTrace();

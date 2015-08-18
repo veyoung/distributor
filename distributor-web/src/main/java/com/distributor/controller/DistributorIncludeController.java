@@ -65,21 +65,23 @@ public class DistributorIncludeController extends BaseController{
 			if(ownerId != childId ){//子分销商存在
 				Distributor owner = distributorMapper.selectByPrimaryKey(ownerId);
 				Distributor child = distributorMapper.selectByPrimaryKey(childId);
-				if(owner != null && child != null 
-						&& owner.getLevel() < child.getLevel()){
-					
-					Map<String, Object> param = new HashMap<String, Object>();
-					param.put("parentId", ownerId);
-					param.put("childId", childId);
-					DistributorInclude include = distributorIncludeMapper.selectByParentIdAndChildId(param);
-					//如果当前不存在该子分销商
-					if(include == null){
-						DistributorInclude distributorInclude = new DistributorInclude();
-						distributorInclude.setId(IdGenerator.getInstance().nextId());
-						distributorInclude.setParentId(ownerId);
-						distributorInclude.setChildId(childId);
-						distributorIncludeMapper.insert(distributorInclude);//更新map表
-						return success();
+				if(distributorIncludeMapper.selectByChildId(child.getId()) == null){
+					if(owner != null && child != null 
+							&& owner.getLevel() < child.getLevel()){
+						
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("parentId", ownerId);
+						param.put("childId", childId);
+						DistributorInclude include = distributorIncludeMapper.selectByParentIdAndChildId(param);
+						//如果当前不存在该子分销商
+						if(include == null){
+							DistributorInclude distributorInclude = new DistributorInclude();
+							distributorInclude.setId(IdGenerator.getInstance().nextId());
+							distributorInclude.setParentId(ownerId);
+							distributorInclude.setChildId(childId);
+							distributorIncludeMapper.insert(distributorInclude);//更新map表
+							return success();
+						}
 					}
 				}
 			}
