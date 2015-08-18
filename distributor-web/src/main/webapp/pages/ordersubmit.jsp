@@ -31,7 +31,7 @@
 		 </div>
 		</form>
 	</div>
-	<table class="table table-striped table-hover">
+	<table class="table table-striped table-hover data-table">
 		<tr class="table-title-blue">
 		<td>商品名</td><td>单价(元)</td><td>数量</td><td>总价(元)</td><td>操作</td></tr>
 		<tbody id="content-table">
@@ -88,12 +88,12 @@
 						<input type="text" class="form-control" id="bossName" readonly="readonly">
 					</div>
 				</div>	
-				<div class="form-group col-sm-5">
+				<!-- <div class="form-group col-sm-5">
 					<label class="col-sm-3 control-label" for="commission">提成比例</label>
 					<div class="col-sm-9">
 						<input type="text" class="form-control" id="commission" readonly="readonly">
 					</div>
-				</div>
+				</div> -->
 			</form>
 		</div>
 	</div>
@@ -149,7 +149,7 @@ $(document).ready(function(){
     				var t = "";
     				var totalPrice = 0;
         			$(data.content).each(function (key,value) { //遍历返回的json                     
-                        t += '<tr><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                        t += '<tr class="for-total-price"><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
                         		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
                         		+ value.priceDisplay * 1 + '</td><td>'
     							+ '<a href="/distributor/deleteCommodity/' 
@@ -164,7 +164,10 @@ $(document).ready(function(){
                     $("#content-table").find('.subtracting').addClass("disable-background");
                     
     			} else{
-    				alert(data.content);
+    				$('#myModal').modal('show');
+        			$('.modal-body').html(data.content);
+        			$('.btn-ok').attr("style","display:none;");
+    				//alert(data.content);
     			}
     		}
     	});
@@ -177,7 +180,7 @@ $(document).ready(function(){
     		 return;
     	}
     	var currentCount = parseInt($(this).next('.countbox').text())
-    	var avgPrice = parseInt($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
+    	var avgPrice = parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
     	var count = parseInt($(this).next('.countbox').text()) - 1;
     	var dom = $(this).next('.countbox');
     	$.ajax({
@@ -187,14 +190,26 @@ $(document).ready(function(){
     			if(data.success){
     				dom.text(count);
     		    	if(count > 1){
-    		    		$("#content-table").find('.subtracting').removeClass("disable-background");
+    		    		dom.prev('.subtracting').removeClass("disable-background");
     		    	}else if(count == 1){
-    		    		$("#content-table").find('.subtracting').addClass("disable-background");
+    		    		dom.prev('.subtracting').addClass("disable-background");
     		    	}
-    		    	dom.closest('#commodity-count').next("#priceDisplay").text(avgPrice*count)
+    		    	var currentPrice = avgPrice*count;
+    		    	dom.closest('#commodity-count').next("#priceDisplay").text(currentPrice);
+    		    	var brothers = dom.closest('#commodity-count').closest('.for-total-price').siblings();
+    		    	if(brothers.length == 0){
+    		    		$('#totalPrice').html(currentPrice)
+    		    	}else{
+    		    		var totalPrice =currentPrice;
+    		    		brothers.each(function (key,value) {
+    		    			totalPrice += parseFloat($(value).children('#priceDisplay').text());
+        		    	})
+        		    	$('#totalPrice').html(totalPrice)
+    		    	}
+    		    	
     			} else{
     				$('#myModal').modal('show');
-        			$('.modal-body').html(data.content);
+        			$('.modal-body').html("分销商不存在!!");
         			$('.btn-ok').attr("style","display:none;");
     				//alert("分销商不存在!!");
     			}
@@ -206,7 +221,7 @@ $(document).ready(function(){
   //增加商品数量
     $("#content-table").on('click', '.adding', function(){
     	var currentCount = parseInt($(this).prev('.countbox').text())
-    	var avgPrice = parseInt($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
+    	var avgPrice = parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
     	var count = currentCount + 1;
     	var dom = $(this).prev('.countbox');
     	$.ajax({
@@ -220,10 +235,22 @@ $(document).ready(function(){
     		    	}else if(count == 1){
     		    		dom.prev('.subtracting').addClass("disable-background");
     		    	}
-    		    	dom.closest('#commodity-count').next("#priceDisplay").text(avgPrice*count)
+    		    	var currentPrice = avgPrice*count;
+    		    	dom.closest('#commodity-count').next("#priceDisplay").text(currentPrice)
+    		    	var brothers = dom.closest('#commodity-count').closest('.for-total-price').siblings();
+    		    	if(brothers.length == 0){
+    		    		$('#totalPrice').html(currentPrice)
+    		    	}else{
+    		    		var totalPrice = currentPrice;
+    		    		brothers.each(function (key,value) {
+    		    			console.log(value);
+    		    			totalPrice += parseFloat($(value).children('#priceDisplay').text());
+        		    	})
+        		    	$('#totalPrice').html(totalPrice)
+    		    	}
     			} else{
     				$('#myModal').modal('show');
-        			$('.modal-body').html(data.content);
+        			$('.modal-body').html("分销商不存在!!");
         			$('.btn-ok').attr("style","display:none;");
     				//alert("分销商不存在!!");
     			}
@@ -231,6 +258,8 @@ $(document).ready(function(){
     	});
     	
     });
+  
+  
 	
     //校验分销商
     $('#checkDistributorForm').bind('submit', function(){
@@ -242,9 +271,12 @@ $(document).ready(function(){
     				$("#distributorName").val(data.content.name)
     				$("#mobile").val(data.content.mobile)
     				$("#bossName").val(data.content.owner.name)
-    				$("#commission").val(data.content.owner.commission+"%")
+    				/* $("#commission").val(data.content.owner.commission+"%") */
     			} else{
-    				alert("分销商不存在!!");
+    				$('#myModal').modal('show');
+        			$('.modal-body').html("分销商不存在!!");
+        			$('.btn-ok').attr("style","display:none;");
+    				//alert("分销商不存在!!");
     			}
     		}
     	});
@@ -253,9 +285,18 @@ $(document).ready(function(){
     
     //提交订单表单
     $('#submitOrderForm').bind('submit', function(){
-    	alert("顺利提交表单");
+    	/* alert("顺利提交表单"); */
+    	
+    	if($('.data-table').children().length <= 2){
+    		$('#myModal').modal('show');
+			$('.modal-body').html("请先选择商品");
+			$('.btn-ok').attr("style","display:none;");
+    	}
     	if($('#distributorId').val() === "" || $('#distributorName').val() === ""){
-    		alert("请输入正确的会员ID");
+    		$('#myModal').modal('show');
+			$('.modal-body').html("请输入正确的会员ID");
+			$('.btn-ok').attr("style","display:none;");
+    		//alert("请输入正确的会员ID");
     		return false;
     	} else {
     		$.ajax({
@@ -265,7 +306,10 @@ $(document).ready(function(){
         			if(data.success){
     					location.href="/distributor/pages/orderlist.jsp";
         			} else{
-        				alert("提交表单结果失败");
+        				$('#myModal').modal('show');
+        				$('.modal-body').html("提交表单结果失败");
+        				$('.btn-ok').attr("style","display:none;");
+        				//alert("提交表单结果失败");
         			}
         		}
         	});

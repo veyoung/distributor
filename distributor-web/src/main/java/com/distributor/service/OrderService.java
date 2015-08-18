@@ -47,7 +47,9 @@ public class OrderService{
 			int commissionPrice = 0;
 			for(OrderCommodityInclude orderCommodityInclude : orderCommodityIncludes){
 				Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());
-				totalPrice += commodity.getPrice();
+				int commodityNum = orderCommodityInclude.getCommodityCount();
+				Boolean bool = hasSuperior(distributorId);
+				totalPrice += commodity.getPrice()*commodityNum;
 			}
 			
 			//如果上级分销商存在，计算提成
@@ -88,6 +90,14 @@ public class OrderService{
 		} 
 	}
 	
+	
+	Boolean hasSuperior(Long distributorId){
+		DistributorInclude distributorInclude = distributorIncludeMapper.selectByChildId(distributorId);
+		if(distributorInclude != null){
+			
+		}
+		return null;
+	}
 	
 	
 }
