@@ -148,8 +148,9 @@ $(document).ready(function(){
     			if(data.success){
     				var t = "";
     				var totalPrice = 0;
+    				var commodityId = $("#commodityId").val();
         			$(data.content).each(function (key,value) { //遍历返回的json                     
-                        t += '<tr class="for-total-price"><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                        t += '<tr class="for-total-price" data-id="'+ commodityId +'"><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
                         		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
                         		+ value.priceDisplay * 1 + '</td><td>'
     							+ '<a href="/distributor/deleteCommodity/' 
@@ -162,6 +163,10 @@ $(document).ready(function(){
                     $("#content-table").append(t);
                     $("#totalPrice").text(totalPrice);
                     $("#content-table").find('.subtracting').addClass("disable-background");
+                    /* if($('.for-total-price').data('id') === ''){
+                    	$('.for-total-price').attr("data-id",$("#commodityId").val())
+                    } */
+                    
                     
     			} else{
     				$('#myModal').modal('show');
@@ -183,9 +188,10 @@ $(document).ready(function(){
     	var avgPrice = parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
     	var count = parseInt($(this).next('.countbox').text()) - 1;
     	var dom = $(this).next('.countbox');
+    	var commodityId = dom.parent('#commodity-count').parent('.for-total-price').data("id")
     	$.ajax({
     		type: "GET",
-    		url:"/distributor/subtractCommodityCount/" + $("#commodityId").val(),
+    		url:"/distributor/subtractCommodityCount/" + commodityId,
     		success: function(data) {
     			if(data.success){
     				dom.text(count);
@@ -224,9 +230,10 @@ $(document).ready(function(){
     	var avgPrice = parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
     	var count = currentCount + 1;
     	var dom = $(this).prev('.countbox');
+    	var commodityId = dom.parent('#commodity-count').parent('.for-total-price').data("id")
     	$.ajax({
     		type: "GET",
-    		url:"/distributor/addCommodityCount/" + $("#commodityId").val(),
+    		url:"/distributor/addCommodityCount/" + commodityId,
     		success: function(data) {
     			if(data.success){
     				dom.text(count);
@@ -287,10 +294,18 @@ $(document).ready(function(){
     $('#submitOrderForm').bind('submit', function(){
     	/* alert("顺利提交表单"); */
     	
-    	if($('.data-table').children().length <= 2){
+    	if($('#content-table').children().length <= 0){
     		$('#myModal').modal('show');
 			$('.modal-body').html("请先选择商品");
 			$('.btn-ok').attr("style","display:none;");
+			return false;
+    	}
+    	if($('#content-table').children().length == 1 && 
+    			$($('#content-table').children().get(0)).text() == "暂无商品"){
+    			$('#myModal').modal('show');
+    			$('.modal-body').html("请先选择商品");
+    			$('.btn-ok').attr("style","display:none;"); 
+    			return false;
     	}
     	if($('#distributorId').val() === "" || $('#distributorName').val() === ""){
     		$('#myModal').modal('show');
@@ -301,7 +316,7 @@ $(document).ready(function(){
     	} else {
     		$.ajax({
         		type: "GET",
-        		url:"/distributor/submitOrder/" + $("#distributorId").val(),
+        		url:"/distributor/submitOrder/" + $("#distributorId").val() + "/totalPrice/" + parseFloat($('#totalPrice').text()),
         		success: function(data) {
         			if(data.success){
     					location.href="/distributor/pages/orderlist.jsp";

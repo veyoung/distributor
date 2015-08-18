@@ -54,11 +54,13 @@ public class OrderController extends BaseController{
 	 * @param distributorId
 	 * @return
 	 */
-	@RequestMapping(value = "submitOrder/{distributorId}", method=RequestMethod.GET)
+	@RequestMapping(value = "submitOrder/{distributorId}/totalPrice/{totalPrice}", method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> submitOrder(@PathVariable("distributorId") Long distributorId){
+	public Map<String, Object> submitOrder(
+			@PathVariable("distributorId") Long distributorId,
+			@PathVariable("totalPrice") Float totalPrice){
 		try {
-			OrderRecord order = orderservice.submitOrder(distributorId);
+			OrderRecord order = orderservice.submitOrder(distributorId, totalPrice);
 			if (order != null){
 				return success(order);
 			} else {
