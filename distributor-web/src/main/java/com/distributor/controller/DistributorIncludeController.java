@@ -11,13 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.distributor.mapper.DistributorIncludeMapper;
 import com.distributor.mapper.DistributorMapper;
 import com.distributor.model.Distributor;
 import com.distributor.model.DistributorInclude;
-import com.distributor.utils.IdGenerator;
+import com.distributor.utils.IdGenerator;   
 
 @Controller
 public class DistributorIncludeController extends BaseController{
@@ -56,33 +56,37 @@ public class DistributorIncludeController extends BaseController{
 	 * @param distributor
 	 * @return
 	 */
-	@RequestMapping(value="distributorSubmemberAdd", method = RequestMethod.POST)
-	public String distributorSubmemberAdd(
-			@RequestParam("ownerId") Long ownerId,
-			@RequestParam("childId") Long childId){
+	@RequestMapping(value="distributorSubmemberAdd/{ownerId}/{childId}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object distributorSubmemberAdd(
+			@PathVariable("ownerId") Long ownerId,
+			@PathVariable("childId") Long childId){
 		try {
-			if(distributorMapper.selectByPrimaryKey(childId) != null 
-					&& ownerId != childId ){//子分销商存在
-				
-				Map<String, Object> param = new HashMap<String, Object>();
-				param.put("parentId", ownerId);
-				param.put("childId", childId);
-				DistributorInclude include = distributorIncludeMapper.selectByParentIdAndChildId(param);
-				
-				//如果当前不存在该子分销商
-				if(include == null){
-					DistributorInclude distributorInclude = new DistributorInclude();
-					distributorInclude.setId(IdGenerator.getInstance().nextId());
-					distributorInclude.setParentId(ownerId);
-					distributorInclude.setChildId(childId);
-					distributorIncludeMapper.insert(distributorInclude);//更新map表
-					return "redirect:/distributorSubmember/" + ownerId;
+			if(ownerId != childId ){//子分销商存在
+				Distributor owner = distributorMapper.selectByPrimaryKey(ownerId);
+				Distributor child = distributorMapper.selectByPrimaryKey(childId);
+				if(owner != null && child != null 
+						&& owner.getLevel() < child.getLevel()){
+					
+					Map<String, Object> param = new HashMap<String, Object>();
+					param.put("parentId", ownerId);
+					param.put("childId", childId);
+					DistributorInclude include = distributorIncludeMapper.selectByParentIdAndChildId(param);
+					//如果当前不存在该子分销商
+					if(include == null){
+						DistributorInclude distributorInclude = new DistributorInclude();
+						distributorInclude.setId(IdGenerator.getInstance().nextId());
+						distributorInclude.setParentId(ownerId);
+						distributorInclude.setChildId(childId);
+						distributorIncludeMapper.insert(distributorInclude);//更新map表
+						return success();
+					}
 				}
 			}
-			return "error";
+			return fail();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return fail();
 		}
 	}
 	
@@ -110,6 +114,39 @@ public class DistributorIncludeController extends BaseController{
 			return "error";
 		}
 		
+	}
+	
+	/**
+	 * 校验前端添加上分销商时 是否符合规则
+	 * @param childId
+	 * @param parentId
+	 * @return
+	 */
+	@RequestMapping("validateDistributorLevel/{childLevel}/{parentId}")
+	@ResponseBody
+	public Map<String,Object> validateDistributorLevel(
+			@PathVariable("childLevel") Long childLevel,
+			@PathVariable("parentId") Long parentId
+			){
+		try {
+			Distributor parent = distributorMapper.selectByPrimaryKey(parentId);
+			if(parent == null){
+				Map<String,Object> result = fail();
+				result.put("content", "您添加的上级分销商不存在!");
+				return result;
+			}
+			
+			if (childLevel != null && childLevel > parent.getLevel()){
+				return success();//可以为当前分销商添加上级分销商
+			} else {
+				Map<String,Object> result = fail();
+				result.put("content", "您添加的上级分销商不符合规则!");
+				return result;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return fail();
+		}
 	}
 	
 }

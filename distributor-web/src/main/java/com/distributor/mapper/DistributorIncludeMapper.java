@@ -61,4 +61,6 @@ public interface DistributorIncludeMapper {
     DistributorInclude selectByChildId(Long childId);
     
     DistributorInclude selectByParentIdAndChildId(Map<String, Object> param);
+    
+    int deleteDistributorIncludeByParentId(Long parentId);
 }

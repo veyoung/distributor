@@ -42,22 +42,13 @@
 			         <div class="form-group">
 					    <label class="col-sm-3 control-label" for="distributorName">会员等级</label>
 					    <div class="col-sm-8">
-					    	<select name="level" class="selectpicker col-sm-12 form-control">
+					    	<select id="level" name="level" class="selectpicker col-sm-12 form-control">
 							    <option value="1">钻石会员</option>
 							    <option value="2">金牌会员</option>
 							    <option value="3">VIP会员</option>
 							  </select>
 					    </div>
 					 </div>	
-					 <div class="form-group">
-					    <label class="col-sm-3 control-label" for="commission">提成比例</label>
-					    <div class="col-sm-8">
-					    	<div class="input-group">
-					    		<input type="text" name="commission" class="form-control" id="commission" placeholder="输入提成比例">
-					    		<div class="input-group-addon">%</div>
-					    	</div>
-					    </div>
-					 </div>
 					 <div class="form-group">
 					    <label class="col-sm-3 control-label" for="mobile">手机号</label>
 					    <div class="col-sm-8">
@@ -134,11 +125,6 @@ $(function (){
 			$('#tips').text('请输入分销商姓名');
 			return false;
 		}
-		if(commison === '' || isNaN(commison) || commison >100 || commison<0){
-			//alert('请输入合格的提成比例');
-			$('#tips').text('请输入合格的提成比例');
-			return false;
-		}
 		if(mobile === ''  ||  !(/^1[3|4|5|8]\d{9}$/.test(mobile))){
 			//alert('请输入合格的手机号');
 			$('#tips').text('请输入合格的手机号');
@@ -153,6 +139,23 @@ $(function (){
 		return true;
 	});
 	
+	
+	///上级ID文本框校验事件
+	$('#ownerId').on('input',function(){
+		$.ajax({
+			type:"GET",
+			url:"/distributor/validateDistributorLevel/" + $('#level').val() + "/" + $('#ownerId').val() ,
+		 	success: function(data) {
+		 		if(data.success){
+		 			
+		 		}
+		 		else{
+		 			alert(data.content);
+		 		}
+			}
+		});
+	});
+	
 	//初始化页面
 	$.ajax({
 		type:"GET",
@@ -160,7 +163,7 @@ $(function (){
 	 	success: function(data) {
 	 		coreFunction(data);
 		}
-	})
+	});
 	
 	//核心方法
 	function coreFunction(data){
@@ -243,6 +246,8 @@ $(function (){
         	});
 		}
 	}
+	
+
 })
 
 </script>

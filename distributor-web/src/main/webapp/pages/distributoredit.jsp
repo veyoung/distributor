@@ -17,7 +17,7 @@
 			<b><em></em>分销商详情——编辑</b>
 		</h4>
 	</div>
-	<form class="form-horizontal" role="form" action="/distributor/distributorEdit" method="post">
+	<form id="distributorEditForm" class="form-horizontal" role="form" action="/distributor/distributorEdit" method="post">
          <div class="form-group">
 		    <label class="col-sm-3 control-label" for="distributorName">分销商姓名</label>
 		    <div class="col-sm-6">
@@ -36,15 +36,6 @@
 		    </div>
 		 </div>	
 		 <div class="form-group">
-		    <label class="col-sm-3 control-label" for="commission">提成比例</label>
-		    <div class="col-sm-6">
-		    	<div class="input-group">
-		    		<input type="text" name="commission" class="form-control" id="commission" placeholder="输入提成比例" value="${distributor.commission}">
-		    		<div class="input-group-addon">%</div>
-		    	</div>
-		    </div>
-		 </div>
-		 <div class="form-group">
 		    <label class="col-sm-3 control-label" for="mobile">手机号</label>
 		    <div class="col-sm-6">
 		    	<input type="text" name="mobile" class="form-control" id="mobile" placeholder="输入手机号" value="${distributor.mobile}">
@@ -62,7 +53,18 @@
 <script src="/distributor/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 $(function (){
+	var former = parseInt('${distributor.level}');
 	$('#level').val('${distributor.level}');
+	$('#distributorEditForm').on('submit',function(){
+		var current = parseInt($('#level').val());
+		if(current-former === 2 || former-current === 2){
+			alert("分销商等级修改不符合规则,请检查后重试");
+			return false;
+		}
+		else{
+			return true;
+		}
+	});
 });
 </script>
 </body>

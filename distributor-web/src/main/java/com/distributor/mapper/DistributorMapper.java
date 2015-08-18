@@ -61,4 +61,5 @@ public interface DistributorMapper {
     List<Distributor> selectSelective(Map<String, Object> param);
     
     int getCountAll();
+    
 }

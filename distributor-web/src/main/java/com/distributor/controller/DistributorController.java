@@ -62,6 +62,7 @@ public class DistributorController extends BaseController{
 			result.put("total", total);
 			return result;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return fail();
 		}
 	}
@@ -81,16 +82,20 @@ public class DistributorController extends BaseController{
 				distributor.setStatus(1);
 				distributorMapper.insert(distributor);
 				
-				if(ownerId != null){//如果填写了父分销商ID，则添加父分销商信息
-					DistributorInclude distributorInclude = new DistributorInclude();
-					distributorInclude.setId(IdGenerator.getInstance().nextId());
-					distributorInclude.setParentId(ownerId);
-					distributorInclude.setChildId(id);
-					distributorIncludeMapper.insert(distributorInclude);
+				if(ownerId != null ){//如果填写了父分销商ID，则添加父分销商信息
+					Distributor boss = distributorMapper.selectByPrimaryKey(ownerId);
+					if(boss != null && boss.getLevel() < distributor.getLevel()){//上级存在且符合添加规则
+						DistributorInclude distributorInclude = new DistributorInclude();
+						distributorInclude.setId(IdGenerator.getInstance().nextId());
+						distributorInclude.setParentId(ownerId);
+						distributorInclude.setChildId(id);
+						distributorIncludeMapper.insert(distributorInclude);
+					}
 				}
 			}
 			return "distributorlist";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 	}
@@ -126,6 +131,7 @@ public class DistributorController extends BaseController{
 			model.addAttribute("ownerId", include != null ? include.getParentId() : 0);
 			return "distributoredit";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 	}
@@ -158,6 +164,7 @@ public class DistributorController extends BaseController{
 				return fail();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			return fail();
 		}
 	}
@@ -170,6 +177,30 @@ public class DistributorController extends BaseController{
 	@RequestMapping(value="distributorEdit", method = RequestMethod.POST)
 	public String distributorEditSubmit(Distributor distributor){	
 		try {
+			//如果对分销商的编辑是提高分销商的level,则可能会改变归属关系
+			Distributor dbDistributor = distributorMapper.selectByPrimaryKey(distributor.getId());
+			if(dbDistributor.getLevel() != distributor.getLevel()){//改变级别
+				if(dbDistributor.getLevel() == 1){//钻石会员
+					if(distributor.getLevel() == 2){//钻石降为金牌
+						List<DistributorInclude> includes = distributorIncludeMapper.selectSubmemberIdsByOwnerId(distributor.getId());
+						for(DistributorInclude include : includes){
+							Distributor child = distributorMapper.selectByPrimaryKey(include.getChildId());
+							if(child.getLevel() == 2){
+								Map<String, Object> param = new HashMap<String, Object>();
+								param.put("ownerId", distributor.getId());
+								param.put("childId", child.getId());
+								distributorIncludeMapper.deleteByOwnerIdAndChildId(param);
+							}
+						}	
+					}
+				}
+				if(dbDistributor.getLevel() == 2){//金牌会员无论
+					distributorIncludeMapper.deleteDistributorIncludeByParentId(distributor.getId());
+				}
+				if(dbDistributor.getLevel() == 3){//VIP会员
+
+				}
+			}
 			distributorMapper.updateByPrimaryKey(distributor);
 			
 //			if(ownerId != null){//如果填写了父分销商ID，则添加父分销商信息
@@ -182,6 +213,7 @@ public class DistributorController extends BaseController{
 			
 			return "distributorlist";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 	}

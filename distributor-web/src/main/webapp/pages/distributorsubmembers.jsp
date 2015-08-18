@@ -30,7 +30,7 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title" id="myModalLabel">添加下属分销商</h4>
 		      </div>
-		      <form class="form-horizontal" role="form" action="/distributor/distributorSubmemberAdd" method="post">
+		      <form id="addBranchForm" class="form-horizontal" role="form" action="/distributor/distributorSubmemberAdd" method="post">
 			      <div class="modal-body">
 			         <div class="form-group">
 					    <label class="col-sm-3 control-label" for="distributorName">下属分销商ID</label>
@@ -90,5 +90,25 @@
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(function (){
+	$('#addBranchForm').on('submit',function(){
+		var ownerId = '${distributor.id}';
+		$.ajax({
+			type:"GET",
+			url:"/distributor/distributorSubmemberAdd/" + ownerId + "/" + $('#childId').val() ,
+		 	success: function(data) {
+		 		if(data.success){
+		 			location.href= '/distributor/distributorSubmember/'+ ownerId;
+		 		}
+		 		else{
+		 			alert('不符合下级分销商添加规则');
+		 		}
+			}
+		});
+		return false;
+	});
+});
+</script>
 </body>
 </html>
