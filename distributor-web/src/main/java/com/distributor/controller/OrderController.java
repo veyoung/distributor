@@ -64,11 +64,11 @@ public class OrderController extends BaseController{
 			if (order != null){
 				return success(order);
 			} else {
-				return fail();
+				return fail("订单提交失败！");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return fail();
+			return fail("订单提交失败！");
 		}
 	}
 	
