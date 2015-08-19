@@ -64,11 +64,11 @@ public class OrderController extends BaseController{
 			if (order != null){
 				return success(order);
 			} else {
-				return fail();
+				return fail("订单提交失败！");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return fail();
+			return fail("订单提交失败！");
 		}
 	}
 	
@@ -150,11 +150,15 @@ public class OrderController extends BaseController{
 			
 			List<OrderRecord> orders = orderRecordMapper.selectOrdersSelective(param);
 			for(OrderRecord order : orders){
-				Distributor orderDistributor = distributorMapper.selectByPrimaryKey(order.getDistributorId());
-				order.setOrderDistributor(orderDistributor);
+				Map<String, Object> queryParam = new HashMap<String, Object>();
+				queryParam.put("distributorId", distributorId);
+				queryParam.put("orderId", order.getId());
+				List<DistributorCommission> list = distributorCommissionMapper.selectCommissionsSelective(queryParam);
+				if(list.size() == 1){
+					order.setCommission(list.get(0).getCommission());
+				}
 			}
 			int total = orderRecordMapper.getCountSelective(param);
-			
 			Map<String, Object> result = success(orders);
 			result.put("total", total);
 			return result;

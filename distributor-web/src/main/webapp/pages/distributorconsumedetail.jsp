@@ -50,8 +50,8 @@
 			<tr class="table-title-gray">
 				<td width="25%" class="distributor-font">消费时间</td>
 				<td width="20%">消费金额(元)</td>
-				<td width="20%">上级所获提成(元)</td>
-				<td width="20%">操作</td></tr>
+				<td width="20%">所获积分(元)</td>
+				<!-- <td width="20%">操作</td></tr> -->
 			<tbody id="content-table"><tr><td colspan='4'>暂无消费记录</td></tr></tbody>
 		</table>
 		<div style="background-color:#eff3f8;height:60px;margin-top:-20px">
@@ -59,6 +59,26 @@
 			<div class="col-sm-9"><div id="pagination" style="float:right"></div></div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   		aria-labelledby="myModalLabel" aria-hidden="true">
+   		<div class="modal-dialog">
+      		<div class="modal-content">
+         		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<h4 class="modal-title" id="myModalLabel">
+              		提示
+            	</h4>
+         		</div>
+         		<div class="modal-body"></div>
+         		<div class="modal-footer">
+            		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            		<button type="button" class="btn btn-primary btn-ok">确定</button>
+         		</div>
+      		</div>
+		</div>
+	</div>
+	
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
@@ -72,17 +92,46 @@ $(function(){
 	$('#endTime').datepicker();   
 	$('#distributorConsumeForm').on('submit',function(){
 		if($('#distributorId').val() == ''){
-			alert('请输入分销商ID');
+			$('#myModal').modal('show');
+			$('.modal-body').html('请输入分销商ID');
+			$('.btn-ok').attr("style","display:none;");
+			//alert('请输入分销商ID');
 			return false;
 		}
 		if($('#startTime').val() == ''){
-			alert('请选择起始日期');
+			$('#myModal').modal('show');
+			$('.modal-body').html('请选择起始日期');
+			$('.btn-ok').attr("style","display:none;");
+			//alert('请选择起始日期');
 			return false;
 		}
 		if($('#endTime').val() == ''){
-			alert('请选择截止日期');
+			$('#myModal').modal('show');
+			$('.modal-body').html('请选择起始日期');
+			$('.btn-ok').attr("style","display:none;");
+			//alert('请选择截止日期');
 			return false;
 		}
+		
+		Date.prototype.format = function(fmt)   
+		{ //author: meizz   
+		  var o = {   
+		    "M+" : this.getMonth()+1,                 //月份   
+		    "d+" : this.getDate(),                    //日   
+		    "h+" : this.getHours(),                   //小时   
+		    "m+" : this.getMinutes(),                 //分   
+		    "s+" : this.getSeconds(),                 //秒   
+		    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+		    "S"  : this.getMilliseconds()             //毫秒   
+		  };   
+		  if(/(y+)/.test(fmt))   
+		    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+		  for(var k in o)   
+		    if(new RegExp("("+ k +")").test(fmt))   
+		  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+		  return fmt;   
+		}  
+		
 		$.ajax({
 			url:'/distributor/distributorOrder/list/' + $('#distributorId').val() +'/' + $('#startTime').val() +'/'+$('#endTime').val() +'/0',
 			type:'GET',
@@ -90,9 +139,9 @@ $(function(){
 				if(data.success){
 					var para = '';
 					$(data.content).each(function (key,value) { //遍历返回的json   
-						para += '<tr><td>'+ value.displayCreateTime + 
-		                        '</td><td>￥'+ value.displayMoney +'</td><td>￥'+ value.displayCommission + 
-		                        '</td><td>查看</td></tr>';
+						para += '<tr><td>'+ new Date(value.createTime).format("yyyy-MM-dd hh:mm:ss") + 
+		                        '</td><td>￥'+ value.money/100 +'</td><td>￥'+ (value.commission == null ? 0 : value.commission) + 
+		                        '</td></tr>';
 		            });
 					$("#content-table").empty();
 		            $("#content-table").append(para);
