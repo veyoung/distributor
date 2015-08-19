@@ -173,7 +173,9 @@
      <if test="distributorId !=null">
      distributor_id = #{distributorId,jdbcType=BIGINT}
      </if>
-     
+     <if test="orderId !=null">
+     order_id = #{orderId,jdbcType=BIGINT}
+     </if>
     <if test="startTime!=null and startTime!='' ">
      and UNIX_TIMESTAMP(create_time) >= UNIX_TIMESTAMP(#{startTime,jdbcType=TIMESTAMP})
      </if>

@@ -150,11 +150,15 @@ public class OrderController extends BaseController{
 			
 			List<OrderRecord> orders = orderRecordMapper.selectOrdersSelective(param);
 			for(OrderRecord order : orders){
-				Distributor orderDistributor = distributorMapper.selectByPrimaryKey(order.getDistributorId());
-				order.setOrderDistributor(orderDistributor);
+				Map<String, Object> queryParam = new HashMap<String, Object>();
+				queryParam.put("distributorId", distributorId);
+				queryParam.put("orderId", order.getId());
+				List<DistributorCommission> list = distributorCommissionMapper.selectCommissionsSelective(queryParam);
+				if(list.size() == 1){
+					order.setCommission(list.get(0).getCommission());
+				}
 			}
 			int total = orderRecordMapper.getCountSelective(param);
-			
 			Map<String, Object> result = success(orders);
 			result.put("total", total);
 			return result;

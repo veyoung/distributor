@@ -190,7 +190,7 @@ public class OrderService{
 			distributorBalance.setId(IdGenerator.getInstance().nextId());
 			distributorBalance.setDistributorId(null);
 			distributorBalance.setCreateTime(new Date());
-			distributorBalance.setBalanceChange((int)(totalPrice*100));
+			distributorBalance.setBalanceChange(-(int)(totalPrice*100));
 			Distributor distributorDb = distributorMapper.selectByPrimaryKey(distributorId);
 			if(distributorDb.getBalance() >= totalPrice*100){
 				int balance = (int)(distributorDb.getBalance() -totalPrice*100);
@@ -201,11 +201,11 @@ public class OrderService{
 				distributorMapper.updateByPrimaryKeySelective(record);
 				distributorBalanceMapper.insertSelective(distributorBalance);
 			}else{
-				//ToDo
+				return null;
 			}
 			
 			
-			
+			//写order_commodity_include中order_id
 			orderCommodityIncludeMapper.setAllLatestWithOrderId(order.getId());
 			return order;
 		} 
@@ -223,6 +223,9 @@ public class OrderService{
 	//判断是否有上级
 	Long hasSuperior(Long distributorId){
 		DistributorInclude distributorInclude = distributorIncludeMapper.selectByChildId(distributorId);
+		if(distributorInclude == null){
+			return null;
+		}
 		if(distributorInclude.getParentId() != null){
 			return distributorInclude.getParentId();
 		}else{
