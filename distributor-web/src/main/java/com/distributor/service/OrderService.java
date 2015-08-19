@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.distributor.mapper.CommodityMapper;
+import com.distributor.mapper.DistributorBalanceMapper;
 import com.distributor.mapper.DistributorCommissionMapper;
 import com.distributor.mapper.DistributorIncludeMapper;
 import com.distributor.mapper.DistributorMapper;
@@ -18,6 +19,7 @@ import com.distributor.mapper.OrderCommodityIncludeMapper;
 import com.distributor.mapper.OrderRecordMapper;
 import com.distributor.model.Commodity;
 import com.distributor.model.Distributor;
+import com.distributor.model.DistributorBalance;
 import com.distributor.model.DistributorCommission;
 import com.distributor.model.DistributorInclude;
 import com.distributor.model.OrderCommodityInclude;
@@ -33,6 +35,8 @@ public class OrderService{
 	CommodityMapper commodityMapper;
 	@Autowired
 	DistributorMapper distributorMapper;
+	@Autowired
+	DistributorBalanceMapper distributorBalanceMapper;
 	@Autowired
 	DistributorIncludeMapper distributorIncludeMapper;
 	@Autowired
@@ -51,7 +55,7 @@ public class OrderService{
 			OrderRecord order = new OrderRecord();
 			order.setId(IdGenerator.getInstance().nextId());
 			order.setDistributorId(distributorId);
-			order.setMoney(CommonUtils.priceFloat2Int(totalPrice.toString()));
+			order.setMoney((int)(totalPrice*100));
 			order.setCreateTime(new Date());
 			orderRecordMapper.insertSelective(order);
 			
@@ -181,32 +185,26 @@ public class OrderService{
 				
 			}
 			
-			
-			
-			/*//如果上级分销商存在，计算提成
-			DistributorInclude distributorInclude = distributorIncludeMapper.selectByChildId(orderDistributor.getId());
-			Distributor bossDistributor = null;
-			if(distributorInclude != null){
-				bossDistributor = distributorMapper.selectByPrimaryKey(distributorInclude.getParentId());
-				//commissionPrice = totalPrice * bossDistributor.getCommission() / 100;
+			//写distributor_balance
+			DistributorBalance distributorBalance = new DistributorBalance();
+			distributorBalance.setId(IdGenerator.getInstance().nextId());
+			distributorBalance.setDistributorId(null);
+			distributorBalance.setCreateTime(new Date());
+			distributorBalance.setBalanceChange((int)(totalPrice*100));
+			Distributor distributorDb = distributorMapper.selectByPrimaryKey(distributorId);
+			if(distributorDb.getBalance() >= totalPrice*100){
+				int balance = (int)(distributorDb.getBalance() -totalPrice*100);
+				distributorBalance.setBalance(balance);
+				Distributor record = new Distributor();
+				record.setId(distributorId);
+				record.setBalance(balance);
+				distributorMapper.updateByPrimaryKeySelective(record);
+				distributorBalanceMapper.insertSelective(distributorBalance);
+			}else{
+				//ToDo
 			}
-
-			//如果升级分销商存在，增加上级分销商提成记录
-			if(bossDistributor != null){
-				DistributorCommission former = distributorCommissionMapper.selectLatestRecordById(bossDistributor.getId());
-				DistributorCommission current = new DistributorCommission();
-				current.setId(IdGenerator.getInstance().nextId());
-				current.setDistributorId(bossDistributor.getId());
-				current.setOrderId(order.getId());
-				//current.setPercent(bossDistributor.getCommission());
-				current.setCommission(commissionPrice);//提成金额
-				if (former == null){
-					current.setTotalcommission(0);
-				} else {
-					current.setTotalcommission(commissionPrice + former.getTotalcommission());
-				}
-				distributorCommissionMapper.insert(current);
-			}*/
+			
+			
 			
 			orderCommodityIncludeMapper.setAllLatestWithOrderId(order.getId());
 			return order;
