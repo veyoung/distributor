@@ -69,9 +69,13 @@ public class OrderService{
 					distributorCommission.setOrderId(order.getId()); 
 					distributorCommission.setCommission(commissionPrice);
 					DistributorCommission dc = distributorCommissionMapper.selectLatestRecordById(distributorId);
-					if(dc.getTotalcommission() != null){
-						Integer totalcommission = dc.getTotalcommission() + commissionPrice;
-						distributorCommission.setTotalcommission(totalcommission);
+					if(dc == null){
+						distributorCommission.setTotalcommission(commissionPrice);
+					}else{
+						if(dc.getTotalcommission() != null){
+							Integer totalcommission = dc.getTotalcommission() + commissionPrice;
+							distributorCommission.setTotalcommission(totalcommission);
+						}
 					}
 					distributorCommission.setCreateTime(new Date());
 					distributorCommissionMapper.insertSelective(distributorCommission);
@@ -84,9 +88,13 @@ public class OrderService{
 						distributorCommissionP.setOrderId(order.getId()); 
 						distributorCommissionP.setCommission(commissionPrice);
 						DistributorCommission dcp = distributorCommissionMapper.selectLatestRecordById(superiorId);
-						if(dcp.getTotalcommission() != null){
-							Integer totalcommission = dcp.getTotalcommission() + commissionPrice;
-							distributorCommissionP.setTotalcommission(totalcommission);
+						if(dcp == null){
+							distributorCommissionP.setTotalcommission(commissionPrice);
+						}else{
+							if(dcp.getTotalcommission() != null){
+								Integer totalcommission = dcp.getTotalcommission() + commissionPrice;
+								distributorCommissionP.setTotalcommission(totalcommission);
+							}
 						}
 						distributorCommissionP.setCreateTime(new Date());
 						distributorCommissionMapper.insertSelective(distributorCommissionP);
@@ -100,9 +108,13 @@ public class OrderService{
 						distributorCommissionPP.setOrderId(order.getId()); 
 						distributorCommissionPP.setCommission(commissionPrice);
 						DistributorCommission dcpp = distributorCommissionMapper.selectLatestRecordById(superiorDoubleId);
-						if(dcpp.getTotalcommission() != null){
-							Integer totalcommission = dcpp.getTotalcommission() + commissionPrice;
-							distributorCommissionPP.setTotalcommission(totalcommission);
+						if(dcpp == null){
+							distributorCommissionPP.setTotalcommission(commissionPrice);
+						}else{
+							if(dcpp.getTotalcommission() != null){
+								Integer totalcommission = dcpp.getTotalcommission() + commissionPrice;
+								distributorCommissionPP.setTotalcommission(totalcommission);
+							}
 						}
 						distributorCommissionPP.setCreateTime(new Date());
 						distributorCommissionMapper.insertSelective(distributorCommissionPP);
@@ -115,9 +127,13 @@ public class OrderService{
 					distributorCommission.setOrderId(order.getId()); 
 					distributorCommission.setCommission(commissionPrice);
 					DistributorCommission dc = distributorCommissionMapper.selectLatestRecordById(distributorId);
-					if(dc.getTotalcommission() != null){
-						Integer totalcommission = dc.getTotalcommission() + commissionPrice;
-						distributorCommission.setTotalcommission(totalcommission);
+					if(dc == null){
+						distributorCommission.setTotalcommission(commissionPrice);
+					}else{
+						if(dc.getTotalcommission() != null){
+							Integer totalcommission = dc.getTotalcommission() + commissionPrice;
+							distributorCommission.setTotalcommission(totalcommission);
+						}
 					}
 					distributorCommission.setCreateTime(new Date());
 					distributorCommissionMapper.insertSelective(distributorCommission);
@@ -132,9 +148,13 @@ public class OrderService{
 						distributorCommissionP.setOrderId(order.getId()); 
 						distributorCommissionP.setCommission(commissionPrice);
 						DistributorCommission dcp = distributorCommissionMapper.selectLatestRecordById(distributorId);
-						if(dc.getTotalcommission() != null){
-							Integer totalcommission = dcp.getTotalcommission() + commissionPrice;
-							distributorCommissionP.setTotalcommission(totalcommission);
+						if(dcp == null){
+							distributorCommissionP.setTotalcommission(commissionPrice);
+						}else{
+							if(dcp.getTotalcommission() != null){
+								Integer totalcommission = dcp.getTotalcommission() + commissionPrice;
+								distributorCommissionP.setTotalcommission(totalcommission);
+							}
 						}
 						distributorCommissionP.setCreateTime(new Date());
 						distributorCommissionMapper.insertSelective(distributorCommissionP);
@@ -147,9 +167,13 @@ public class OrderService{
 					distributorCommission.setOrderId(order.getId()); 
 					distributorCommission.setCommission(commissionPrice);
 					DistributorCommission dc = distributorCommissionMapper.selectLatestRecordById(distributorId);
-					if(dc.getTotalcommission() != null){
-						Integer totalcommission = dc.getTotalcommission() + commissionPrice;
-						distributorCommission.setTotalcommission(totalcommission);
+					if(dc == null){
+						distributorCommission.setTotalcommission(commissionPrice);
+					}else{
+						if(dc.getTotalcommission() != null){
+							Integer totalcommission = dc.getTotalcommission() + commissionPrice;
+							distributorCommission.setTotalcommission(totalcommission);
+						}
 					}
 					distributorCommission.setCreateTime(new Date());
 					distributorCommissionMapper.insertSelective(distributorCommission);
