@@ -134,10 +134,12 @@
 
 $(document).ready(function(){
 	//添加商品
-    $('#addCommodityForm').bind('submit', function(){
-    	$.ajax({
+	var ids= new Array();
+	$('#addCommodityForm').bind('submit', function(){
+		var commodityId = $("#commodityId").val();
+		$.ajax({
     		type: "GET",
-    		url:"/distributor/addCommodity/" + $("#commodityId").val(),
+    		url:"/distributor/addCommodity/" + commodityId,
     		error: function(request) {
     			$('#myModal').modal('show');
     			$('.modal-body').html('发送请求失败！');
@@ -148,9 +150,9 @@ $(document).ready(function(){
     			if(data.success){
     				var t = "";
     				var totalPrice = 0;
-    				var commodityId = $("#commodityId").val();
+    				ids.push($("#commodityId").val());
         			$(data.content).each(function (key,value) { //遍历返回的json                     
-                        t += '<tr class="for-total-price" data-id="'+ commodityId +'"><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                        t += '<tr class="for-total-price" data-id="'+ ids[key] +'"><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
                         		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
                         		+ value.priceDisplay * 1 + '</td><td>'
     							+ '<a href="/distributor/deleteCommodity/' 
