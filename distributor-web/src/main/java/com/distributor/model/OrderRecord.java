@@ -171,7 +171,7 @@ public class OrderRecord {
         this.createTime = createTime;
     }
 
-	public float getDisplayMoney() {
+    /*public float getDisplayMoney() {
 		return CommonUtils.intPrice2Float(getMoney());
 	}
 
@@ -194,7 +194,7 @@ public class OrderRecord {
 
 	public void setDisplayCreateTime(String displayCreateTime) {
 		
-	}
+	}*/
 
 	public Distributor getOrderDistributor() {
 		return orderDistributor;
