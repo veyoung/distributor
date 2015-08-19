@@ -47,6 +47,9 @@ public class CommodityController extends BaseController{
 		    param.put("offset", ConstantVariable.Pagesize * page);
 		    
 		    List<Commodity> commoditys = commodityMapper.selectSelective(param);
+		    for(Commodity commodity : commoditys){
+		    	commodity.setCategoryName(categoryMapper.selectByPrimaryKey(commodity.getCategoryId()).getName());
+		    }
 		    int total = commodityMapper.countSelectSelective(param);
 		    List<Category> categories = categoryMapper.selectAllCategorys();
 		    String categoriesStr = "";
@@ -111,7 +114,6 @@ public class CommodityController extends BaseController{
 	public String commodityChoose(@PathVariable("id") Long id, Model model){
 		try {
 			Commodity commodity = commodityMapper.selectByPrimaryKey(id);
-			commodity.setPriceDisplay(CommonUtils.priceInt2Float(commodity.getPrice()));
 			model.addAttribute("commodity", commodity);
 			
 			List<Category> categories = categoryMapper.selectAllCategorys();
@@ -136,10 +138,18 @@ public class CommodityController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value=("commodity"), method=RequestMethod.POST)
-	public String commodityAdd(@RequestParam("name") String name,
-			@RequestParam("categoryId") Long categoryId,
-			@RequestParam("price") String price,
-			@RequestParam("description") String description){
+	public String commodityAdd(
+			@RequestParam(value="name", required = true) String name,
+			@RequestParam(value="brand", required = true) String brand,
+			@RequestParam(value="categoryId", required = true) Long categoryId,
+			@RequestParam(value="price", required = true) String price,
+			@RequestParam(value="vipVip", required = true) String vipVip,
+			@RequestParam(value="vipGold", required = true) String vipGold,
+			@RequestParam(value="vipDiamond", required = true) String vipDiamond,
+			@RequestParam(value="goldGold", required = true) String goldGold,
+			@RequestParam(value="goldDiamond", required = true) String goldDiamond,
+			@RequestParam(value="diamondDiamond", required = true) String diamondDiamond,
+			@RequestParam(value="description", required = false) String description){
 		try {
 			if(commodityMapper.selectByName(name) != null){
 				return "error";//商品已存在
@@ -148,8 +158,15 @@ public class CommodityController extends BaseController{
 			Commodity commodity = new Commodity();
 			commodity.setId(IdGenerator.getInstance().nextId());
 			commodity.setName(name);
+			commodity.setBrand(brand);
 			commodity.setCategoryId(categoryId);
-			commodity.setPrice((int)Float.parseFloat(price) * 100);
+			commodity.setPrice((int)(Float.parseFloat(price) * 100));
+			commodity.setVipVip((int)(Float.parseFloat(vipVip) * 100));
+			commodity.setVipGold((int)(Float.parseFloat(vipGold) * 100));
+			commodity.setVipDiamond((int)(Float.parseFloat(vipDiamond) * 100));
+			commodity.setGoldGold((int)(Float.parseFloat(goldGold) * 100));
+			commodity.setGoldDiamond((int)(Float.parseFloat(goldDiamond) * 100));
+			commodity.setDiamondDiamond((int)(Float.parseFloat(diamondDiamond) * 100));
 			commodity.setDescription(description);
 			commodity.setStatus(1);
 			commodityMapper.insert(commodity);
@@ -172,16 +189,30 @@ public class CommodityController extends BaseController{
 	 */
 	@RequestMapping(value=("commodity/edit"), method=RequestMethod.POST)
 	public String commodityEdit(@RequestParam("id") Long id,
-			@RequestParam("name") String name,
-			@RequestParam("categoryId") Long categoryId,
-			@RequestParam("price") String price,
-			@RequestParam("description") String description){
+			@RequestParam(value="name", required = true) String name,
+			@RequestParam(value="brand", required = true) String brand,
+			@RequestParam(value="categoryId", required = true) Long categoryId,
+			@RequestParam(value="price", required = true) String price,
+			@RequestParam(value="vipVip", required = true) String vipVip,
+			@RequestParam(value="vipGold", required = true) String vipGold,
+			@RequestParam(value="vipDiamond", required = true) String vipDiamond,
+			@RequestParam(value="goldGold", required = true) String goldGold,
+			@RequestParam(value="goldDiamond", required = true) String goldDiamond,
+			@RequestParam(value="diamondDiamond", required = true) String diamondDiamond,
+			@RequestParam(value="description", required = true) String description){
 		try {
 			Commodity commodity = new Commodity();
 			commodity.setId(id);
 			commodity.setName(name);
+			commodity.setBrand(brand);
 			commodity.setCategoryId(categoryId);
-			commodity.setPrice((int)Float.parseFloat(price) * 100);
+			commodity.setPrice((int)(Float.parseFloat(price) * 100));
+			commodity.setVipVip((int)(Float.parseFloat(vipVip) * 100));
+			commodity.setVipGold((int)(Float.parseFloat(vipGold) * 100));
+			commodity.setVipDiamond((int)(Float.parseFloat(vipDiamond) * 100));
+			commodity.setGoldGold((int)(Float.parseFloat(goldGold) * 100));
+			commodity.setGoldDiamond((int)(Float.parseFloat(goldDiamond) * 100));
+			commodity.setDiamondDiamond((int)(Float.parseFloat(diamondDiamond) * 100));
 			commodity.setDescription(description);
 			commodity.setStatus(1);
 			commodityMapper.updateByPrimaryKey(commodity);

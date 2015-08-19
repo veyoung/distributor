@@ -42,15 +42,69 @@
 		    <label class="col-sm-3 control-label" for="commission">商品价格</label>
 		    <div class="col-sm-6">
 		    	<div class="input-group">
-		    		<input type="text" name="price" class="form-control" id="commission" value="${commodity.priceDisplay}">
+		    		<input type="text" name="price" class="form-control" id="commission" value="${commodity.displayPrice}">
 		    		<div class="input-group-addon">元</div>
 		    	</div>
 		    </div>
 		 </div>
+		  <div class="form-group">
+		    <label class="col-sm-3 control-label" for="commodityPrice">vip消费自身提成</label>
+		    <div class="col-sm-6">
+		    	<div class="input-group">
+		    		<input type="text" name="vipVip" class="form-control" id="vipVip" value="${commodity.displayVipVip}">
+		    		<div class="input-group-addon">元</div>
+		    	</div>
+		    </div>
+		 </div>	
+		 <div class="form-group">
+		    <label class="col-sm-3 control-label" for="commodityPrice">vip消费金牌提成</label>
+		    <div class="col-sm-6">
+		    	<div class="input-group">
+		    		<input type="text" name="vipGold" class="form-control" id="vipGold" value="${commodity.displayVipGold}">
+		    		<div class="input-group-addon">元</div>
+		    	</div>
+		    </div>
+		 </div>	
+		  <div class="form-group">
+		    <label class="col-sm-3 control-label" for="commodityPrice">vip消费钻石提成</label>
+		    <div class="col-sm-6">
+		    	<div class="input-group">
+		    		<input type="text" name="vipDiamond" class="form-control" id="vipDiamond" value="${commodity.displayVipDiamond}">
+		    		<div class="input-group-addon">元</div>
+		    	</div>
+		    </div>
+		 </div>	
+		 <div class="form-group">
+		    <label class="col-sm-3 control-label" for="commodityPrice">金牌消费自身提成</label>
+		    <div class="col-sm-6">
+		    	<div class="input-group">
+		    		<input type="text" name="goldGold" class="form-control" id="goldGold" value="${commodity.displayGoldGold}">
+		    		<div class="input-group-addon">元</div>
+		    	</div>
+		    </div>
+		 </div>	
+		  <div class="form-group">
+		    <label class="col-sm-3 control-label" for="commodityPrice">金牌消费钻石提成</label>
+		    <div class="col-sm-6">
+		    	<div class="input-group">
+		    		<input type="text" name="goldDiamond" class="form-control" id="goldDiamond" value="${commodity.displayGoldDiamond}">
+		    		<div class="input-group-addon">元</div>
+		    	</div>
+		    </div>
+		 </div>	
+		 <div class="form-group">
+		    <label class="col-sm-3 control-label" for="commodityPrice">钻石消费自身提成</label>
+		    <div class="col-sm-6">
+		    	<div class="input-group">
+		    		<input type="text" name="diamondDiamond" class="form-control" id="diamondDiamond" value="${commodity.displayDiamondDiamond}">
+		    		<div class="input-group-addon">元</div>
+		    	</div>
+		    </div>
+		 </div>	
 		 <div class="form-group">
 		    <label class="col-sm-3 control-label" for="mobile">商品说明</label>
 		    <div class="col-sm-6">
-		    	<textarea name="description" class="form-control" rows="6">${commodity.description}</textarea>
+		    	<textarea name="description" class="form-control" rows="2">${commodity.description}</textarea>
 		    </div>
 		 </div>			
 		 <div class="form-group">

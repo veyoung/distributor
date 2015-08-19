@@ -18,6 +18,17 @@ public class CommonUtils {
 			stringBuilder.insert(stringBuilder.length()-2, '.');
 			return Float.parseFloat(stringBuilder.toString());
 		}
+		else if(stringBuilder.length() == 2){
+			stringBuilder.insert(0, '0');
+			stringBuilder.insert(stringBuilder.length()-2, '.');
+			return Float.parseFloat(stringBuilder.toString());
+		}
+		else if(stringBuilder.length() == 1){
+			stringBuilder.insert(0, '0');
+			stringBuilder.insert(0, '0');
+			stringBuilder.insert(stringBuilder.length()-2, '.');
+			return Float.parseFloat(stringBuilder.toString());
+		}
 		else{
 			return price;
 		}
@@ -26,6 +37,6 @@ public class CommonUtils {
 	
     public static void main(String[] args) {
 
-    	System.out.println(priceFloat2Int("12.32"));
+    	System.out.println(intPrice2Float(5));
     }
 }

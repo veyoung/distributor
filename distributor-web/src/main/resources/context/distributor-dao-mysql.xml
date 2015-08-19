@@ -16,7 +16,7 @@
         <!-- 驱动名称 -->
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <!-- JDBC连接串 -->
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/distributor" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/distributor?useUnicode=true&amp;characterEncoding=utf-8&amp;" />
         <!-- 数据库用户名称 -->
         <property name="username" value="root" />
         <!-- 数据库密码 -->

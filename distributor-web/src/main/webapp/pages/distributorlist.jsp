@@ -209,19 +209,14 @@ $(function (){
                         if (data.success) {
                         	var para = '';
             				$(data.content).each(function (key,value) { //遍历返回的json   
-            					var name;
-            					var level;
-            					if (value.owner != null){
-            						name = value.owner.name;
-            					} else {
-            						name= '暂无';
-            					}
+            					var name = value.owner != null ? value.owner.name :'暂无';
+            					var level = value.level == 1 ? '钻石会员':value.level == 2 ? '金牌会员':'VIP会员';
             					para += '<tr><td>'+ value.name + 
-                                        '</td><td>'+ value.id +'</td><td>'+ value.level + 
+                                        '</td><td>'+ value.id +'</td><td>'+ level + 
                                         '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td>' +
-                                        '<a class="blue" href="/distributor/distributorEdit/${item.id}">' +
-                                        '<i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-            							'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
+                                        '<a class="blue" href="/distributor/distributorEdit/'+value.id+
+                                        '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
+                						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
                                         '</td></tr>';        
                             });
             				$("#content-table").empty();

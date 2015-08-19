@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.distributor.mapper.CategoryMapper;
+import com.distributor.mapper.CommodityMapper;
 import com.distributor.model.Category;
 import com.distributor.utils.IdGenerator;
 
@@ -18,6 +19,8 @@ import com.distributor.utils.IdGenerator;
 public class CategoryController extends BaseController{
 	@Autowired
 	CategoryMapper categoryMapper;
+	@Autowired
+	CommodityMapper commodityMapper;
 	
 	/**
 	 * 商品分类列表
@@ -31,6 +34,7 @@ public class CategoryController extends BaseController{
 			model.addAttribute("categories", categories);
 			return "commoditycategorylist";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 	}
@@ -49,6 +53,7 @@ public class CategoryController extends BaseController{
 			categoryMapper.insert(category);
 			return "redirect:/commodityCategoryList";	
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}	
 	}
@@ -62,8 +67,10 @@ public class CategoryController extends BaseController{
 	public String CategoryDelete(@PathVariable("id") long id){
 		try {
 			categoryMapper.deleteByPrimaryKey(id);
+			commodityMapper.deleteByCategoryId(id);
 			return "redirect:/commodityCategoryList";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error";
 		}
 	}

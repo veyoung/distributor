@@ -53,7 +53,6 @@ public class OrderCommodityIncludeController extends BaseController{
 					List<Commodity> commodities = new ArrayList<Commodity>();
 					for(OrderCommodityInclude orderCommodityInclude : orderCommodityIncludes){
 						Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());
-						commodity.setPriceDisplay(CommonUtils.priceInt2Float(commodity.getPrice()));
 						commodities.add(commodity);
 					}
 					model.addAttribute("commodities", commodities);
@@ -114,14 +113,12 @@ public class OrderCommodityIncludeController extends BaseController{
 	public String deleteCommodity(@PathVariable("commodityId") Long commodityId,
 			Model model){
 		try {
-
 			orderCommodityIncludeMapper.deleteLatestByCommodityId(commodityId);
 			List<OrderCommodityInclude> orderCommodityIncludes 
 				= orderCommodityIncludeMapper.selectAllLatest();
 			List<Commodity> commodities = new ArrayList<Commodity>();
 			for(OrderCommodityInclude orderCommodityInclude : orderCommodityIncludes){
 				Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());
-				commodity.setPriceDisplay(CommonUtils.priceInt2Float(commodity.getPrice()));
 				commodities.add(commodity);
 			}
 			model.addAttribute("commodities", commodities);
