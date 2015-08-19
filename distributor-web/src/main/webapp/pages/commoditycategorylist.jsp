@@ -51,41 +51,67 @@
 	<div>
 		<table class="table table-striped table-hover">
 			<tr class="table-title-blue">
-			<td width="30%">序号</td>
-			<td width="35%">分类名</td>
-			<td width="35%">操作</td>
-			<c:forEach items="${categories}" var="item" varStatus="status">
-				<tr><td class="distributor-font">&nbsp;${status.index + 1}</td>
-					<td>${item.name}</td>
-					<td><a class="orange" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>
-						<div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						        <h4 class="modal-title" id="myModalLabel">提示</h4>
-						      </div>
-						      <div class="modal-body">			
-						      	是否删除指定的分类？ 					 
-							  </div>
-							      <div class="modal-footer">
-							        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-							        <a type="button" class="btn btn-danger" href="commodityCategory/delete/${item.id}">确定</a>
-							      </div>
-						    </div><!-- /.modal-content -->
-						  </div><!-- /.modal-dialog -->
-						</div><!-- /.modal -->  
-					</td>
-				</tr>		
-			</c:forEach>
+				<td width="30%">序号</td>
+				<td width="35%">分类名</td>
+				<td width="35%">操作</td>
+				</tr>
+			<tbody id="content-table"></tbody>
 		</table>
-		<div style="background-color:#eff3f8;height:40px;margin-top:-20px">
-			<div class="col-sm-3"><span id ="statics" style="line-height:40px">总记录数：${categories.size()}</span></div>
-		</div>
+		
+		<div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">提示</h4>
+		      </div>
+		      <div class="modal-body">			
+		      	将会删除该分类下的所有商品，是否确定？ 					 
+			  </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			        <a id="deleteUrl" type="button" class="btn btn-danger">确定</a>
+			      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->  
 	</div>
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
 <script src="/distributor/js/bootstrap-paginator.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	//初始化页面
+	$.ajax({
+		type:"GET",
+		url:"/distributor/commodityCategoryList",
+	 	success: function(data) {
+	 		if(data.success){
+				var para = '';
+				$(data.content).each(function (key,value) { //遍历返回的json 
+					var count = key+1;
+					para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ count + '</td><td>'
+							+ value.name +'</td><td><a class="orange deleteBtn" id="'+value.id+
+							'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
+	                        '</td></tr>';        
+	            });
+				$("#content-table").empty();
+	            $("#content-table").append(para);
+	            
+	            $('.deleteBtn').click(function(){
+	        		var id = $(this).attr('id');
+	        		var url= "/distributor/commodityCategory/delete/"+id;
+	        		$("#deleteUrl").attr("href",url); 
+	        		return true;
+	        	});
+	            
+			}
+	 		
+		}
+	})
+})
+</script>
 </body>
 </html>

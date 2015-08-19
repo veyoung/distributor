@@ -142,7 +142,7 @@
 	<div class="row">
 		<table class="table table-striped table-hover">
 			<tr class="table-title-blue">
-			<td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称</td>
+			<td width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称</td>
 			<td width="15%">商品分类</td>
 			<td width="15%">商品ID</td>
 			<td width="15%">商品价格(元)</td>

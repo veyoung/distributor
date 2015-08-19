@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.distributor.mapper.CategoryMapper;
 import com.distributor.mapper.CommodityMapper;
@@ -28,14 +29,14 @@ public class CategoryController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value=("commodityCategoryList"), method=RequestMethod.GET)
-	public String commodityCategoryList(Model model){
+	@ResponseBody
+	public Object commodityCategoryList(){
 		try {
 			List<Category> categories = categoryMapper.selectAllCategorys();
-			model.addAttribute("categories", categories);
-			return "commoditycategorylist";
+			return success(categories);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return fail();
 		}
 	}
 	
@@ -51,7 +52,7 @@ public class CategoryController extends BaseController{
 			category.setId(IdGenerator.getInstance().nextId());
 			category.setName(name);
 			categoryMapper.insert(category);
-			return "redirect:/commodityCategoryList";	
+			return "commoditycategorylist";	
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -68,7 +69,7 @@ public class CategoryController extends BaseController{
 		try {
 			categoryMapper.deleteByPrimaryKey(id);
 			commodityMapper.deleteByCategoryId(id);
-			return "redirect:/commodityCategoryList";
+			return "commoditycategorylist";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

@@ -58,7 +58,7 @@
 			 			<span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="commodityManage" class="nav nav-list secondmenu collapse">
-                   		<li><a href="/distributor/commodityCategoryList" target="view_window"><i class="glyphicon glyphicon-adjust"></i>&nbsp;商品分类</a></li>
+                   		<li><a href="/distributor/pages/commoditycategorylist.jsp" target="view_window"><i class="glyphicon glyphicon-adjust"></i>&nbsp;商品分类</a></li>
                         <li><a href="/distributor/pages/commoditylist.jsp" target="view_window"><i class="glyphicon glyphicon-th-list"></i>&nbsp;商品列表</a></li>
                         <li><a href="/distributor/pages/commoditysearch.jsp" target="view_window"><i class="glyphicon glyphicon-search"></i>&nbsp;商品搜索</a></li>
                     </ul>
