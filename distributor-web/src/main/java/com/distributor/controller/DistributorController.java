@@ -1,5 +1,6 @@
 package com.distributor.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.distributor.mapper.DistributorBalanceMapper;
 import com.distributor.mapper.DistributorIncludeMapper;
 import com.distributor.mapper.DistributorMapper;
+import com.distributor.mapper.OrderRecordMapper;
 import com.distributor.model.Distributor;
+import com.distributor.model.DistributorBalance;
 import com.distributor.model.DistributorInclude;
 import com.distributor.utils.ConstantVariable;
 import com.distributor.utils.IdGenerator;
@@ -26,6 +30,10 @@ public class DistributorController extends BaseController{
 	DistributorMapper distributorMapper;
 	@Autowired
 	DistributorIncludeMapper distributorIncludeMapper; 
+	@Autowired
+	DistributorBalanceMapper distributorBalanceMapper;
+	@Autowired
+	OrderRecordMapper orderRecordMapper;
 	
 	/**
 	 * 分销商列表
@@ -109,7 +117,8 @@ public class DistributorController extends BaseController{
 	public String distributorDelete(@PathVariable("id") Long id){	
 		try {
 			distributorMapper.deleteDistributor(id);
-			distributorIncludeMapper.deleteDistributorIncludeByParentId(id);
+			distributorIncludeMapper.deleteDistributorIncludeByParentId(id);//删除下级分销商
+			orderRecordMapper.deleteOrderByDistributorId(id);//删除级联的订单
 			return "distributorlist";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -216,6 +225,46 @@ public class DistributorController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
+		}
+	}
+	
+	/**
+	 * 账户充值
+	 * @param id
+	 * @param money
+	 * @return
+	 */
+	@RequestMapping("recharge/{distributorId}/{money}")
+	@ResponseBody
+	public Object recharge(
+			@PathVariable("distributorId") Long id,
+			@PathVariable("money") int money
+			){
+		try {
+			
+			
+			
+			Distributor distributor = distributorMapper.selectByPrimaryKey(id);
+			if (distributor != null) {
+				Distributor updateDistributor = new Distributor();
+				updateDistributor.setId(id);
+				updateDistributor.setBalance(distributor.getBalance() + money);
+				distributorMapper.updateByPrimaryKeySelective(updateDistributor);
+				
+				DistributorBalance balance = new DistributorBalance();
+				balance.setId(IdGenerator.getInstance().nextId());
+				balance.setDistributorId(id);
+				balance.setBalanceChange(money);
+				balance.setBalance(distributor.getBalance() + money);
+				balance.setCreateTime(new Date());
+				distributorBalanceMapper.insert(balance);
+				return success(distributor.getBalance() + money);
+			} else {
+				return fail();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return fail();
 		}
 	}
 	

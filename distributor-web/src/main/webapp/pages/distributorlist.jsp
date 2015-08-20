@@ -76,10 +76,9 @@
 		</div><!-- /.modal -->  
 	</div>
 	
-	
 	<div>
 		<table class="table table-striped table-hover">
-			<tr class="table-title-blue"><td width="15%" class="distributor-font">分销商姓名</td><td width="20%">ID</td><td width="15%">等级</td><td width="10%">所属会员</td><td width="10%">下属会员</td><td width="25%">操作</td></tr>
+			<tr class="table-title-blue"><td width="10%" class="distributor-font">分销商姓名</td><td width="20%">ID</td><td width="15%">等级</td><td width="10%">所属会员</td><td width="10%">下属会员</td><td width="10%">账户余额(元)</td><td width="25%">操作</td></tr>
 			<tbody id="content-table"></tbody>							
 		</table>
 		<div style="background-color:#eff3f8;height:60px;margin-top:-20px">
@@ -100,6 +99,34 @@
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			        <a type="button" id="deleteUrl" class="btn btn-danger">确定</a>
 			      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->  
+		
+		<div class="modal" id="rechargeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">分销商充值</h4>
+		      </div>
+		       <form id="rechargeForm" class="form-horizontal" role="form"> 	
+			      <div class="modal-body">	
+			      		<br>
+				      	<div class="form-group">
+							<label class="col-sm-3 control-label" for="recharge">充值金额</label>
+							<div class="col-sm-8">
+								<input type="hidden" name="distributorId" id="rechargeDistributorId">
+								<input type="text" name="money" class="form-control" id="money" placeholder="输入充值金额">
+							</div>
+						</div>
+						<br>
+				  </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			        <button type="submit" class="btn btn-primary">立即添加</button>
+			      </div>
+		      </form>	
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->  
@@ -147,7 +174,6 @@ $(function (){
 			url:"/distributor/validateDistributorLevel/" + $('#level').val() + "/" + $('#ownerId').val() ,
 		 	success: function(data) {
 		 		if(data.success){
-		 			
 		 		}
 		 		else{
 		 			alert(data.content);
@@ -174,11 +200,11 @@ $(function (){
 				var level = value.level == 1 ? '钻石会员':value.level == 2 ? '金牌会员':'VIP会员';
 				para += '<tr><td>'+ value.name + 
                         '</td><td>'+ value.id +'</td><td>'+ level + 
-                        '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td>' +
-                        '<a class="blue" href="/distributor/distributorEdit/'+value.id+
+                        '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td id="money'+value.id+'">￥' + value.balance +
+                        '</td><td><a class="blue" href="/distributor/distributorEdit/'+value.id+
                         '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'+
-						'<a class="blue" id="charge,'+value.id+'"><i class="ace-icon fa fa-pencil"></i>&nbsp;账户充值&nbsp;&nbsp;</a>'+
+						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
+						'<a class="green chargeBtn" data-toggle="modal" data-target="#rechargeModal" id="charge,'+value.id+'"><i class="ace-icon fa fa-check"></i>&nbsp;账户充值&nbsp;&nbsp;</a>'+
                         '</td></tr>';        
             });
 			$("#content-table").empty();
@@ -213,22 +239,31 @@ $(function (){
             					var name = value.owner != null ? value.owner.name :'暂无';
             					var level = value.level == 1 ? '钻石会员':value.level == 2 ? '金牌会员':'VIP会员';
             					para += '<tr><td>'+ value.name + 
-                                        '</td><td>'+ value.id +'</td><td>'+ level + 
-                                        '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td>' +
-                                        '<a class="blue" href="/distributor/distributorEdit/'+value.id+
-                                        '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-                						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
-                                        '</td></tr>';        
-                            });
+	            					'</td><td>'+ value.id +'</td><td>'+ level + 
+	                                '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td id="money'+value.id+'">￥' + value.balance +
+	                                '</td><td><a class="blue" href="/distributor/distributorEdit/'+value.id+
+	                                '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
+	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
+	        						'<a class="green chargeBtn" data-toggle="modal" data-target="#rechargeModal" id="charge,'+value.id+'"><i class="ace-icon fa fa-check"></i>&nbsp;账户充值&nbsp;&nbsp;</a>'+
+	                                '</td></tr>'; 
+            				});
             				$("#content-table").empty();
                             $("#content-table").append(para);
                             $("#statics").html('总记录数： '+data.total);
+                            
                             $('.deleteBtn').click(function(){
                         		var id = $(this).attr('id');
                         		var url= "/distributor/distributorDelete/"+id;
                         		$("#deleteUrl").attr("href",url); 
                         		return true;
                         	});
+                            
+                            $('.chargeBtn').on('click',function(){
+                            	var id = $(this).attr('id').split(',')[1];
+                            	$('#rechargeDistributorId').val(id);
+                            	return true;
+                            });
+                            
                         }
                     }
                 });
@@ -240,10 +275,37 @@ $(function (){
         		$("#deleteUrl").attr("href",url); 
         		return true;
         	});
+            
+            $('.chargeBtn').on('click',function(){
+            	var id = $(this).attr('id').split(',')[1];
+            	$('#rechargeDistributorId').val(id);
+            	return true;
+            });
+            
+            $('#rechargeForm').on('submit',function(){
+            	var money = $('#money').val();
+            	if(money === '' || isNaN(money) || money <= 0){
+            		alert('请输入合格的金额');
+            		return false;
+            	}
+            	
+            	$.ajax({
+					type:'GET',
+					url:'/distributor/recharge/'+ $('#rechargeDistributorId').val() +'/' +$('#money').val(),
+					success: function(data){
+						if(data.success){
+							var v = '#money'+$('#rechargeDistributorId').val();
+							$(v).html('￥' + data.content);
+							$('#rechargeModal').modal('hide')
+						}else{
+							alert('充值失败');
+						}
+					}
+            	})
+            	return false;
+            });
 		}
 	}
-	
-
 })
 
 </script>

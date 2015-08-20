@@ -132,8 +132,8 @@ $(document).ready(function(){
     		},
     		success: function(data) {
     			if(data.success){
-    				//$("#content-table").empty();
-    				$("#content-table").html('<tr><td colspan="5">订单下暂无商品</td></tr>');
+    				$("#content-table").empty();
+    				$("#content-table").append('<tr><td colspan="5">订单下暂无商品</td></tr>');
     				$("#totalPrice").text(0);
     			}
     		}
