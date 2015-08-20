@@ -48,7 +48,10 @@ public class CommodityController extends BaseController{
 		    
 		    List<Commodity> commoditys = commodityMapper.selectSelective(param);
 		    for(Commodity commodity : commoditys){
-		    	commodity.setCategoryName(categoryMapper.selectByPrimaryKey(commodity.getCategoryId()).getName());
+		    	Category category = categoryMapper.selectByPrimaryKey(commodity.getCategoryId());
+		    	if (category != null) {
+		    		commodity.setCategoryName(category.getName());
+		    	} 
 		    }
 		    int total = commodityMapper.countSelectSelective(param);
 		    List<Category> categories = categoryMapper.selectAllCategorys();
