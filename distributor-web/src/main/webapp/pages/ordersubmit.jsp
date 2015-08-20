@@ -133,7 +133,9 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+	var ids= new Array();
 	//添加商品
+	/*
 	var ids= new Array();
 	$('#addCommodityForm').bind('submit', function(){
 		var commodityId = $("#commodityId").val();
@@ -152,22 +154,19 @@ $(document).ready(function(){
     				var totalPrice = 0;
     				ids.push($("#commodityId").val());
         			$(data.content).each(function (key,value) { //遍历返回的json                     
-                        t += '<tr class="for-total-price" data-id="'+ ids[key] +'"><td>'+ value.name +'</td><td>'+ value.priceDisplay + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                        t += '<tr class="for-total-price" data-id="'+ ids[key] +'"><td>'+ value.name +'</td><td>'+ value.displayPrice + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
                         		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
-                        		+ value.priceDisplay * 1 + '</td><td>'
+                        		+ value.displayPrice * 1 + '</td><td>'
     							+ '<a href="/distributor/deleteCommodity/' 
     							+ value.id + '" class="orange"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
                         		+ '</td></tr>';
-                        totalPrice += parseFloat(value.priceDisplay);
+                        totalPrice += parseFloat(value.displayPrice);
                     });
         			
         			$("#content-table").empty();
                     $("#content-table").append(t);
                     $("#totalPrice").text(totalPrice);
                     $("#content-table").find('.subtracting').addClass("disable-background");
-                    /* if($('.for-total-price').data('id') === ''){
-                    	$('.for-total-price').attr("data-id",$("#commodityId").val())
-                    } */
                     
                     
     			} else{
@@ -179,6 +178,33 @@ $(document).ready(function(){
     		}
     	});
         return false;
+    });****/
+    
+    $.ajax({
+    	type:'GET',
+    	url:'/distributor/orderCommodity/list',
+    	success: function(data){
+    		if (data.success){
+    			var t = "";
+				var totalPrice = 0;
+				ids.push($("#commodityId").val());
+    			$(data.content).each(function (key,value) { //遍历返回的json                     
+                    t += '<tr class="for-total-price" data-id="'+ ids[key] +'"><td>'+ value.name +'</td><td>'+ value.displayPrice + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                    		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
+                    		+ value.displayPrice * 1 + '</td><td>'
+							+ '<a href="/distributor/deleteCommodity/' 
+							+ value.id + '" class="orange"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
+                    		+ '</td></tr>';
+                    totalPrice += parseFloat(value.displayPrice);
+                });
+    			
+    			$("#content-table").empty();
+                $("#content-table").append(t);
+                $("#totalPrice").text(totalPrice);
+    		} else {
+    			
+    		}
+    	}
     });
     
 	//减少商品数量
@@ -268,8 +294,6 @@ $(document).ready(function(){
     	
     });
   
-  
-	
     //校验分销商
     $('#checkDistributorForm').bind('submit', function(){
     	$.ajax({

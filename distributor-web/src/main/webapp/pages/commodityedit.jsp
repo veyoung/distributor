@@ -118,14 +118,18 @@
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-var strs= new Array(); //定义一数组 
-strs = '${categoriesStr}'.split(";"); ///字符分割 
-for(i = 0; i < strs.length-1; i++){ 
-	var ss = new Array();
-	ss = strs[i].split(',');
-	var item = new Option(ss[1], ss[0]);  
-    $("#category").append(item);  
-} 
+$(function (){
+	var strs= new Array(); //定义一数组 
+	strs = '${categoriesStr}'.split(";"); ///字符分割 
+	for(i = 0; i < strs.length-1; i++){ 
+		var ss = new Array();
+		ss = strs[i].split(',');
+		var item = new Option(ss[1], ss[0]);  
+	    $("#category").append(item);  
+	} 
+	$('#category').val('${commodity.categoryId}');
+});
+
 </script>
 </body>
 </html>

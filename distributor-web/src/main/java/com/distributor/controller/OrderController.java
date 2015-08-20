@@ -108,10 +108,6 @@ public class OrderController extends BaseController{
 					Distributor bossDistributor = distributorMapper.selectByPrimaryKey(distributorInclude.getParentId());
 					orderRecord.setBossDistributor(bossDistributor);
 				}
-				
-				/*orderRecord.setDisplayMoney(CommonUtils.intPrice2Float(orderRecord.getMoney()));
-				orderRecord.setDisplayCommission(CommonUtils.intPrice2Float(orderRecord.getCommission()));
-				orderRecord.setDisplayCreateTime(format2.format(orderRecord.getCreateTime()));*/
 			}
 			
 			Map<String, Object> result = success(orders);

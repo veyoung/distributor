@@ -26,6 +26,23 @@ public class OrderCommodityIncludeController extends BaseController{
 	@Autowired
 	CommodityMapper  commodityMapper;
 	
+	//列出所有的元素
+	@RequestMapping(value = "orderCommodity/list", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> orderCommodityList(){
+		try {
+			List<OrderCommodityInclude> orderCommodityIncludes = orderCommodityIncludeMapper.selectAllLatest();
+			List<Commodity> commodities = new ArrayList<Commodity>();
+			for(OrderCommodityInclude orderCommodityInclude : orderCommodityIncludes){
+				Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());
+				commodities.add(commodity);
+			}
+			return success(commodities);
+		} catch (Exception e) {
+			return fail();
+		}
+	}
+	
 	@RequestMapping(value = "addCommodity/{commodityId}", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> addCommodity(

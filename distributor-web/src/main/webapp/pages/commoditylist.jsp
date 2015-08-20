@@ -142,12 +142,12 @@
 	<div class="row">
 		<table class="table table-striped table-hover">
 			<tr class="table-title-blue">
-			<td width="25%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称</td>
-			<td width="15%">商品分类</td>
+			<td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称</td>
+			<td width="10%">商品分类</td>
 			<td width="15%">商品ID</td>
-			<td width="15%">商品价格(元)</td>
+			<td width="10%">商品价格(元)</td>
 			<td width="15%">商品说明</td>
-			<td width="20%">操作</td></tr>
+			<td width="30%">操作</td></tr>
 			<tbody id="content-table"></tbody>
 		</table>
 		<div style="background-color:#eff3f8;height:60px;margin-top:-20px">
@@ -188,7 +188,6 @@ $(function(){
 		var name = $('#commodityName').val();
 		var brand = $('#commodityBrand').val();
 		var price = $('#commodityPrice').val();
-		var description = $('#commodityDescription').val();
 		if(name === ''){
 			$('#tips').text('请输入商品名');
 			return false;
@@ -212,7 +211,7 @@ $(function(){
 	 		coreFunction(data);
 	 		
 		}
-	})
+	});
 	
 	//核心方法
 	function coreFunction(data){
@@ -224,8 +223,8 @@ $(function(){
                         '</td><td>'+ value.description +'</td><td>'+
                         '<a class="blue" href="/distributor/commodity/'+value.id+
                         '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
-                        '</td></tr>';        
+						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
+						 '<a class="blue add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-trash-o">&nbsp;加入订单</a></td></tr>';        
             });
 			$("#content-table").empty();
             $("#content-table").append(para);
@@ -260,8 +259,8 @@ $(function(){
 	                                '</td><td>'+ value.description +'</td><td>'+
 	                                '<a class="blue" href="/distributor/commodity/'+value.id+
 	                                '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
-	                                '</td></tr>';        
+	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'+
+	        						'<a class="blue" id="'+value.id+'</a><a class="blue add2Order" id="add,'+value.id+'">&nbsp;&nbsp;加入订单</a></td></tr>';        
                             });
                 			$("#content-table").empty();
                             $("#content-table").append(para);
@@ -277,6 +276,22 @@ $(function(){
                 });
             };
             
+            $('.add2Order').click(function(){
+            	var id = $(this).attr('id').split(',')[1];
+            	$.ajax({
+            		type:'GET',
+            		url:'/distributor/addCommodity/' + id,
+            		success: function(data){
+            			if (data.success) {
+            				alert('商品添加成功');
+            			} else {
+            				alert(data.content);
+            			}
+            		}
+            	});
+            	return false;
+            });
+            
             $('.deleteBtn').click(function(){
         		var id = $(this).attr('id');
         		var url= "/distributor/commodity/delete/"+id;
@@ -286,7 +301,7 @@ $(function(){
             
     		var strs= new Array(); //定义一数组 
     		strs = data.categoriesStr.split(";"); ///字符分割 
-    		for(i = 0; i < strs.length-1; i++){ 
+    		for(var i = 0; i < strs.length-1; i++){ 
     			var ss = new Array();
     			ss = strs[i].split(',');
     			var item = new Option(ss[1], ss[0]);  
