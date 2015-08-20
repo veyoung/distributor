@@ -114,7 +114,7 @@ $(function(){
 		}
 		
 		Date.prototype.format = function(fmt)   
-		{ //author: meizz   
+		{   
 		  var o = {   
 		    "M+" : this.getMonth()+1,                 //月份   
 		    "d+" : this.getDate(),                    //日   
@@ -139,8 +139,8 @@ $(function(){
 				if(data.success){
 					var para = '';
 					$(data.content).each(function (key,value) { //遍历返回的json   
-						para += '<tr><td>'+ new Date(value.createTime).format("yyyy-MM-dd hh:mm:ss") + 
-		                        '</td><td>￥'+ value.money/100 +'</td><td>￥'+ (value.commission == null ? 0 : value.commission) + 
+						para += '<tr><td>'+ value.displayCreateTime + 
+		                        '</td><td>￥'+ value.displayMoney +'</td><td>￥'+ value.displayCommission + 
 		                        '</td></tr>';
 		            });
 					$("#content-table").empty();

@@ -171,7 +171,10 @@ public class OrderRecord {
         this.createTime = createTime;
     }
 
-    /*public float getDisplayMoney() {
+    public float getDisplayMoney() {
+    	if(getMoney() == null){
+    		return 0;
+    	}
 		return CommonUtils.intPrice2Float(getMoney());
 	}
 
@@ -180,6 +183,9 @@ public class OrderRecord {
 	}
 
 	public float getDisplayCommission() {
+		if(getCommission() == null){
+			return 0;
+		}
 		return CommonUtils.intPrice2Float(getCommission());
 	}
 
@@ -188,13 +194,16 @@ public class OrderRecord {
 	}
 
 	public String getDisplayCreateTime() {
+		if(getCommission() == null){
+			return "";
+		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return format.format(getCreateTime());
 	}
 
 	public void setDisplayCreateTime(String displayCreateTime) {
 		
-	}*/
+	}
 
 	public Distributor getOrderDistributor() {
 		return orderDistributor;
