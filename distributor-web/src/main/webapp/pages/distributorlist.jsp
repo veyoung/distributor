@@ -177,7 +177,8 @@ $(function (){
                         '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td>' +
                         '<a class="blue" href="/distributor/distributorEdit/'+value.id+
                         '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
+						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'+
+						'<a class="blue" id="charge,'+value.id+'"><i class="ace-icon fa fa-pencil"></i>&nbsp;账户充值&nbsp;&nbsp;</a>'+
                         '</td></tr>';        
             });
 			$("#content-table").empty();

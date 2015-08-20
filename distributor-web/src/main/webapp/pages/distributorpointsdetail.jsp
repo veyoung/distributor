@@ -59,6 +59,26 @@
 			<div class="col-sm-9"><div id="pagination" style="float:right"></div></div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   		aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+   		<div class="modal-dialog">
+      		<div class="modal-content">
+         		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<h4 class="modal-title" id="myModalLabel">
+              		提示
+            	</h4>
+         		</div>
+         		<div class="modal-body"></div>
+         		<div class="modal-footer">
+            		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            		<button type="button" class="btn btn-primary btn-ok">确定</button>
+         		</div>
+      		</div>
+		</div>
+	</div>
+	
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
@@ -71,20 +91,32 @@ $(function(){
 	$('#startTime').datepicker();         
 	$('#endTime').datepicker();   
 	$('#distributorCommissionForm').on('submit',function(){
+		var distributorId = '';
+		var startTime = '';
+		var endTime = '';
 		if($('#distributorId').val() == ''){
-			alert('请输入分销商ID');
+			$('#myModal').modal('show');
+			$('.modal-body').html('请输入分销商ID');
+			$('.btn-ok').attr("style","display:none;");
+			//alert('请输入分销商ID');
 			return false;
+		}else{
+			distributorId = $('#distributorId').val()
 		}
 		if($('#startTime').val() == ''){
-			alert('请选择起始日期');
-			return false;
+			startTime = 0 + '' 
+		}
+		else{
+			startTime = $('#startTime').val()
 		}
 		if($('#endTime').val() == ''){
-			alert('请选择截止日期');
-			return false;
+			endTime = 0 + ''
+		}else{
+			endTime = $('#endTime').val()
 		}
+		
 		$.ajax({
-			url:'/distributor/distributorCommission/list/' + $('#distributorId').val() +'/' + $('#startTime').val() +'/'+$('#endTime').val() +'/0',
+			url:'/distributor/distributorCommission/list/' + distributorId +'/' + startTime +'/'+ endTime +'/0',
 			type:'GET',
 			success: function(data) {
 				if(data.success){
@@ -92,7 +124,7 @@ $(function(){
 					$(data.content).each(function (key,value) { //遍历返回的json   
 						para += '<tr><td>'+ value.displayCreateTime + 
 		                        '</td><td>￥'+ value.displayCommission +'</td><td>￥'+ value.displayTotalCommission + 
-		                        '</td><td>查看</td></tr>';
+		                        '</td><td class="detail" data-id=' + value.orderId + '>查看</td></tr>';
 		            });
 					$("#content-table").empty();
 		            $("#content-table").append(para);
@@ -113,14 +145,14 @@ $(function(){
 		            function PageCallback(index, jq) {
 		                $.ajax({
 		                    type: 'GET',
-		                    url: '/distributor/distributorOrder/list/' + $('#distributorId').val() +'/' + $('#startTime').val() +'/'+$('#endTime').val() +'/'+index,
+		                    url: '/distributor/distributorOrder/list/' + distributorId +'/' + startTime +'/'+ endTime +'/'+index,
 		                    success: function(data) {
 		                    	if(data.success){
 		                    		var para = '';
 			        				$(data.content).each(function (key,value) { //遍历返回的json   
 			        					para += '<tr><td>'+ value.displayCreateTime + 
 			        	                        '</td><td>￥'+ value.displayMoney +'</td><td>￥'+ value.displayCommission + 
-			        	                        '</td><td>查看</td></tr>';
+			        	                        '</td><td class="detail" data-id=' + value.orderId + '>查看</td></tr>';
 			        	            });
 			        				$("#content-table").empty();
 			        	            $("#content-table").append(para);
@@ -134,6 +166,21 @@ $(function(){
 		});
 		return false;
 	});
+	
+	$("#content-table").on('click', '.detail', function(){
+		var orderId = $(this).data("id")
+		 $.ajax({
+		         	type: 'GET',
+		            url: '/distributor/distributorOrder/list/' + orderId,
+		            success: function(data) {
+		            	if(data.success){
+		            		
+		            	}
+		            }
+		 })
+		
+	});
+	
 });       
 </script>
 </body>

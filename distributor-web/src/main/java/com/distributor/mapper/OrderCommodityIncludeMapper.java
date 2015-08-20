@@ -57,6 +57,8 @@ public interface OrderCommodityIncludeMapper {
     
     List<OrderCommodityInclude> selectAllLatest();
     
+    List<OrderCommodityInclude> selectAllLatestByOrderId(Long orderId);
+    
     void setAllLatestWithOrderId(Long oderId);
     
     int deleteLatestByCommodityId(Long commodityId);

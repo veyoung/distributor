@@ -183,18 +183,21 @@ public class OrderController extends BaseController{
 		try {
 			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("startTime", format1.parse(startTime));
-			param.put("endTime", format1.parse(endTime));
+			if(!startTime.equals("0")){
+				param.put("startTime", format1.parse(startTime));
+			}
+			if(!endTime.equals("0")){
+				param.put("endTime", format1.parse(endTime));
+			}
 			param.put("pageSize", ConstantVariable.Pagesize);
 			param.put("offset", page * ConstantVariable.Pagesize);
 			param.put("distributorId", distributorId);
-			
 			List<DistributorCommission> commisssions = distributorCommissionMapper.selectCommissionsSelective(param);
 			
-			for(DistributorCommission commisssion : commisssions){
-				//Distributor orderDistributor = distributorMapper.selectByPrimaryKey(order.getDistributorId());
-				//order.setOrderDistributor(orderDistributor);
-			}
+			/*for(DistributorCommission commisssion : commisssions){
+				Distributor orderDistributor = distributorMapper.selectByPrimaryKey(order.getDistributorId());
+				order.setOrderDistributor(orderDistributor);
+			}*/
 			int total = distributorCommissionMapper.getCountSelective(param);
 			
 			Map<String, Object> result = success(commisssions);
@@ -205,4 +208,22 @@ public class OrderController extends BaseController{
 			return fail();
 		}
 	}
+	
+	/**
+	 * 查看积分详情
+	 * @return
+	 */
+	@RequestMapping("distributorOrder/list/{orderId}")
+	@ResponseBody
+	public Object getCommissionDetail(@PathVariable("orderId") Long orderId){
+		
+		List<OrderCommodityInclude> list = orderCommodityIncludeMapper.selectAllLatestByOrderId(orderId);
+		for(OrderCommodityInclude orderCommodityInclude : list){
+			if(orderCommodityInclude.getCommodityId() != null){
+				
+			}
+		}
+		return null;
+	}
+	
 }
