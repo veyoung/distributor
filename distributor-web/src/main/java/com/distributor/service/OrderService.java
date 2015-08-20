@@ -201,7 +201,7 @@ public class OrderService{
 				distributorMapper.updateByPrimaryKeySelective(record);
 				distributorBalanceMapper.insertSelective(distributorBalance);
 			}else{
-				return null;
+				//return null;
 			}
 			
 			

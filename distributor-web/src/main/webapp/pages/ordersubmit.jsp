@@ -19,14 +19,14 @@
 		</h4>
 	</div>
 	<div class="row">  
-		<form class="form-horizontal" id="addCommodityForm" role="form">
+		<form class="form-horizontal" id="clearCommodityForm" role="form">
 		 <div class="form-group">
-			<label class="col-sm-2 control-label" for="distributorName">商品ID</label>
+			<!-- <label class="col-sm-2 control-label" for="distributorName">商品ID</label>
 			<div class="col-sm-4">
 				<input type="text" class="form-control" id="commodityId" placeholder="输入商品ID">
-			</div>
-			<div class="col-sm-4">
-				<button type="submit" class="btn btn-primary">添加商品</button>
+			</div> -->
+			<div style="float:right;margin-right:33px;">
+				<button type="submit" class="btn btn-danger"><i class="ace-icon fa fa-trash-o"></i>&nbsp;清空商品</button>
 			</div>
 		 </div>
 		</form>
@@ -133,7 +133,26 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	var ids= new Array();
+	//清空商品
+	$('#clearCommodityForm').bind('submit', function(){
+		$.ajax({
+    		type: "delete",
+    		url:"/distributor/clearCommodity/",
+    		error: function(request) {
+    			$('#myModal').modal('show');
+    			$('.modal-body').html('清空商品失败！');
+    			$('.btn-ok').attr("style","display:none;");
+    			//alert("发送请求失败！");
+    		},
+    		success: function(data) {
+    			if(data.success){
+    				$("#content-table").empty();
+    				$("#totalPrice").text(0);
+    			}
+    		}
+		});
+	})	
+	
 	//添加商品
 	/*
 	var ids= new Array();
@@ -187,9 +206,8 @@ $(document).ready(function(){
     		if (data.success){
     			var t = "";
 				var totalPrice = 0;
-				ids.push($("#commodityId").val());
     			$(data.content).each(function (key,value) { //遍历返回的json                     
-                    t += '<tr class="for-total-price" data-id="'+ ids[key] +'"><td>'+ value.name +'</td><td>'+ value.displayPrice + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                    t += '<tr class="for-total-price" data-id="'+ value.id +'"><td>'+ value.name +'</td><td>'+ value.displayPrice + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
                     		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
                     		+ value.displayPrice * 1 + '</td><td>'
 							+ '<a href="/distributor/deleteCommodity/' 
@@ -201,6 +219,7 @@ $(document).ready(function(){
     			$("#content-table").empty();
                 $("#content-table").append(t);
                 $("#totalPrice").text(totalPrice);
+                $('.subtracting').addClass("disable-background");
     		} else {
     			
     		}

@@ -84,6 +84,18 @@ public class OrderCommodityIncludeController extends BaseController{
 		}
 	}
 	
+	
+	@RequestMapping(value = "clearCommodity", method=RequestMethod.DELETE)
+	@ResponseBody
+	public Map<String, Object> clearCommodity() {
+		try {
+			orderCommodityIncludeMapper.updateAllLatest();
+			return success();
+		} catch (Exception e) {
+			return fail();
+		}
+	}
+	
 	@RequestMapping(value = "addCommodityCount/{commodityId}", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> addCommodityCount(
@@ -104,6 +116,7 @@ public class OrderCommodityIncludeController extends BaseController{
 			return fail();
 		}
 	}
+	
 	
 	@RequestMapping(value = "subtractCommodityCount/{commodityId}", method=RequestMethod.GET)
 	@ResponseBody
