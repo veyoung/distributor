@@ -230,7 +230,7 @@
     select 'false' as QUERYID,
     <include refid="Base_Column_List" />
     from commodity
-    where status = 1
+    where status = 1 order by category_id 
     <if test="pageSize != null" >
         limit #{offset, jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </if>
@@ -248,11 +248,11 @@
     where category_id = #{categoryId,jdbcType=BIGINT}
   </update>
  
-  <select id="selectByName" resultMap="BaseResultMap" >
+  <select id="selectByNameAndBrand" resultMap="BaseResultMap" >
     select 'false' as QUERYID,
     <include refid="Base_Column_List" />
     from commodity
-    where status = 1 and name = #{name,jdbcType=VARCHAR}
+    where status = 1 and name = #{name,jdbcType=VARCHAR} and brand = #{brand,jdbcType=VARCHAR}
   </select>    
   
    <select id="selectWithSearhName" resultMap="BaseResultMap" >

@@ -61,7 +61,7 @@ public interface CommodityMapper {
     //删除某个类目下的所有商品
     int deleteByCategoryId(Long categoryId);
     
-    Commodity selectByName(String name);
+    Commodity selectByNameAndBrand(Map<String, Object> param);
     
     Commodity selectWithSearhName(String name);
 }

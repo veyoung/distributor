@@ -36,7 +36,7 @@
                         <span class="pull-right glyphicon glyphicon-chevron-toggle"></span>
                     </a>
                     <ul id="orderManage" class="nav nav-list secondmenu collapse" style="height: 0px;">
-                        <li><a href="/distributor/ordersubmit" target="view_window"><i class="glyphicon glyphicon-th-list"></i>&nbsp;订单消费</a></li>
+                        <li><a href="/distributor/pages/ordersubmit.jsp" target="view_window"><i class="glyphicon glyphicon-th-list"></i>&nbsp;订单消费</a></li>
                         <li><a href="/distributor/pages/orderlist.jsp" target="view_window"><i class="glyphicon glyphicon-asterisk"></i>&nbsp;订单列表</a></li>
                     </ul>
                 </li>

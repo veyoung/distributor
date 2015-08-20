@@ -154,7 +154,10 @@ public class CommodityController extends BaseController{
 			@RequestParam(value="diamondDiamond", required = true) String diamondDiamond,
 			@RequestParam(value="description", required = false) String description){
 		try {
-			if(commodityMapper.selectByName(name) != null){
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("name", name);
+			param.put("brand", brand);
+			if(commodityMapper.selectByNameAndBrand(param) != null){
 				return "error";//商品已存在
 			}
 			
