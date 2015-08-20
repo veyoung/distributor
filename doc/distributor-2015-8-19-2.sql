@@ -100,7 +100,7 @@ CREATE TABLE `distributor_commission` (
   `order_id` bigint(20) NOT NULL,
   `commission` int(11) DEFAULT NULL COMMENT '本次获得的提成',
   `totalCommission` int(11) DEFAULT NULL COMMENT '提成总数',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `create_time` datetime DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -149,7 +149,7 @@ CREATE TABLE `order_record` (
   `id` bigint(20) NOT NULL,
   `distributor_id` bigint(20) NOT NULL COMMENT '所属经销商',
   `money` int(11) NOT NULL COMMENT '订单金额',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -165,7 +165,7 @@ CREATE TABLE `system_log` (
   `id` bigint(20) NOT NULL,
   `content` varchar(256) NOT NULL,
   `use_id` bigint(20) NOT NULL,
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -185,7 +185,7 @@ CREATE TABLE `user` (
   `mobile` varchar(11) NOT NULL,
   `status` int(11) NOT NULL COMMENT '状态：1、新建，2、审核通过，3、审核拒绝',
   `details` varchar(50) DEFAULT NULL COMMENT '备注',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
