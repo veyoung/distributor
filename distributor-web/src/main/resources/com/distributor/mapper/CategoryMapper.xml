@@ -120,4 +120,20 @@
       parent_id = #{parentId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+  <select id="selectAllCategorysSelective" resultMap="BaseResultMap">
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from category
+    <if test="pageSize != null">
+        limit #{offset,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </if>
+  </select>  
+  
+
+  <select id="getCountSelectAllCategorysSelective" resultType="java.lang.Integer">
+    select count(*)
+    from category
+  </select>    
 </mapper>

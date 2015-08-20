@@ -34,21 +34,7 @@
 	<table class="table table-striped table-hover data-table">
 		<tr class="table-title-blue">
 		<td>商品名</td><td>单价(元)</td><td>数量</td><td>总价(元)</td><td>操作</td></tr>
-		<tbody id="content-table">
-			<c:if test="${commodities == '' }">
-				<tr><td colspan="5">暂无商品</td></tr>
-			</c:if>
-			<c:if test="${commodities != '' }">
-				<c:forEach items="${commodities}" var="item">
-					<tr>
-						<td>${item.name}</td>
-						<td>${item.priceDisplay}</td>
-						<td>1</td>
-						<td>${item.priceDisplay}</td>
-						<td><a href="/distributor/deleteCommodity/${item.name}" class="orange"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a></td></tr>
-				</c:forEach>
-			</c:if>
-		</tbody>
+		<tbody id="content-table"></tbody>
 	</table>
 	
 	<div class="row" style="border:1px solid #ddd;margin:0 5px 0 5px">
@@ -147,6 +133,7 @@ $(document).ready(function(){
     		success: function(data) {
     			if(data.success){
     				$("#content-table").empty();
+    				$("#content-table").append('<tr><td colspan="5">订单下暂无商品</td></tr>');
     				$("#totalPrice").text(0);
     			}
     		}

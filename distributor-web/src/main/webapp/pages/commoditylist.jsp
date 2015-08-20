@@ -224,11 +224,12 @@ $(function(){
                         '<a class="blue" href="/distributor/commodity/'+value.id+
                         '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
 						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
-						 '<a class="blue add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-trash-o">&nbsp;加入订单</a></td></tr>';        
+						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a></td></tr>';        
             });
 			$("#content-table").empty();
             $("#content-table").append(para);
             $("#statics").html('总记录数： '+data.total);
+            
             //分页，PageCount是总条目数，这是必选参数，其它参数都是可选
             $('#pagination').pagination(data.total, {
                 callback: PageCallback, 
@@ -255,12 +256,12 @@ $(function(){
                         	var para = '';
                 			$(data.content).each(function (key,value) { //遍历返回的json   
                 				para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ value.brand+'·'+value.name + '</td><td>'
-	        						+ value.categoryName +'</td><td>'+ value.id +'</td><td>'+ value.displayPrice + 
+                					+ value.categoryName +'</td><td>'+ value.id +'</td><td>'+ value.displayPrice + 
 	                                '</td><td>'+ value.description +'</td><td>'+
 	                                '<a class="blue" href="/distributor/commodity/'+value.id+
 	                                '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'+
-	        						'<a class="blue" id="'+value.id+'</a><a class="blue add2Order" id="add,'+value.id+'">&nbsp;&nbsp;加入订单</a></td></tr>';        
+	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
+	        						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a></td></tr>';        
                             });
                 			$("#content-table").empty();
                             $("#content-table").append(para);
@@ -271,6 +272,23 @@ $(function(){
                         		$("#deleteUrl").attr("href",url); 
                         		return true;
                         	});
+                            
+                            $('.add2Order').click(function(){
+                            	var id = $(this).attr('id').split(',')[1];
+                            	$.ajax({
+                            		type:'GET',
+                            		url:'/distributor/addCommodity/' + id,
+                            		success: function(data){
+                            			if (data.success) {
+                            				alert('商品添加成功');
+                            			} else {
+                            				alert(data.content);
+                            			}
+                            		}
+                            	});
+                            	return false;
+                            });
+                            
                         }
                     }
                 });

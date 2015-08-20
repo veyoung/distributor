@@ -1,6 +1,7 @@
 package com.distributor.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.distributor.model.Category;
 
@@ -54,4 +55,8 @@ public interface CategoryMapper {
     int updateByPrimaryKey(Category record);
     
     List<Category> selectAllCategorys();
+    
+    List<Category> selectAllCategorysSelective(Map<String, Object> param);
+    
+    int getCountSelectAllCategorysSelective(Map<String, Object> param);
 }
