@@ -90,7 +90,7 @@ public class OrderService{
 			//写distributor_balance
 			DistributorBalance distributorBalance = new DistributorBalance();
 			distributorBalance.setId(IdGenerator.getInstance().nextId());
-			distributorBalance.setDistributorId(null);
+			distributorBalance.setDistributorId(distributorId);
 			distributorBalance.setCreateTime(new Date());
 			distributorBalance.setBalanceChange(-(int)(totalPrice*100));
 			Distributor distributorDb = distributorMapper.selectByPrimaryKey(distributorId);
