@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.distributor.mapper.CommodityMapper;
 import com.distributor.mapper.DistributorBalanceMapper;
+import com.distributor.mapper.DistributorCommissionCommodityMapper;
 import com.distributor.mapper.DistributorCommissionMapper;
 import com.distributor.mapper.DistributorIncludeMapper;
 import com.distributor.mapper.DistributorMapper;
@@ -21,6 +22,7 @@ import com.distributor.model.Commodity;
 import com.distributor.model.Distributor;
 import com.distributor.model.DistributorBalance;
 import com.distributor.model.DistributorCommission;
+import com.distributor.model.DistributorCommissionCommodity;
 import com.distributor.model.DistributorInclude;
 import com.distributor.model.OrderCommodityInclude;
 import com.distributor.model.OrderRecord;
@@ -42,6 +44,8 @@ public class OrderService{
 	OrderRecordMapper orderRecordMapper;
 	@Autowired
 	DistributorCommissionMapper distributorCommissionMapper;
+	@Autowired
+	DistributorCommissionCommodityMapper distributorCommissionCommodityMapper;
 	
 	@Transactional
 	public OrderRecord submitOrder(Long distributorId, Float totalPrice){
@@ -60,155 +64,29 @@ public class OrderService{
 			orderRecordMapper.insertSelective(order);
 			
 			List<OrderCommodityInclude> orderCommodityIncludes = orderCommodityIncludeMapper.selectAllLatest();
-			Integer[] commissions = new Integer[6];
-			Long[] ditributors = new Long[6];
-			int commissionPrice = 0;
-			for(OrderCommodityInclude orderCommodityInclude : orderCommodityIncludes){
-				Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());
-				Integer commodityNum = orderCommodityInclude.getCommodityCount();
-				//totalPrice += commodity.getPrice()*commodityNum;
-				if(getLevel(distributorId) == 3){//vip-vip 自己积分 没有下级
-					commissionPrice = commodity.getVipVip()*commodityNum;
-					DistributorCommission distributorCommission = new DistributorCommission();
-					distributorCommission.setId(IdGenerator.getInstance().nextId());
-					distributorCommission.setDistributorId(distributorId);
-					distributorCommission.setOrderId(order.getId()); 
-					distributorCommission.setCommission(commissionPrice);
-					DistributorCommission dc = distributorCommissionMapper.selectLatestRecordById(distributorId);
-					if(dc == null){
-						distributorCommission.setTotalcommission(commissionPrice);
-					}else{
-						if(dc.getTotalcommission() != null){
-							Integer totalcommission = dc.getTotalcommission() + commissionPrice;
-							distributorCommission.setTotalcommission(totalcommission);
-						}
-					}
-					distributorCommission.setCreateTime(new Date());
-					distributorCommissionMapper.insertSelective(distributorCommission);
-					ditributors[0] = distributorId;
-					commissions[0] +=  commissionPrice;
-					if(hasSuperior(distributorId) != null){//vip-gold 有上级  上级积分
-						Long  superiorId = hasSuperior(distributorId);
-						commissionPrice = commodity.getVipGold()*commodityNum;
-						DistributorCommission distributorCommissionP = new DistributorCommission();
-						distributorCommissionP.setId(IdGenerator.getInstance().nextId());
-						distributorCommissionP.setDistributorId(superiorId);
-						distributorCommissionP.setOrderId(order.getId()); 
-						distributorCommissionP.setCommission(commissionPrice);
-						DistributorCommission dcp = distributorCommissionMapper.selectLatestRecordById(superiorId);
-						if(dcp == null){
-							distributorCommissionP.setTotalcommission(commissionPrice);
-						}else{
-							if(dcp.getTotalcommission() != null){
-								Integer totalcommission = dcp.getTotalcommission() + commissionPrice;
-								distributorCommissionP.setTotalcommission(totalcommission);
-							}
-						}
-						distributorCommissionP.setCreateTime(new Date());
-						distributorCommissionMapper.insertSelective(distributorCommissionP);
-						ditributors[1] = superiorId;
-						commissions[1] +=  commissionPrice;
-					}
-					if(hasSuperiorDouble(distributorId) != null){//vip-diamond有双层上级  上上级积分
-						Long superiorDoubleId = hasSuperiorDouble(distributorId);
-						commissionPrice = commodity.getVipDiamond()*commodityNum;
-						DistributorCommission distributorCommissionPP = new DistributorCommission();
-						distributorCommissionPP.setId(IdGenerator.getInstance().nextId());
-						distributorCommissionPP.setDistributorId(superiorDoubleId);
-						distributorCommissionPP.setOrderId(order.getId()); 
-						distributorCommissionPP.setCommission(commissionPrice);
-						DistributorCommission dcpp = distributorCommissionMapper.selectLatestRecordById(superiorDoubleId);
-						if(dcpp == null){
-							distributorCommissionPP.setTotalcommission(commissionPrice);
-						}else{
-							if(dcpp.getTotalcommission() != null){
-								Integer totalcommission = dcpp.getTotalcommission() + commissionPrice;
-								distributorCommissionPP.setTotalcommission(totalcommission);
-							}
-						}
-						distributorCommissionPP.setCreateTime(new Date());
-						distributorCommissionMapper.insertSelective(distributorCommissionPP);
-						ditributors[2] = superiorDoubleId;
-						commissions[2] +=  commissionPrice;
-					}
-				}else if(getLevel(distributorId) == 2){//有上级且有下级 自己积分
-					commissionPrice = commodity.getGoldGold()*commodityNum;
-					DistributorCommission distributorCommission = new DistributorCommission();
-					distributorCommission.setId(IdGenerator.getInstance().nextId());
-					distributorCommission.setDistributorId(distributorId);
-					distributorCommission.setOrderId(order.getId()); 
-					distributorCommission.setCommission(commissionPrice);
-					DistributorCommission dc = distributorCommissionMapper.selectLatestRecordById(distributorId);
-					if(dc == null){
-						distributorCommission.setTotalcommission(commissionPrice);
-					}else{
-						if(dc.getTotalcommission() != null){
-							Integer totalcommission = dc.getTotalcommission() + commissionPrice;
-							distributorCommission.setTotalcommission(totalcommission);
-						}
-					}
-					distributorCommission.setCreateTime(new Date());
-					distributorCommissionMapper.insertSelective(distributorCommission);
-					ditributors[3] = distributorId;
-					commissions[3] +=  commissionPrice;
-					//上级积分
-					if(hasSuperior(distributorId) != null){
-						Long superiorId = hasSuperior(distributorId);
-						commissionPrice = commodity.getGoldDiamond()*commodityNum;
-						DistributorCommission distributorCommissionP = new DistributorCommission();
-						distributorCommissionP.setId(IdGenerator.getInstance().nextId());
-						distributorCommissionP.setDistributorId(superiorId);
-						distributorCommissionP.setOrderId(order.getId()); 
-						distributorCommissionP.setCommission(commissionPrice);
-						DistributorCommission dcp = distributorCommissionMapper.selectLatestRecordById(distributorId);
-						if(dcp == null){
-							distributorCommissionP.setTotalcommission(commissionPrice);
-						}else{
-							if(dcp.getTotalcommission() != null){
-								Integer totalcommission = dcp.getTotalcommission() + commissionPrice;
-								distributorCommissionP.setTotalcommission(totalcommission);
-							}
-						}
-						distributorCommissionP.setCreateTime(new Date());
-						distributorCommissionMapper.insertSelective(distributorCommissionP);
-						ditributors[4] = superiorId;
-						commissions[4] +=  commissionPrice;
-					}
-				}else if(getLevel(distributorId) == 1){//砖石会员 
-					commissionPrice = commodity.getDiamondDiamond()*commodityNum;
-					DistributorCommission distributorCommission = new DistributorCommission();
-					distributorCommission.setId(IdGenerator.getInstance().nextId());
-					distributorCommission.setDistributorId(distributorId);
-					distributorCommission.setOrderId(order.getId()); 
-					distributorCommission.setCommission(commissionPrice);
-					DistributorCommission dc = distributorCommissionMapper.selectLatestRecordById(distributorId);
-					if(dc == null){
-						distributorCommission.setTotalcommission(commissionPrice);
-					}else{
-						if(dc.getTotalcommission() != null){
-							Integer totalcommission = dc.getTotalcommission() + commissionPrice;
-							distributorCommission.setTotalcommission(totalcommission);
-						}
-					}
-					distributorCommission.setCreateTime(new Date());
-					distributorCommissionMapper.insertSelective(distributorCommission);
-					ditributors[5] = distributorId;
-					commissions[5] +=  commissionPrice;
+			if(getLevel(distributorId) == 3){//vip-vip 自己积分 没有下级
+				
+				commodityCommission(orderCommodityIncludes, order, distributorId, 0);
+				
+				if(hasSuperior(distributorId) != null){//vip-gold 有上级  上级积分
+					
+					commodityCommission(orderCommodityIncludes, order, hasSuperior(distributorId), 1);
 				}
 				
-			}//for
-			for(int i = 0; i <= commissions.length; i++){
-				if(commissions[i] != null && commissions[i].equals(0)){
-					DistributorCommission distributorCommission = new DistributorCommission();
-					distributorCommission.setId(IdGenerator.getInstance().nextId());
-					distributorCommission.setCreateTime(new Date());
-					distributorCommission.setCommission(commissions[i]);
-					distributorCommission.setDistributorId(ditributors[i]);
-					distributorCommission.setOrderId(order.getId());
+				if(hasSuperiorDouble(distributorId) != null){
+					commodityCommission(orderCommodityIncludes, order, hasSuperiorDouble(distributorId), 2);
 				}
 			}
-			
-			
+			else if(getLevel(distributorId) == 2){
+				commodityCommission(orderCommodityIncludes, order, distributorId, 3);
+				if(hasSuperior(distributorId) != null){
+					commodityCommission(orderCommodityIncludes, order, hasSuperior(distributorId), 2);
+				}
+			}
+			else if(getLevel(distributorId) == 1){//钻石会员 
+				commodityCommission(orderCommodityIncludes, order, distributorId, 5);
+			}
+				
 			//写distributor_balance
 			DistributorBalance distributorBalance = new DistributorBalance();
 			distributorBalance.setId(IdGenerator.getInstance().nextId());
@@ -305,5 +183,82 @@ public class OrderService{
 		}else{
 			return null;
 		}
+	}
+	
+
+	/**
+	 * 商品积分的公共方法
+	 * @param orderCommodityIncludes订单包含的所有商品
+	 * @param order订单
+	 * @param distributorId应该增加积分的分销商，不一定是订单所属分销商
+	 * @param category订单分销商与积分分销商的关系
+	 */
+	void commodityCommission(List<OrderCommodityInclude> orderCommodityIncludes, OrderRecord order, Long distributorId,
+			int category){
+		//先拿到订单所属的所有商品
+		int commissionAddPrice = 0;
+		Long distributorCommissionId = IdGenerator.getInstance().nextId();
+		for(OrderCommodityInclude orderCommodityInclude : orderCommodityIncludes){//商品的遍历过程
+			Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());//商品
+			//Integer commodityNum = orderCommodityInclude.getCommodityCount();//商品份数
+			int commoditycommission = getCommissionRule(commodity, category) * orderCommodityInclude.getCommodityCount();
+			commissionAddPrice += commoditycommission;
+			
+			//写商品提成数据库
+			DistributorCommissionCommodity commodityCommission = new DistributorCommissionCommodity();
+			commodityCommission.setId(IdGenerator.getInstance().nextId());
+			commodityCommission.setCommodityCommission(commoditycommission);
+			commodityCommission.setCommodityCount(orderCommodityInclude.getCommodityCount());
+			commodityCommission.setCommodityName(commodity.getName());
+			commodityCommission.setCreateTime(new Date());
+			commodityCommission.setDistributorCommissionId(distributorCommissionId);
+			distributorCommissionCommodityMapper.insert(commodityCommission);
+		}
+		
+		//写分销商总提成数据库
+		DistributorCommission distributorCommission = new DistributorCommission();
+		distributorCommission.setId(distributorCommissionId);
+		distributorCommission.setDistributorId(distributorId);
+		distributorCommission.setOrderId(order.getId()); 
+		distributorCommission.setCommission(commissionAddPrice);
+		distributorCommission.setCreateTime(new Date());
+		DistributorCommission dc = distributorCommissionMapper.selectLatestRecordById(distributorId);
+		if(dc == null){
+			distributorCommission.setTotalcommission(commissionAddPrice);
+		}else{
+			if(dc.getTotalcommission() != null){
+				Integer totalcommission = dc.getTotalcommission() + commissionAddPrice;
+				distributorCommission.setTotalcommission(totalcommission);
+			}
+		}
+		distributorCommissionMapper.insert(distributorCommission);
+	}
+	
+	int getCommissionRule(Commodity commodity, int category){
+		int rule=0;
+		switch(category){
+		case 0:
+			rule = commodity.getVipVip();
+			break;
+		case 1:
+			rule = commodity.getVipGold();
+			break;
+		case 2:
+			rule = commodity.getGoldDiamond();
+			break;
+		case 3:
+			rule = commodity.getGoldGold();
+			break;
+		case 4:
+			rule = commodity.getGoldDiamond();
+			break;
+		case 5:
+			rule = commodity.getDiamondDiamond();
+			break;
+		default:
+			rule = 0;
+			break;
+		}
+		return rule;
 	}
 }

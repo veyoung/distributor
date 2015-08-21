@@ -209,6 +209,6 @@
     -->
     update order_commodity_include
     set order_id = #{orderId,jdbcType=BIGINT}
-    where status = 2
+    where status = 1
   </update>
 </mapper>
