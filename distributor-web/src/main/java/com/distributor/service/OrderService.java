@@ -60,6 +60,8 @@ public class OrderService{
 			orderRecordMapper.insertSelective(order);
 			
 			List<OrderCommodityInclude> orderCommodityIncludes = orderCommodityIncludeMapper.selectAllLatest();
+			Integer[] commissions = new Integer[6];
+			Long[] ditributors = new Long[6];
 			int commissionPrice = 0;
 			for(OrderCommodityInclude orderCommodityInclude : orderCommodityIncludes){
 				Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());
@@ -83,6 +85,8 @@ public class OrderService{
 					}
 					distributorCommission.setCreateTime(new Date());
 					distributorCommissionMapper.insertSelective(distributorCommission);
+					ditributors[0] = distributorId;
+					commissions[0] +=  commissionPrice;
 					if(hasSuperior(distributorId) != null){//vip-gold 有上级  上级积分
 						Long  superiorId = hasSuperior(distributorId);
 						commissionPrice = commodity.getVipGold()*commodityNum;
@@ -102,6 +106,8 @@ public class OrderService{
 						}
 						distributorCommissionP.setCreateTime(new Date());
 						distributorCommissionMapper.insertSelective(distributorCommissionP);
+						ditributors[1] = superiorId;
+						commissions[1] +=  commissionPrice;
 					}
 					if(hasSuperiorDouble(distributorId) != null){//vip-diamond有双层上级  上上级积分
 						Long superiorDoubleId = hasSuperiorDouble(distributorId);
@@ -122,6 +128,8 @@ public class OrderService{
 						}
 						distributorCommissionPP.setCreateTime(new Date());
 						distributorCommissionMapper.insertSelective(distributorCommissionPP);
+						ditributors[2] = superiorDoubleId;
+						commissions[2] +=  commissionPrice;
 					}
 				}else if(getLevel(distributorId) == 2){//有上级且有下级 自己积分
 					commissionPrice = commodity.getGoldGold()*commodityNum;
@@ -141,7 +149,8 @@ public class OrderService{
 					}
 					distributorCommission.setCreateTime(new Date());
 					distributorCommissionMapper.insertSelective(distributorCommission);
-					
+					ditributors[3] = distributorId;
+					commissions[3] +=  commissionPrice;
 					//上级积分
 					if(hasSuperior(distributorId) != null){
 						Long superiorId = hasSuperior(distributorId);
@@ -162,6 +171,8 @@ public class OrderService{
 						}
 						distributorCommissionP.setCreateTime(new Date());
 						distributorCommissionMapper.insertSelective(distributorCommissionP);
+						ditributors[4] = superiorId;
+						commissions[4] +=  commissionPrice;
 					}
 				}else if(getLevel(distributorId) == 1){//砖石会员 
 					commissionPrice = commodity.getDiamondDiamond()*commodityNum;
@@ -181,9 +192,22 @@ public class OrderService{
 					}
 					distributorCommission.setCreateTime(new Date());
 					distributorCommissionMapper.insertSelective(distributorCommission);
+					ditributors[5] = distributorId;
+					commissions[5] +=  commissionPrice;
 				}
 				
+			}//for
+			for(int i = 0; i <= commissions.length; i++){
+				if(commissions[i] != null && commissions[i].equals(0)){
+					DistributorCommission distributorCommission = new DistributorCommission();
+					distributorCommission.setId(IdGenerator.getInstance().nextId());
+					distributorCommission.setCreateTime(new Date());
+					distributorCommission.setCommission(commissions[i]);
+					distributorCommission.setDistributorId(ditributors[i]);
+					distributorCommission.setOrderId(order.getId());
+				}
 			}
+			
 			
 			//写distributor_balance
 			DistributorBalance distributorBalance = new DistributorBalance();
