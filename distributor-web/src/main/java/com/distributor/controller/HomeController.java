@@ -14,9 +14,4 @@ public class HomeController extends BaseController{
 		return "ok";
 	}
 	
-	@RequestMapping("index")
-	public String index(){
-		return "index";
-	}
-	
 }

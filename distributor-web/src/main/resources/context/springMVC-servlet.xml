@@ -35,4 +35,31 @@
 		</property>
 	</bean>
 	 -->
+	 
+	 <!-- 用于验证拦截器 
+	<mvc:interceptors>
+	    <mvc:interceptor>
+	        <mvc:mapping path="/index"/>
+	        <mvc:mapping path="/**"/>
+	        <bean class="com.distributor.interceptor.LoginInterceptor">
+	            <property name="excludedUrls">
+	                <list>
+	                    <value>/login</value>
+	                </list>
+	            </property>
+	        </bean>
+	    </mvc:interceptor>
+	</mvc:interceptors>
+	-->
+	
+	<!--异常拦截后的跳转到登录界面  
+	<bean id="handlerExceptionResolver"
+	    class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	    <property name="exceptionMappings">
+	        <props>
+	            <prop key="com.distributor.exception.AuthorizationException">redirect:/login</prop>
+	        </props>
+	    </property>
+	</bean>
+	-->
 </beans>

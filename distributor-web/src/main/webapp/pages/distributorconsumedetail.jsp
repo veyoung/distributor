@@ -88,8 +88,20 @@
 var pageIndex = 0; //页面索引初始值
 var pageSize = 10; //每页显示条数初始化，修改显示条数，修改这里即可
 $(function(){
-	$('#startTime').datepicker();         
-	$('#endTime').datepicker();   
+	$('#startTime').datepicker(
+			{format: 'yyyy-mm-dd',
+            showButtonPanel: true,
+            showSecond: true,
+            autoclose: true,
+            minView: "month", //选择日期后，不会再跳转去选择时分秒
+            language: 'zh-CN'});         
+	$('#endTime').datepicker(
+			{format: 'yyyy-mm-dd',
+	            showButtonPanel: true,
+	            showSecond: true,
+	            autoclose: true,
+	            minView: "month", //选择日期后，不会再跳转去选择时分秒
+	            language: 'zh-CN'});   
 	$('#distributorConsumeForm').on('submit',function(){
 		if($('#distributorId').val() == ''){
 			$('#myModal').modal('show');

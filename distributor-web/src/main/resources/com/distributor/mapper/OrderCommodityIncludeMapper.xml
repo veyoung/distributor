@@ -208,7 +208,7 @@
       This element was generated on Sun Aug 09 22:04:56 CST 2015.
     -->
     update order_commodity_include
-    set order_id = #{orderId,jdbcType=BIGINT}
+    set order_id = #{orderId,jdbcType=BIGINT},status =2
     where status = 1
   </update>
 </mapper>

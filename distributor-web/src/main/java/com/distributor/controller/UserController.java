@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,14 +32,25 @@ public class UserController extends BaseController{
 	SystemLogMapper systemLogMapper;
 	
 	/**
-	 * 登陆跳转
+	 * 跳转到登录页面
+	 * @return
+	 */
+	@RequestMapping("login")
+	public String login(){
+		return "login";
+	}
+	
+	/**
+	 * 登录验证
 	 * @param userName
 	 * @param password
 	 * @return
 	 */
 	@RequestMapping("dashboard")
-	public String login(@RequestParam("userName") String userName,
-			@RequestParam("password") String password){
+	public String dashboard(HttpServletRequest request,
+			@RequestParam("userName") String userName,
+			@RequestParam("password") String password,
+			Model model){
 		try {
 			if (Pattern.compile("^[-\\+]?[\\d]*$").matcher(userName).matches()){
 				
@@ -44,6 +59,9 @@ public class UserController extends BaseController{
 				param.put("name", userName);
 				User user = userMapper.selectUserSelective(param);
 				if(user != null && user.getPassword() != null && user.getPassword().equals(password)){
+					HttpSession session = request.getSession();
+					session.setAttribute("user", user);
+					model.addAttribute("name", user.getName());
 					return "index";
 				}
 				else{
