@@ -1,10 +1,11 @@
 package com.distributor.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.distributor.mapper.CategoryMapper;
 import com.distributor.mapper.CommodityMapper;
 import com.distributor.model.Category;
+import com.distributor.utils.ConstantVariable;
 import com.distributor.utils.IdGenerator;
 
 @Controller
@@ -28,12 +30,19 @@ public class CategoryController extends BaseController{
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value=("commodityCategoryList"), method=RequestMethod.GET)
+	@RequestMapping(value=("commodityCategoryList/{page}"), method=RequestMethod.GET)
 	@ResponseBody
-	public Object commodityCategoryList(){
+	public Object commodityCategoryList(@PathVariable("page") int page){
 		try {
-			List<Category> categories = categoryMapper.selectAllCategorys();
-			return success(categories);
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("pageSize", ConstantVariable.Pagesize);
+		    param.put("offset", ConstantVariable.Pagesize * page);
+			List<Category> categories = categoryMapper.selectAllCategorysSelective(param);
+			int total = categoryMapper.getCountSelectAllCategorysSelective(param);
+		
+			Map<String, Object> result = success(categories);
+			result.put("total", total);
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return fail();
@@ -64,7 +73,7 @@ public class CategoryController extends BaseController{
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping("commodityCategory/delete/{id}")
+	@RequestMapping(value="commodityCategory/delete/{id}", method=RequestMethod.GET)
 	public String CategoryDelete(@PathVariable("id") long id){
 		try {
 			categoryMapper.deleteByPrimaryKey(id);

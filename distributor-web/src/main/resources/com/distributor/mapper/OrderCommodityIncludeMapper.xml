@@ -58,6 +58,14 @@
     where status = 1
   </select>
   
+  
+  <select id="selectAllLatestByOrderId" resultMap="BaseResultMap">
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from order_commodity_include
+    where order_id = #{orderId,jdbcType=BIGINT} and status = 2
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
       WARNING - @mbggenerated

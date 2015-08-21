@@ -24,7 +24,6 @@ import com.distributor.model.DistributorCommission;
 import com.distributor.model.DistributorInclude;
 import com.distributor.model.OrderCommodityInclude;
 import com.distributor.model.OrderRecord;
-import com.distributor.utils.CommonUtils;
 import com.distributor.utils.IdGenerator;
 
 @Service
@@ -57,6 +56,7 @@ public class OrderService{
 			order.setDistributorId(distributorId);
 			order.setMoney((int)(totalPrice*100));
 			order.setCreateTime(new Date());
+			order.setStatus(1);
 			orderRecordMapper.insertSelective(order);
 			
 			List<OrderCommodityInclude> orderCommodityIncludes = orderCommodityIncludeMapper.selectAllLatest();

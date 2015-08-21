@@ -164,8 +164,25 @@
                enableUpdateByExample="false"
                selectByPrimaryKeyQueryId="false"
                selectByExampleQueryId="false"></table>    
+<<<<<<< HEAD
            
            <table tableName="commodity" domainObjectName="Commodity"
+=======
+         
+         <table tableName="commodity" domainObjectName="Commodity"
+               enableInsert="true"
+               enableSelectByPrimaryKey="true"
+               enableSelectByExample="false"
+               enableUpdateByPrimaryKey="true"
+               enableDeleteByPrimaryKey="true"
+               enableDeleteByExample="false"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               selectByPrimaryKeyQueryId="false"
+               selectByExampleQueryId="false"></table> 
+            
+            
+        <table tableName="order_record" domainObjectName="OrderRecord"
                enableInsert="true"
                enableSelectByPrimaryKey="true"
                enableSelectByExample="false"
@@ -176,9 +193,9 @@
                enableUpdateByExample="false"
                selectByPrimaryKeyQueryId="false"
                selectByExampleQueryId="false"></table>
-           -->  
+ 		-->
            
-               <table tableName="distributor_commission_commodity" domainObjectName="DistributorCommissionCommodity"
+        <table tableName="distributor_commission_commodity" domainObjectName="DistributorCommissionCommodity"
                enableInsert="true"
                enableSelectByPrimaryKey="true"
                enableSelectByExample="false"
@@ -188,8 +205,8 @@
                enableCountByExample="false"
                enableUpdateByExample="false"
                selectByPrimaryKeyQueryId="false"
-               selectByExampleQueryId="false"></table>   
-  
+               selectByExampleQueryId="false"></table>    
+
 
          
     </context>
