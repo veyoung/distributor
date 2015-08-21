@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.distributor.mapper.CommodityMapper;
@@ -57,13 +58,14 @@ public class OrderController extends BaseController{
 	 * @param distributorId
 	 * @return
 	 */
-	@RequestMapping(value = "submitOrder/{distributorId}/totalPrice/{totalPrice}", method=RequestMethod.GET)
+	@RequestMapping(value = "submitOrder", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> submitOrder(
-			@PathVariable("distributorId") Long distributorId,
-			@PathVariable("totalPrice") Float totalPrice){
+			@RequestParam("distributorId") Long distributorId,
+			@RequestParam("totalPrice") String totalPrice){
 		try {
-			OrderRecord order = orderservice.submitOrder(distributorId, totalPrice);
+			Float totalPriceNumic = Float.parseFloat(totalPrice);
+			OrderRecord order = orderservice.submitOrder(distributorId, totalPriceNumic);
 			if (order != null){
 				return success(order);
 			} else {
@@ -157,8 +159,12 @@ public class OrderController extends BaseController{
 		try {
 			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("startTime", format1.parse(startTime));
-			param.put("endTime", format1.parse(endTime));
+			if(!startTime.equals("0")){
+				param.put("startTime", format1.parse(startTime));
+			}
+			if(!endTime.equals("0")){
+				param.put("endTime", format1.parse(endTime));
+			}
 			param.put("pageSize", ConstantVariable.Pagesize);
 			param.put("offset", page * ConstantVariable.Pagesize);
 			param.put("distributorId", distributorId);

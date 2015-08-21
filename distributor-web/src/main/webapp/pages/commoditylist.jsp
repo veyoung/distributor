@@ -172,6 +172,22 @@
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->  
 	</div>
+	
+ <div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header" style="background-color:#A3B0B8">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &times;</button>
+            <h4 class="modal-title" id="myModalLabel"><strong style="color:red;">提示</strong></h4>
+         </div>
+         <div class="modal-body" style="padding:20px;font-size:18px;"></div>
+         <div class="modal-footer" style="background-color:">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+            </button>
+         </div>
+      </div>
+   </div>
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
@@ -280,9 +296,13 @@ $(function(){
                             		url:'/distributor/addCommodity/' + id,
                             		success: function(data){
                             			if (data.success) {
-                            				alert('商品添加成功');
+                            				$('#modal-info').modal('show');
+                            				$('.modal-body').html('恭喜您商品添加成功！您可以继续添加商品或者前往订单消费结账！')
+                            				//alert('商品添加成功');
                             			} else {
-                            				alert(data.content);
+                            				$('#modal-info').modal('show');
+                            				$('.modal-body').html('对不起商品添加失败！'+ data.content)
+                            				//alert(data.content);
                             			}
                             		}
                             	});
@@ -301,9 +321,13 @@ $(function(){
             		url:'/distributor/addCommodity/' + id,
             		success: function(data){
             			if (data.success) {
-            				alert('商品添加成功');
+            				$('#modal-info').modal('show');
+            				$('.modal-body').html('恭喜您商品添加成功！您可以继续添加商品或者前往订单消费结账！')
+            				//alert('商品添加成功');
             			} else {
-            				alert(data.content);
+            				$('#modal-info').modal('show');
+            				$('.modal-body').html('对不起商品添加失败！'+ data.content)
+            				//alert(data.content);
             			}
             		}
             	});

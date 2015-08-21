@@ -143,15 +143,14 @@
     <if test="startTime!=null and startTime!='' ">
      and UNIX_TIMESTAMP(create_time) &gt;= UNIX_TIMESTAMP(#{startTime,jdbcType=TIMESTAMP})
      </if>
-     
      <if test="endTime!=null and endTime!=''">
      and UNIX_TIMESTAMP(create_time) &lt; UNIX_TIMESTAMP(#{endTime,jdbcType=TIMESTAMP})
      </if>
-    <if test="pagesize != null">
-		limit #{offset,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+	</where>
+	order by create_time desc 
+	<if test="pageSize != null and offset != null">
+		limit #{offset,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
 	</if>
-	</where> 
-	order by create_time desc
   </select>
   
   <select id="getCountSelective" resultType="java.lang.Integer">

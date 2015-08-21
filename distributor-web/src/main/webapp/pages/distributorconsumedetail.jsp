@@ -66,11 +66,9 @@
       		<div class="modal-content">
          		<div class="modal-header">
             		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            	<h4 class="modal-title" id="myModalLabel">
-              		提示
-            	</h4>
+            	<h4 class="modal-title" id="myModalLabel"><strong style="color:red;">提示</strong> </h4>
          		</div>
-         		<div class="modal-body"></div>
+         		<div class="modal-body" style="padding:20px;font-size:18px;"></div>
          		<div class="modal-footer">
             		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             		<button type="button" class="btn btn-primary btn-ok">确定</button>
@@ -103,26 +101,28 @@ $(function(){
 	            minView: "month", //选择日期后，不会再跳转去选择时分秒
 	            language: 'zh-CN'});   
 	$('#distributorConsumeForm').on('submit',function(){
+		var distributorId = '';
+		var startTime = '';
+		var endTime = '';
 		if($('#distributorId').val() == ''){
 			$('#myModal').modal('show');
 			$('.modal-body').html('请输入分销商ID');
 			$('.btn-ok').attr("style","display:none;");
 			//alert('请输入分销商ID');
 			return false;
+		}else{
+			distributorId = $('#distributorId').val()
 		}
 		if($('#startTime').val() == ''){
-			$('#myModal').modal('show');
-			$('.modal-body').html('请选择起始日期');
-			$('.btn-ok').attr("style","display:none;");
-			//alert('请选择起始日期');
-			return false;
+			startTime = 0 + '' 
+		}
+		else{
+			startTime = $('#startTime').val()
 		}
 		if($('#endTime').val() == ''){
-			$('#myModal').modal('show');
-			$('.modal-body').html('请选择起始日期');
-			$('.btn-ok').attr("style","display:none;");
-			//alert('请选择截止日期');
-			return false;
+			endTime = 0 + ''
+		}else{
+			endTime = $('#endTime').val()
 		}
 		
 		Date.prototype.format = function(fmt)   
@@ -145,7 +145,7 @@ $(function(){
 		}  
 		
 		$.ajax({
-			url:'/distributor/distributorOrder/list/' + $('#distributorId').val() +'/' + $('#startTime').val() +'/'+$('#endTime').val() +'/0',
+			url:'/distributor/distributorOrder/list/' + distributorId +'/' + startTime +'/'+endTime +'/0',
 			type:'GET',
 			success: function(data) {
 				if(data.success){
@@ -174,7 +174,7 @@ $(function(){
 		            function PageCallback(index, jq) {
 		                $.ajax({
 		                    type: 'GET',
-		                    url: '/distributor/distributorOrder/list/' + $('#distributorId').val() +'/' + $('#startTime').val() +'/'+$('#endTime').val() +'/'+index,
+		                    url: '/distributor/distributorOrder/list/' + distributorId +'/' + startTime +'/'+endTime +'/'+index,
 		                    success: function(data) {
 		                    	if(data.success){
 		                    		var para = '';
