@@ -106,7 +106,6 @@ public class OrderService{
 				//return null;
 			}
 			
-			
 			//写order_commodity_include中order_id
 			orderCommodityIncludeMapper.setAllLatestWithOrderId(order.getId());
 			return order;

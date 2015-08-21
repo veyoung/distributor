@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
             <a class="navbar-brand" href="#" id="logo">会员分销管理系统</a>
         </div>
         <div class="login-box">
-           	<span>欢迎您：余扬&nbsp;</span> 
+           	<span>欢迎您:&nbsp;&nbsp;${name}&nbsp;</span> 
         </div>
     </div>
 </div>
@@ -26,7 +27,7 @@
         <div class="col-md-2">
             <ul id="main-nav" class="main-nav nav nav-tabs nav-stacked">
                 <li>
-                    <a href="mainbody.jsp" target="view_window">
+                    <a href="/distributor/pages/mainbody.jsp" target="view_window">
                         <i class="glyphicon glyphicon-th-large"></i> 首页 		
                     </a>
                 </li>
@@ -45,7 +46,7 @@
                         <i class="glyphicon glyphicon-user"></i> 分销商管理	
                         <span class="pull-right glyphicon  glyphicon-chevron-toggle"></span>
                     </a>
-                    <ul id="distributorManage" class="nav nav-list secondmenu collapse">
+                    <ul id="distributorManage" class="nav nav-list secondmenu collapse in">
                         <li><a href="/distributor/pages/distributorlist.jsp" target="view_window"><i class="glyphicon glyphicon-user"></i>&nbsp;分销商列表</a></li>
                         <li><a href="/distributor/pages/distributorconsumedetail.jsp" target="view_window"><i class="glyphicon glyphicon-star-empty"></i>&nbsp;分销商消费明细</a></li>
                         <li><a href="/distributor/pages/distributorpointsdetail.jsp" target="view_window"><i class="glyphicon glyphicon-star"></i>&nbsp;分销商积分明细</a></li>

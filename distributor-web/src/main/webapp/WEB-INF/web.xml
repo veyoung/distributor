@@ -51,7 +51,18 @@
     	<filter-name>CharacterEncodingFilter</filter-name>  
     	<url-pattern>/*</url-pattern>  
   </filter-mapping> 	
-        
+    
+    
+  <!-- 用户登录 过滤器  -->  
+  <filter>  
+	    <filter-name>LoginFilter</filter-name>  
+	    <filter-class>com.distributor.filter.LoginFilter</filter-class>  
+  </filter>  
+  <filter-mapping>  
+    	<filter-name>LoginFilter</filter-name>  
+    	<url-pattern>*.jsp</url-pattern>  
+  </filter-mapping> 
+      
   <welcome-file-list>
     	<welcome-file>index.html</welcome-file>
   </welcome-file-list>

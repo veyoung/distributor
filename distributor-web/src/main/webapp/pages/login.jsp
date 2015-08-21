@@ -21,10 +21,6 @@
 			<input class="inp" tabindex="2" type="password" value="" name="password" placeholder="请输入您的密码"/>
 		</div>
 		<div class="remember">
-			<label class="checkbox">
-				<input type="checkbox" name="rememberMe"/>
-				<span class="week-login">一周内自动登录</span>
-            </label>
             <a class="forget-link" href="/forgetInit">忘记密码?</a>
 		</div>
 		<div>
