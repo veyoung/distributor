@@ -68,3 +68,19 @@ padding-left:7px;
 .disable-background{
 	background-color: #CDBA96;
 }
+.modal-header{
+	background-color: #4E8BBE;
+}
+.modal-footer{
+	background-color: #4E8BBE;
+}
+.modal-dialog .modal-header{
+	background-color: #E5E5E5;
+}
+.modal-dialog .modal-footer{
+	background-color: #E5E5E5;
+}
+.modal-dialog #myModalLabel{
+	color: #000000234111111;
+}
+

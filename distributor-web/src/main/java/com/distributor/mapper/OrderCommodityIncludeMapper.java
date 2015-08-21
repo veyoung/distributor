@@ -69,5 +69,7 @@ public interface OrderCommodityIncludeMapper {
     
     void subtractCountBycommodityId(Long commodityId);
     
+    List<OrderCommodityInclude> selectAllLastByOrderId(Long orderId);
+    
     
 }

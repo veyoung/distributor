@@ -70,9 +70,20 @@
               		提示
             	</h4>
          		</div>
-         		<div class="modal-body"></div>
+         		<div class="modal-body-dialog">
+         		<div class="commodity-detail">
+         			<table class="table table-striped table-hover table-bordered" style="diplay:none;">
+						<tr class="table-title">
+							 <td width="20%">商品名称</td>
+							 <td width="20%">商品数量</td>
+							 <td width="20%">积分</td>
+						</tr>
+						<tbody id="content-table-dialog"></tbody>
+					</table>
+         		</div>
+         		</div>
          		<div class="modal-footer">
-            		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            		<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
             		<button type="button" class="btn btn-primary btn-ok">确定</button>
          		</div>
       		</div>
@@ -88,6 +99,7 @@
 var pageIndex = 0; //页面索引初始值
 var pageSize = 10; //每页显示条数初始化，修改显示条数，修改这里即可
 $(function(){
+	var localData;
 	$('#startTime').datepicker();         
 	$('#endTime').datepicker();   
 	$('#distributorCommissionForm').on('submit',function(){
@@ -96,7 +108,7 @@ $(function(){
 		var endTime = '';
 		if($('#distributorId').val() == ''){
 			$('#myModal').modal('show');
-			$('.modal-body').html('请输入分销商ID');
+			$('.modal-body-dialog').html('<div style="padding:20px;font-size:20px;color:red;">&nbsp;&nbsp;&nbsp;&nbsp;请输入分销商ID</div>');
 			$('.btn-ok').attr("style","display:none;");
 			//alert('请输入分销商ID');
 			return false;
@@ -120,11 +132,12 @@ $(function(){
 			type:'GET',
 			success: function(data) {
 				if(data.success){
+					localData = data.content;
 					var para = '';
 					$(data.content).each(function (key,value) { //遍历返回的json   
 						para += '<tr><td>'+ value.displayCreateTime + 
 		                        '</td><td>￥'+ value.displayCommission +'</td><td>￥'+ value.displayTotalCommission + 
-		                        '</td><td class="detail" data-id=' + value.orderId + '>查看</td></tr>';
+		                        '</td><td class="detail" data-id=' + value.id + '><span style="cursor:pointer">查看</span></td></tr>';
 		            });
 					$("#content-table").empty();
 		            $("#content-table").append(para);
@@ -148,11 +161,12 @@ $(function(){
 		                    url: '/distributor/distributorOrder/list/' + distributorId +'/' + startTime +'/'+ endTime +'/'+index,
 		                    success: function(data) {
 		                    	if(data.success){
+		                    		localData = data.content;
 		                    		var para = '';
 			        				$(data.content).each(function (key,value) { //遍历返回的json   
 			        					para += '<tr><td>'+ value.displayCreateTime + 
 			        	                        '</td><td>￥'+ value.displayMoney +'</td><td>￥'+ value.displayCommission + 
-			        	                        '</td><td class="detail" data-id=' + value.orderId + '>查看</td></tr>';
+			        	                        '</td><td class="detail" data-id=' + value.id + '><span style="cursor:pointer">查看</span></td></tr>';
 			        	            });
 			        				$("#content-table").empty();
 			        	            $("#content-table").append(para);
@@ -167,18 +181,27 @@ $(function(){
 		return false;
 	});
 	
-	$("#content-table").on('click', '.detail', function(){
-		var orderId = $(this).data("id")
-		 $.ajax({
-		         	type: 'GET',
-		            url: '/distributor/distributorOrder/list/' + orderId,
-		            success: function(data) {
-		            	if(data.success){
-		            		
-		            	}
-		            }
-		 })
-		
+	$("body").on('click', '.detail', function(){
+		var dccid = $(this).data("id")
+		var distributor
+		var distributorCommissionCommoditys
+		$.each(localData, function(key, value){
+			if(dccid == value.id){
+				distributor = value.orderDistributor
+				distributorCommissionCommoditys = value.distributorCommissionCommodityList
+			}
+		})
+		$('#myModal').modal('show');
+		$('#commodity-detail').attr("style","")
+		$('.modal-title').html('该积分记录是由<span style="color:red;">' + distributor.name + '</span>购买如下商品产生：')
+		var para = ''
+		$.each(distributorCommissionCommoditys, function(key, value){
+			para += '<tr><td>'+ value.commodityName + 
+            '</td><td>'+ value.commodityCount +'</td><td>'+ 
+            value.commodityCommission + '</td></tr>'
+		})
+		$('#content-table-dialog').html(para);
+		$('.btn-ok').attr("style","display:none;");
 	});
 	
 });       

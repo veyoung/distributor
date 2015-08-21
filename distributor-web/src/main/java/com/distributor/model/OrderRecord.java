@@ -2,6 +2,7 @@ package com.distributor.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.distributor.utils.CommonUtils;
 
@@ -10,6 +11,8 @@ public class OrderRecord {
 	private Distributor orderDistributor;
 	
 	private Distributor bossDistributor;
+	
+	private List<OrderCommodityInclude> orderCommodityIncludeList;
 	
 	private int status;
 	
@@ -196,7 +199,7 @@ public class OrderRecord {
 	}
 
 	public String getDisplayCreateTime() {
-		if(getCommission() == null){
+		if(getCreateTime() == null){
 			return "";
 		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -230,4 +233,14 @@ public class OrderRecord {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+
+	public List<OrderCommodityInclude> getOrderCommodityIncludeList() {
+		return orderCommodityIncludeList;
+	}
+
+	public void setOrderCommodityIncludeList(
+			List<OrderCommodityInclude> orderCommodityIncludeList) {
+		this.orderCommodityIncludeList = orderCommodityIncludeList;
+	}
+	
 }

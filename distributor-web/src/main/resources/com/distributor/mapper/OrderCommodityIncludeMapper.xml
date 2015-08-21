@@ -34,6 +34,14 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   
+  
+  <select id="selectAllLastByOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from order_commodity_include
+    where order_id = #{orderId,jdbcType=BIGINT} and status = 2
+  </select>
+  
   <select id="selectLatestByCommodityId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
       WARNING - @mbggenerated
@@ -208,7 +216,7 @@
       This element was generated on Sun Aug 09 22:04:56 CST 2015.
     -->
     update order_commodity_include
-    set order_id = #{orderId,jdbcType=BIGINT}
+    set order_id = #{orderId,jdbcType=BIGINT}, status =2
     where status = 1
   </update>
 </mapper>

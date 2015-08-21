@@ -21,6 +21,7 @@ import com.distributor.mapper.OrderRecordMapper;
 import com.distributor.model.Commodity;
 import com.distributor.model.Distributor;
 import com.distributor.model.DistributorCommission;
+import com.distributor.model.DistributorCommissionCommodity;
 import com.distributor.model.DistributorInclude;
 import com.distributor.model.OrderCommodityInclude;
 import com.distributor.model.OrderRecord;
@@ -30,7 +31,7 @@ import com.distributor.utils.ConstantVariable;
 import com.distributor.utils.IdGenerator;
 import com.distributor.utils.TimeUtils;
 import com.distributor.mapper.DistributorCommissionMapper;
-
+import com.distributor.mapper.DistributorCommissionCommodityMapper;
 @Controller
 public class OrderController extends BaseController{
 	@Autowired
@@ -45,6 +46,8 @@ public class OrderController extends BaseController{
 	OrderRecordMapper orderRecordMapper;
 	@Autowired
 	DistributorCommissionMapper distributorCommissionMapper;
+	@Autowired
+	DistributorCommissionCommodityMapper distributorCommissionCommodityMapper;
 	
 	@Autowired
 	OrderService orderservice;
@@ -88,8 +91,12 @@ public class OrderController extends BaseController{
 			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("startTime", format1.parse(startTime));
-			param.put("endTime", format1.parse(endTime));
+			if(!startTime.equals("0")){
+				param.put("startTime", format1.parse(startTime));
+			}
+			if(!endTime.equals("0")){
+				param.put("endTime", format1.parse(endTime));
+			}
 			param.put("pageSize", ConstantVariable.Pagesize);
 			param.put("offset", page * ConstantVariable.Pagesize);
 			
@@ -107,6 +114,18 @@ public class OrderController extends BaseController{
 				if(distributorInclude != null && distributorInclude.getParentId() != null){
 					Distributor bossDistributor = distributorMapper.selectByPrimaryKey(distributorInclude.getParentId());
 					orderRecord.setBossDistributor(bossDistributor);
+				}
+				
+				//订单关联的商品
+				List<OrderCommodityInclude> list = orderCommodityIncludeMapper.selectAllLastByOrderId(orderRecord.getId());
+				if(list.size() > 0){
+					for(OrderCommodityInclude orderCommodityInclude : list){
+						Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());
+						if(commodity != null){
+							orderCommodityInclude.setCommodity(commodity);
+						}
+					}
+					orderRecord.setOrderCommodityIncludeList(list);
 				}
 			}
 			
@@ -192,38 +211,33 @@ public class OrderController extends BaseController{
 			param.put("pageSize", ConstantVariable.Pagesize);
 			param.put("offset", page * ConstantVariable.Pagesize);
 			param.put("distributorId", distributorId);
-			List<DistributorCommission> commisssions = distributorCommissionMapper.selectCommissionsSelective(param);
+			List<DistributorCommission> distributorcommisssions = distributorCommissionMapper.selectCommissionsSelective(param);
 			
-			/*for(DistributorCommission commisssion : commisssions){
-				Distributor orderDistributor = distributorMapper.selectByPrimaryKey(order.getDistributorId());
-				order.setOrderDistributor(orderDistributor);
-			}*/
+			for(DistributorCommission distributorcommisssion : distributorcommisssions){
+				//取Distributor
+				Long orderId = distributorcommisssion.getOrderId();
+				if(orderId != null){
+					OrderRecord orderRecord = orderRecordMapper.selectByPrimaryKey(orderId);
+					if(orderRecord.getDistributorId() != null){
+						Distributor orderDistributor = distributorMapper.selectByPrimaryKey(orderRecord.getDistributorId());
+						distributorcommisssion.setOrderDistributor(orderDistributor);
+					}
+				}
+				
+				//取DistributorCommissionCommodityMapper
+				List<DistributorCommissionCommodity> list = distributorCommissionCommodityMapper.getListByDistributorCommissionId(distributorcommisssion.getId());
+				if(list.size() > 0){
+					distributorcommisssion.setDistributorCommissionCommodityList(list);
+				}
+			}
 			int total = distributorCommissionMapper.getCountSelective(param);
-			
-			Map<String, Object> result = success(commisssions);
+			Map<String, Object> result = success(distributorcommisssions);
 			result.put("total", total);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return fail();
 		}
-	}
-	
-	/**
-	 * 查看积分详情
-	 * @return
-	 */
-	@RequestMapping("distributorOrder/list/{orderId}")
-	@ResponseBody
-	public Object getCommissionDetail(@PathVariable("orderId") Long orderId){
-		
-		List<OrderCommodityInclude> list = orderCommodityIncludeMapper.selectAllLatestByOrderId(orderId);
-		for(OrderCommodityInclude orderCommodityInclude : list){
-			if(orderCommodityInclude.getCommodityId() != null){
-				
-			}
-		}
-		return null;
 	}
 	
 }

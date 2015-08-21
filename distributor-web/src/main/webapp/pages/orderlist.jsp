@@ -45,8 +45,6 @@
 				<td width="10%">订单号</td>
 				<td width="10%">订单归属</td>
 				<td width="10%">订单金额(元)</td>
-				<td width="10%">上级分销商</td>
-				<td width="10%">上级提成(元)</td>
 				<td width="10%">操作员</td>
 				<td width="15%">操作时间</td>
 				<td width="15%">操作</td></tr>
@@ -57,6 +55,36 @@
 			<div class="col-sm-9"><div id="pagination" style="float:right"></div></div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   		aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+   		<div class="modal-dialog">
+      		<div class="modal-content">
+         		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<h4 class="modal-title" id="myModalLabel">
+              		提示
+            	</h4>
+         		</div>
+         		<div class="modal-body-dialog">
+         		<div class="commodity-detail">
+         			<table class="table table-striped table-hover table-bordered" style="diplay:none;">
+						<tr class="table-title">
+							 <td width="20%">商品名称</td>
+							 <td width="20%">商品数量</td>
+						</tr>
+						<tbody id="content-table-dialog"></tbody>
+					</table>
+         		</div>
+         		</div>
+         		<div class="modal-footer">
+            		<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+            		<button type="button" class="btn btn-primary btn-ok">确定</button>
+         		</div>
+      		</div>
+		</div>
+	</div>
+	
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
@@ -66,21 +94,36 @@
 var pageIndex = 0; //页面索引初始值
 var pageSize = 10; //每页显示条数初始化，修改显示条数，修改这里即可
 $(function(){
+	var localData;
 	$('#startTime').datepicker();         
 	$('#endTime').datepicker();   
 	$('#searOderForm').on('submit',function(){
+		var startTime = '';
+		var endTime = '';
+		if($('#startTime').val() == ''){
+			startTime = 0 + '' 
+		}
+		else{
+			startTime = $('#startTime').val()
+		}
+		if($('#endTime').val() == ''){
+			endTime = 0 + ''
+		}else{
+			endTime = $('#endTime').val()
+		}
 		$.ajax({
 			type: "GET",
-			url:"/distributor/order/" + $("#startTime").val() + "/" + $('#endTime').val() + "/0",
+			url:"/distributor/order/" + startTime + "/" + endTime + "/0",
 			success: function(data) {
 				if(data.success){
+					localData = data.content;
 					var t = "";
         			$(data.content).each(function (key,value) { //遍历返回的json     
         				var bossName = value.bossDistributor != null ? value.bossDistributor.name : '暂无';
         				var commissionMoney = value.bossDistributor != null ? value.displayCommission:'0';
                         t += '<tr><td>'+ value.id +'</td><td>'+ value.orderDistributor.name + '</td><td>￥ '+ value.displayMoney  
-                        		+ '</td><td>' + bossName + '</td><td>￥ ' + commissionMoney + '</td><td>店小二'+ '</td><td>'+ value.displayCreateTime
-                        		+ '</td><td class="blue"><i class="glyphicon glyphicon-search"></i>&nbsp;详情</td></tr>';
+                        		+ '</td><td>店小二'+ '</td><td>'+ value.displayCreateTime
+                        		+ '</td><td class="blue operation-detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search"></i>&nbsp;<span style="cursor:pointer">详情</span></td></tr>';
                     });
         			if(t === ''){
         				t = "&nbsp;未查询到符合条件的订单"
@@ -112,13 +155,14 @@ $(function(){
                             },
                             success: function(data) {
                                 if (data.success) {
+                                	localData = data.content;
                                 	var t = "";
                         			$(data.content).each(function (key,value) { //遍历返回的json     
                         				var bossName = value.bossDistributor != null ? value.bossDistributor.name : '暂无';
                         				var commissionMoney = value.bossDistributor != null ? value.displayCommission:'0';
                                         t += '<tr><td>'+ value.id +'</td><td>'+ value.orderDistributor.name + '</td><td>￥ '+ value.displayMoney  
-                                        		+ '</td><td>' + bossName + '</td><td>￥ ' + commissionMoney + '</td><td>店小二'+ '</td><td>'+ value.displayCreateTime
-                                        		+ '</td><td><i class="glyphicon glyphicon-search"></i>详情</td></tr>';
+                                        		+ '</td><td>店小二'+ '</td><td>'+ value.displayCreateTime
+                                        		+ '</td><td class="detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search"></i><span style="cursor:pointer">详情</span></td></tr>';
                                     });
                         			if(t === ''){
                         				t = "&nbsp;未查询到符合条件的订单"
@@ -138,6 +182,37 @@ $(function(){
 		});
 		return false;
 	})
+	
+	$("body").on('click', '.operation-detail', function(){
+		var orderId = $(this).data("id")
+		var distributor
+		var orderCommodityIncludeList
+		$.each(localData, function(key, value){
+			if(orderId == value.id){
+				distributor = value.orderDistributor
+				orderCommodityIncludeList = value.orderCommodityIncludeList
+			}
+		})
+		$('#myModal').modal('show');
+		$('#commodity-detail').attr("style","")
+		$('.modal-title').html('该订单记录是由<span style="color:red;">' + distributor.name + '</span>购买如下商品产生：')
+		if(orderCommodityIncludeList == null){
+			$('.commodity-detail').html('<div style="padding:20px;font-size:20px;color:red;">&nbsp;&nbsp;&nbsp;&nbsp;错误订单，该订单下无商品！</div>');
+			
+		}else{
+			var para = ''
+				$.each(orderCommodityIncludeList, function(key, value){
+					para += '<tr><td>'+ value.commodity.name + 
+			        '</td><td>'+ value.commodityCount +'</td></tr>'
+				})
+				$('#content-table-dialog').html(para);
+		}
+		$('.btn-ok').attr("style","display:none;"); 
+	})
+	
+	
+	
+	
 });       
 </script>
 </body>

@@ -1,5 +1,7 @@
 package com.distributor.mapper;
 
+import java.util.List;
+
 import com.distributor.model.DistributorCommissionCommodity;
 
 public interface DistributorCommissionCommodityMapper {
@@ -50,4 +52,6 @@ public interface DistributorCommissionCommodityMapper {
      * @mbggenerated Fri Aug 21 12:25:53 CST 2015
      */
     int updateByPrimaryKey(DistributorCommissionCommodity record);
+    
+    List<DistributorCommissionCommodity> getListByDistributorCommissionId(Long distributorCommissionId);
 }
