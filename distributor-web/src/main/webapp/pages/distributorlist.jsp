@@ -103,7 +103,7 @@
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->  
 		
-		<div class="modal" id="rechargeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal" id="rechargeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -130,6 +130,23 @@
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->  
+		
+		<div class="modal" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="info-modal-label" aria-hidden="true" data-backdrop="static">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="info-modal-label"><strong style="color:red;">提示</strong></h4>
+		      </div>		       	
+			      <div class="modal-body">				      		
+				  </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary btn-close" data-dismiss="modal">关闭</button>
+			      </div>		     
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div>
+		
 	</div>
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
@@ -140,6 +157,9 @@
 $(function (){
 	var pageIndex = 0; //页面索引初始值
 	var pageSize = 10; //每页显示条数初始化，修改显示条数，修改这里即可
+	var localDistributorId = JSON.parse(localStorage.getItem('dsitributorId') || null)
+	localStorage.clear();
+	
 	
 	//添加分销商
 	$('#distributorAddForm').on('submit',function(){
@@ -176,7 +196,9 @@ $(function (){
 		 		if(data.success){
 		 		}
 		 		else{
-		 			alert(data.content);
+		 			$('#info-modal').modal('show')
+            		$('#info-modal').find('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp;&nbsp;' + data.content + '</span>');
+		 			//alert(data.content);
 		 		}
 			}
 		});
@@ -190,6 +212,7 @@ $(function (){
 	 		coreFunction(data);
 		}
 	});
+	
 	
 	//核心方法
 	function coreFunction(data){
@@ -210,6 +233,15 @@ $(function (){
 			$("#content-table").empty();
             $("#content-table").append(para);
             $("#statics").html('总记录数： '+data.total);
+            if(localDistributorId !='' && localDistributorId != null){
+            	$.each($('.chargeBtn'), function(key, value){
+            		var id = $(value).attr('id').split(',')[1];
+            		if(id == localDistributorId){
+            			$(value).trigger("click");
+            			$('#rechargeDistributorId').val(localDistributorId);
+            		}
+            	})
+            }
             
             //分页，PageCount是总条目数，这是必选参数，其它参数都是可选
             $('#pagination').pagination(data.total, {
@@ -285,10 +317,20 @@ $(function (){
             $('#rechargeForm').on('submit',function(){
             	var money = $('#money').val();
             	if(money === '' || isNaN(money) || money <= 0){
-            		alert('请输入合格的金额');
+            		$('#rechargeModal').modal("hide");
+            		$('#info-modal').modal('show')
+            		$('#info-modal').find('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp&nbsp请输入合格的金额</span>');
+            		//alert('请输入合格的金额');
+            		$('#info-modal').find('.btn-close').click(function(){
+        				$('#info-modal').modal('hide')
+        				$('#rechargeModal').modal("show");
+        			})
             		return false;
             	}
-            	
+            /* $('#info-modal').find('.btn-close').click(function(){
+        		$('#info-modal').modal('hide')
+        		$('#rechargeModal').modal("show");
+        	}) */
             	$.ajax({
 					type:'GET',
 					url:'/distributor/recharge/'+ $('#rechargeDistributorId').val() +'/' +$('#money').val(),
@@ -298,7 +340,9 @@ $(function (){
 							$(v).html('￥' + data.content);
 							$('#rechargeModal').modal('hide')
 						}else{
-							alert('充值失败');
+							$('#info-modal').modal('show')
+		            		$('#info-modal').find('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp&nbsp充值失败，请重试！</span>');
+							//alert('充值失败');
 						}
 					}
             	})

@@ -182,6 +182,8 @@
          <div class="modal-footer" style="background-color:">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭
             </button>
+            <button type="button" class="btn btn-primary btn-ok" data-dismiss="modal">确定
+            </button>
          </div>
       </div>
    </div>
@@ -320,11 +322,16 @@ $(function(){
                             		success: function(data){
                             			if (data.success) {
                             				$('#modal-info').modal('show');
-                            				$('.modal-body').html('恭喜您商品添加成功！您可以继续添加商品或者前往订单消费结账！')
+                            				$('#modal-info').find('.btn-ok').attr('style','');
+                            				$('.modal-body').html('恭喜您商品添加成功！您可以点击关闭继续添加商品或者确定前往订单消费结账！')
+                            				$('#modal-info').find('.btn-ok').click(function(){
+                            					location.href = "/distributor/pages/ordersubmit.jsp";
+                            				})
                             				//alert('商品添加成功');
                             			} else {
                             				$('#modal-info').modal('show');
                             				$('.modal-body').html('对不起商品添加失败！'+ data.content)
+                            				$('#modal-info').find('.btn-ok').attr('style','display:none');
                             				//alert(data.content);
                             			}
                             		}
@@ -344,11 +351,15 @@ $(function(){
             		success: function(data){
             			if (data.success) {
             				$('#modal-info').modal('show');
-            				$('.modal-body').html('恭喜您商品添加成功！您可以继续添加商品或者前往订单消费结账！')
-            				//alert('商品添加成功');
+            				$('#modal-info').find('.btn-ok').attr('style','');
+            				$('.modal-body').html('恭喜您商品添加成功！您可以点击关闭继续添加商品或者确定前往订单消费结账！')
+            				$('#modal-info').find('.btn-ok').click(function(){
+            					location.href = "/distributor/pages/ordersubmit.jsp";
+            				})//alert('商品添加成功');
             			} else {
             				$('#modal-info').modal('show');
-            				$('.modal-body').html('对不起商品添加失败！'+ data.content)
+            				$('.modal-body').html('对不起商品添加失败,'+ data.content)
+            				$('#modal-info').find('.btn-ok').attr('style','display:none');
             				//alert(data.content);
             			}
             		}

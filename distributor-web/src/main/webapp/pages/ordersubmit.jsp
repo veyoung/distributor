@@ -324,7 +324,7 @@ $(document).ready(function(){
     				$("#distributorName").val(data.content.name)
     				$("#level").val(data.content.level == 1?'钻石会员':data.content.level == 2?'金牌会员':'VIP会员')
     				$("#bossName").val(data.content.owner.name)
-    				$("#bossLevel").val(data.content.owner.level == 1?'钻石会员':data.content.owner.level == 2?'金牌会员':'VIP会员')
+    				$("#bossLevel").val(data.content.owner.level == 1?'钻石会员':data.content.owner.level == 2?'金牌会员': $("#level").val() == 'VIP会员' ? '暂无':'VIP会员')
     			} else{
     				$('#myModal').modal('show');
         			$('.modal-body').html("分销商不存在!!");
@@ -365,9 +365,14 @@ $(document).ready(function(){
     	var total = parseFloat($("#totalPrice").html());
     	if(bal  < total){
     		$('#myModal').modal('show');
-			$('.modal-body').html("账户余额不足，请充值");
-			$('.btn-ok').attr("style","display:none;");
-    		return false;
+			$('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp&nbsp账户余额不足，是否前往请充值？</sapn>');
+			$('.btn-ok').click(function(){
+				localStorage['dsitributorId'] = JSON.stringify($('#distributorId').val());
+				location.href="/distributor/pages/distributorlist.jsp";
+			})
+			
+			
+			return false;
     	}
     	
     	else {
