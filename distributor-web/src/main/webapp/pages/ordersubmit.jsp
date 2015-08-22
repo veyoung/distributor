@@ -15,7 +15,7 @@
 <div class="page-content">
 	<div class="page-header">
 		<h4 class="header">
-			<b><em></em>订单提交</b>&nbsp;<small>(录入会员Id，选择商品)</small>
+			<b><em></em>订单提交</b>&nbsp;<small>(商品列表中添加待消费的商品，录入会员ID，提交订单)</small>
 		</h4>
 	</div>
 	<div class="row">  
@@ -48,6 +48,12 @@
 						<button type="submit" class="btn btn-primary" id="distributorId">检查会员</button>
 					</div>
 				</div>
+				<div class="form-group col-sm-5">
+					<label class="col-sm-3 control-label" for="balance">账户余额</label>
+					<div class="col-sm-9">
+						<input id="balance" type="text" class="form-control" readonly="readonly">
+					</div>
+				</div>
 			</form>
 		</div>
 		<div class="row" style="margin-bottom:10px;margin-left:40px;">
@@ -59,9 +65,9 @@
 					</div>
 				</div>
 				<div class="form-group col-sm-5">
-					<label class="col-sm-3 control-label" for="mobile">手机号</label>
+					<label class="col-sm-3 control-label" for="mobile">会员级别</label>
 					<div class="col-sm-9">
-						<input type="text" class="form-control" id="mobile" readonly="readonly">
+						<input type="text" class="form-control" id="level" readonly="readonly">
 					</div>
 				</div>
 			</form>
@@ -74,12 +80,12 @@
 						<input type="text" class="form-control" id="bossName" readonly="readonly">
 					</div>
 				</div>	
-				<!-- <div class="form-group col-sm-5">
-					<label class="col-sm-3 control-label" for="commission">提成比例</label>
+				<div class="form-group col-sm-5">
+					<label class="col-sm-3 control-label" for="bossLevel">上级级别</label>
 					<div class="col-sm-9">
-						<input type="text" class="form-control" id="commission" readonly="readonly">
+						<input type="text" class="form-control" id="bossLevel" readonly="readonly">
 					</div>
-				</div> -->
+				</div>
 			</form>
 		</div>
 	</div>
@@ -133,7 +139,8 @@ $(document).ready(function(){
     		success: function(data) {
     			if(data.success){
     				$("#content-table").empty();
-    				$("#content-table").append('<tr><td colspan="5">订单下暂无商品</td></tr>');
+    				var t = '<tr><td colspan="5">订单下暂无商品</td></tr>';
+    				$("#content-table").append(t);
     				$("#totalPrice").text(0);
     			}
     		}
@@ -204,6 +211,9 @@ $(document).ready(function(){
                 });
     			
     			$("#content-table").empty();
+    			if(t===''){
+    				t='<tr><td colspan="5">订单下暂无商品</td></tr>';
+    			}
                 $("#content-table").append(t);
                 $("#totalPrice").text(totalPrice);
                 $('.subtracting').addClass("disable-background");
@@ -258,7 +268,7 @@ $(document).ready(function(){
     	
     });
 
-  //增加商品数量
+    //增加商品数量
     $("#content-table").on('click', '.adding', function(){
     	var currentCount = parseInt($(this).prev('.countbox').text())
     	var avgPrice = parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
@@ -307,10 +317,11 @@ $(document).ready(function(){
     		url:"/distributor/distributorInfo/" + $("#distributorId").val(),
     		success: function(data) {
     			if(data.success){
+    				$("#balance").val(data.content.balance/100)
     				$("#distributorName").val(data.content.name)
-    				$("#mobile").val(data.content.mobile)
+    				$("#level").val(data.content.level == 1?'钻石会员':data.content.level == 2?'金牌会员':'VIP会员')
     				$("#bossName").val(data.content.owner.name)
-    				/* $("#commission").val(data.content.owner.commission+"%") */
+    				$("#bossLevel").val(data.content.owner.level == 1?'钻石会员':data.content.owner.level == 2?'金牌会员':'VIP会员')
     			} else{
     				$('#myModal').modal('show');
         			$('.modal-body').html("分销商不存在!!");
@@ -333,7 +344,7 @@ $(document).ready(function(){
 			return false;
     	}
     	if($('#content-table').children().length == 1 && 
-    			$($('#content-table').children().get(0)).text() == "暂无商品"){
+    			$($('#content-table').children().get(0)).text() == "订单下暂无商品"){
     			$('#myModal').modal('show');
     			$('.modal-body').html("请先选择商品");
     			$('.btn-ok').attr("style","display:none;"); 
@@ -345,7 +356,16 @@ $(document).ready(function(){
 			$('.btn-ok').attr("style","display:none;");
     		//alert("请输入正确的会员ID");
     		return false;
-    	} else {
+    	} 
+    	
+    	if($("#balance").val()  < $('#totalPrice').html()){
+    		$('#myModal').modal('show');
+			$('.modal-body').html("账户余额不足，请充值");
+			$('.btn-ok').attr("style","display:none;");
+    		return false;
+    	}
+    	
+    	else {
     		$.ajax({
         		type: "GET",
         		url:"/distributor/submitOrder/" + $("#distributorId").val() + "/totalPrice/" + parseFloat($('#totalPrice').text()),

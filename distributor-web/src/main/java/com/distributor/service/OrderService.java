@@ -101,6 +101,8 @@ public class OrderService{
 				record.setId(distributorId);
 				record.setBalance(balance);
 				distributorMapper.updateByPrimaryKeySelective(record);
+				
+				distributorBalance.setBalance(balance);
 				distributorBalanceMapper.insertSelective(distributorBalance);
 			}else{
 				//return null;

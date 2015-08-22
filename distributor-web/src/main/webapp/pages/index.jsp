@@ -88,7 +88,7 @@
             </ul>
         </div>
         <div class="col-md-10">
-        	<iframe name="view_window" src="/distributor/pages/distributorlist.jsp" width="100%" height="700px" scrolling="no" frameborder="0"></iframe>
+        	<iframe name="view_window" src="/distributor/pages/distributorlist.jsp" width="100%" height="900px" scrolling="no" frameborder="0"></iframe>
         </div>
     </div>
 </div>

@@ -98,19 +98,8 @@ $(function(){
 	$('#startTime').datepicker();         
 	$('#endTime').datepicker();   
 	$('#searOderForm').on('submit',function(){
-		var startTime = '';
-		var endTime = '';
-		if($('#startTime').val() == ''){
-			startTime = 0 + '' 
-		}
-		else{
-			startTime = $('#startTime').val()
-		}
-		if($('#endTime').val() == ''){
-			endTime = 0 + ''
-		}else{
-			endTime = $('#endTime').val()
-		}
+		var startTime = $('#startTime').val() == '' ? '0' : $('#startTime').val();
+		var endTime = $('#endTime').val() == '' ? '0' : $('#endTime').val();
 		$.ajax({
 			type: "GET",
 			url:"/distributor/order/" + startTime + "/" + endTime + "/0",
@@ -126,7 +115,7 @@ $(function(){
                         		+ '</td><td class="blue operation-detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search"></i>&nbsp;<span style="cursor:pointer">详情</span></td></tr>';
                     });
         			if(t === ''){
-        				t = "&nbsp;未查询到符合条件的订单"
+        				t = "<tr><td colspan='6'>&nbsp;未查询到符合条件的订单</td></tr>";
         			}
         			$("#content-table").empty();
                     $("#content-table").append(t);
@@ -147,12 +136,7 @@ $(function(){
                     function PageCallback(index, jq) {
                         $.ajax({
                             type: 'GET',
-                            url: "/distributor/commodityList/" + index,
-                            error:function(XMLHttpRequest, textStatus, errorThrown){
-                            	alert(XMLHttpRequest.status);
-                                alert(XMLHttpRequest.readyState);
-                                alert(textStatus);
-                            },
+                            url: "/distributor/order/" + startTime + "/" + endTime + '/' + index,
                             success: function(data) {
                                 if (data.success) {
                                 	localData = data.content;
@@ -162,15 +146,20 @@ $(function(){
                         				var commissionMoney = value.bossDistributor != null ? value.displayCommission:'0';
                                         t += '<tr><td>'+ value.id +'</td><td>'+ value.orderDistributor.name + '</td><td>￥ '+ value.displayMoney  
                                         		+ '</td><td>店小二'+ '</td><td>'+ value.displayCreateTime
-                                        		+ '</td><td class="detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search"></i><span style="cursor:pointer">详情</span></td></tr>';
+                                        		+ '</td><td class="blue operation-detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search"></i><span style="cursor:pointer">&nbsp;&nbsp;详情</span></td></tr>';
                                     });
                         			if(t === ''){
-                        				t = "&nbsp;未查询到符合条件的订单"
+                        				t = "<tr><td colspan='6'>&nbsp;未查询到符合条件的订单</td></tr>";
                         			}
                         			$("#content-table").empty();
                                     $("#content-table").append(t);
                                     $("#statics").html('总订单数： '+data.total);
                                 }
+                            },
+                            error:function(XMLHttpRequest, textStatus, errorThrown){
+                            	alert(XMLHttpRequest.status);
+                                alert(XMLHttpRequest.readyState);
+                                alert(textStatus);
                             }
                         });
                     };

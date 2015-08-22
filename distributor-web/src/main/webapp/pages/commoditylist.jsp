@@ -145,8 +145,7 @@
 			<td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称</td>
 			<td width="10%">商品分类</td>
 			<td width="15%">商品ID</td>
-			<td width="10%">商品价格(元)</td>
-			<td width="15%">商品说明</td>
+			<td width="15%">商品价格(元)</td>
 			<td width="30%">操作</td></tr>
 			<tbody id="content-table"></tbody>
 		</table>
@@ -220,8 +219,7 @@ $(function(){
 			$(data.content).each(function (key,value) { //遍历返回的json   
 				para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ value.brand+'·'+value.name + '</td><td>'
 						+ value.categoryName +'</td><td>'+ value.id +'</td><td>'+ value.displayPrice + 
-                        '</td><td>'+ value.description +'</td><td>'+
-                        '<a class="blue" href="/distributor/commodity/'+value.id+
+                        '</td><td><a class="blue" href="/distributor/commodity/'+value.id+
                         '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
 						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
 						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a></td></tr>';        
@@ -257,8 +255,7 @@ $(function(){
                 			$(data.content).each(function (key,value) { //遍历返回的json   
                 				para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ value.brand+'·'+value.name + '</td><td>'
                 					+ value.categoryName +'</td><td>'+ value.id +'</td><td>'+ value.displayPrice + 
-	                                '</td><td>'+ value.description +'</td><td>'+
-	                                '<a class="blue" href="/distributor/commodity/'+value.id+
+	                                '</td><td><a class="blue" href="/distributor/commodity/'+value.id+
 	                                '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
 	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
 	        						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a></td></tr>';        
