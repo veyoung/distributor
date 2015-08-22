@@ -146,7 +146,7 @@ $(function(){
 					$(data.content).each(function (key,value) { //遍历返回的json   
 						para += '<tr><td>'+ value.displayCreateTime + 
 		                        '</td><td>￥'+ value.displayCommission +'</td><td>￥'+ value.displayTotalCommission + 
-		                        '</td><td class="detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search""></i><span style="cursor:pointer;">查看</span></td></tr>';
+		                        '</td><td class="blue detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search""></i><span style="cursor:pointer;">查看</span></td></tr>';
 		            });
 					$("#content-table").empty();
 		            $("#content-table").append(para);
@@ -175,7 +175,7 @@ $(function(){
 			        				$(data.content).each(function (key,value) { //遍历返回的json   
 			        					para += '<tr><td>'+ value.displayCreateTime + 
 			        	                        '</td><td>￥'+ value.displayMoney +'</td><td>￥'+ value.displayCommission + 
-			        	                        '</td><td class="detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search""></i><span style="cursor:pointer;">查看</span></td></tr>';
+			        	                        '</td><td class="blue detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search""></i><span style="cursor:pointer;">查看</span></td></tr>';
 			        	            });
 			        				$("#content-table").empty();
 			        	            $("#content-table").append(para);
