@@ -361,7 +361,9 @@ $(document).ready(function(){
     		return false;
     	} 
     	
-    	if($("#balance").val()  < $('#totalPrice').html()){
+    	var bal = parseFloat($("#balance").val());
+    	var total = parseFloat($("#totalPrice").html());
+    	if(bal  < total){
     		$('#myModal').modal('show');
 			$('.modal-body').html("账户余额不足，请充值");
 			$('.btn-ok').attr("style","display:none;");
