@@ -147,6 +147,9 @@ $(document).ready(function(){
 		});
 	})	
 	
+	var changeNum = function(num){
+		return Math.round(num*100)/100;
+	}
 	//添加商品
 	/*
 	var ids= new Array();
@@ -201,13 +204,13 @@ $(document).ready(function(){
     			var t = "";
 				var totalPrice = 0;
     			$(data.content).each(function (key,value) { //遍历返回的json                     
-                    t += '<tr class="for-total-price" data-id="'+ value.id +'"><td>'+ value.name +'</td><td>'+ value.displayPrice + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                    t += '<tr class="for-total-price" data-id="'+ value.id +'"><td>'+ value.name +'</td><td>'+ changeNum(value.displayPrice) + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
                     		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
-                    		+ value.displayPrice * 1 + '</td><td>'
+                    		+ changeNum(value.displayPrice * 1) + '</td><td>'
 							+ '<a href="/distributor/deleteCommodity/' 
 							+ value.id + '" class="orange"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
                     		+ '</td></tr>';
-                    totalPrice += parseFloat(value.displayPrice);
+                    totalPrice += changeNum(parseFloat(value.displayPrice));
                 });
     			
     			$("#content-table").empty();
@@ -215,7 +218,7 @@ $(document).ready(function(){
     				t='<tr><td colspan="5">订单下暂无商品</td></tr>';
     			}
                 $("#content-table").append(t);
-                $("#totalPrice").text(totalPrice);
+                $("#totalPrice").text(changeNum(totalPrice));
                 $('.subtracting').addClass("disable-background");
     		} else {
     			
@@ -229,7 +232,7 @@ $(document).ready(function(){
     		 return;
     	}
     	var currentCount = parseInt($(this).next('.countbox').text())
-    	var avgPrice = parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
+    	var avgPrice = changeNum(parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount)
     	var count = parseInt($(this).next('.countbox').text()) - 1;
     	var dom = $(this).next('.countbox');
     	var commodityId = dom.parent('#commodity-count').parent('.for-total-price').data("id")
@@ -244,17 +247,17 @@ $(document).ready(function(){
     		    	}else if(count == 1){
     		    		dom.prev('.subtracting').addClass("disable-background");
     		    	}
-    		    	var currentPrice = avgPrice*count;
+    		    	var currentPrice = changeNum(avgPrice*count);
     		    	dom.closest('#commodity-count').next("#priceDisplay").text(currentPrice);
     		    	var brothers = dom.closest('#commodity-count').closest('.for-total-price').siblings();
     		    	if(brothers.length == 0){
-    		    		$('#totalPrice').html(currentPrice)
+    		    		$('#totalPrice').html(changeNum(currentPrice))
     		    	}else{
     		    		var totalPrice =currentPrice;
     		    		brothers.each(function (key,value) {
-    		    			totalPrice += parseFloat($(value).children('#priceDisplay').text());
+    		    			totalPrice += changeNum(parseFloat($(value).children('#priceDisplay').text()));
         		    	})
-        		    	$('#totalPrice').html(totalPrice)
+        		    	$('#totalPrice').html(changeNum(totalPrice))
     		    	}
     		    	
     			} else{
@@ -271,7 +274,7 @@ $(document).ready(function(){
     //增加商品数量
     $("#content-table").on('click', '.adding', function(){
     	var currentCount = parseInt($(this).prev('.countbox').text())
-    	var avgPrice = parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount
+    	var avgPrice = changeNum(parseFloat($(this).closest('#commodity-count').next("#priceDisplay").text())/currentCount)
     	var count = currentCount + 1;
     	var dom = $(this).prev('.countbox');
     	var commodityId = dom.parent('#commodity-count').parent('.for-total-price').data("id")
@@ -286,18 +289,18 @@ $(document).ready(function(){
     		    	}else if(count == 1){
     		    		dom.prev('.subtracting').addClass("disable-background");
     		    	}
-    		    	var currentPrice = avgPrice*count;
+    		    	var currentPrice = changeNum(avgPrice*count);
     		    	dom.closest('#commodity-count').next("#priceDisplay").text(currentPrice)
     		    	var brothers = dom.closest('#commodity-count').closest('.for-total-price').siblings();
     		    	if(brothers.length == 0){
-    		    		$('#totalPrice').html(currentPrice)
+    		    		$('#totalPrice').html(changeNum(currentPrice))
     		    	}else{
     		    		var totalPrice = currentPrice;
     		    		brothers.each(function (key,value) {
     		    			console.log(value);
-    		    			totalPrice += parseFloat($(value).children('#priceDisplay').text());
+    		    			totalPrice += changeNum(parseFloat($(value).children('#priceDisplay').text()));
         		    	})
-        		    	$('#totalPrice').html(totalPrice)
+        		    	$('#totalPrice').html(changeNum(totalPrice))
     		    	}
     			} else{
     				$('#myModal').modal('show');
@@ -368,7 +371,7 @@ $(document).ready(function(){
     	else {
     		$.ajax({
         		type: "GET",
-        		url:"/distributor/submitOrder/" + $("#distributorId").val() + "/totalPrice/" + parseFloat($('#totalPrice').text()),
+        		url:"/distributor/submitOrder/?distributorId=" + $("#distributorId").val() + "&totalPrice=" + $('#totalPrice').text(),
         		success: function(data) {
         			if(data.success){
     					location.href="/distributor/pages/orderlist.jsp";

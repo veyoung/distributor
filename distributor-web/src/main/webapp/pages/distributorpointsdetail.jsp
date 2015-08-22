@@ -146,7 +146,7 @@ $(function(){
 					$(data.content).each(function (key,value) { //遍历返回的json   
 						para += '<tr><td>'+ value.displayCreateTime + 
 		                        '</td><td>￥'+ value.displayCommission +'</td><td>￥'+ value.displayTotalCommission + 
-		                        '</td><td class="detail" data-id=' + value.id + '><span style="cursor:pointer">查看</span></td></tr>';
+		                        '</td><td class="detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search""></i><span style="cursor:pointer;">查看</span></td></tr>';
 		            });
 					$("#content-table").empty();
 		            $("#content-table").append(para);
@@ -176,7 +176,7 @@ $(function(){
 			        				$(data.content).each(function (key,value) { //遍历返回的json   
 			        					para += '<tr><td>'+ value.displayCreateTime + 
 			        	                        '</td><td>￥'+ value.displayMoney +'</td><td>￥'+ value.displayCommission + 
-			        	                        '</td><td class="detail" data-id=' + value.id + '><span style="cursor:pointer">查看</span></td></tr>';
+			        	                        '</td><td class="detail" data-id=' + value.id + '><i class="glyphicon glyphicon-search""></i><span style="cursor:pointer;">查看</span></td></tr>';
 			        	            });
 			        				$("#content-table").empty();
 			        	            $("#content-table").append(para);
@@ -208,7 +208,7 @@ $(function(){
 		$.each(distributorCommissionCommoditys, function(key, value){
 			para += '<tr><td>'+ value.commodityName + 
             '</td><td>'+ value.commodityCount +'</td><td>'+ 
-            value.commodityCommission + '</td></tr>'
+            value.commodityCommission/100 + '</td></tr>'
 		})
 		$('#content-table-dialog').html(para);
 		$('.btn-ok').attr("style","display:none;");

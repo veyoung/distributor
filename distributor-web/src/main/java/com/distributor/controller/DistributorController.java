@@ -87,6 +87,7 @@ public class DistributorController extends BaseController{
 			Long id = IdGenerator.getInstance().nextId();
 			if(distributor != null){
 				distributor.setId(id);
+				distributor.setBalance(0);
 				distributor.setStatus(1);
 				distributorMapper.insert(distributor);
 				
