@@ -145,7 +145,7 @@ $(function(){
 	                            
 	                            $('.deleteBtn').click(function(){
 	                        		var id = $(this).attr('id');
-	                        		var url= "/distributor/commodity/delete/"+id;
+	                        		var url= "/distributor/commodityCategory/delete/"+id;
 	                        		$("#deleteUrl").attr("href",url); 
 	                        		return true;
 	                        	});

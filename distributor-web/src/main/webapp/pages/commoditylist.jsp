@@ -24,7 +24,6 @@
 			</div>
 		</h4>
 		
-		
 		<!-- Modal -->
 		<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
@@ -94,7 +93,7 @@
 					    <label class="col-sm-3 control-label" for="commodityPrice">金牌消费自身提成</label>
 					    <div class="col-sm-8">
 					    	<div class="input-group">
-					    		<input type="text" name="goldGold" class="form-control" id=""goldGold"" placeholder="输入金牌消费自身提成金额">
+					    		<input type="text" name="goldGold" class="form-control" id="goldGold" placeholder="输入金牌消费自身提成金额">
 					    		<div class="input-group-addon">元</div>
 					    	</div>
 					    </div>
@@ -112,7 +111,7 @@
 					    <label class="col-sm-3 control-label" for="commodityPrice">钻石消费自身提成</label>
 					    <div class="col-sm-8">
 					    	<div class="input-group">
-					    		<input type="text" name="diamondDiamond" class="form-control" id=""diamondDiamond" placeholder="输入钻石消费自身提成金额">
+					    		<input type="text" name="diamondDiamond" class="form-control" id="diamondDiamond" placeholder="输入钻石消费自身提成金额">
 					    		<div class="input-group-addon">元</div>
 					    	</div>
 					    </div>
@@ -138,15 +137,13 @@
 		</div><!-- /.modal -->  
 	</div>
 	
-	
 	<div class="row">
 		<table class="table table-striped table-hover">
 			<tr class="table-title-blue">
 			<td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称</td>
 			<td width="10%">商品分类</td>
 			<td width="15%">商品ID</td>
-			<td width="10%">商品价格(元)</td>
-			<td width="15%">商品说明</td>
+			<td width="15%">商品价格(元)</td>
 			<td width="30%">操作</td></tr>
 			<tbody id="content-table"></tbody>
 		</table>
@@ -204,6 +201,12 @@ $(function(){
 		var name = $('#commodityName').val();
 		var brand = $('#commodityBrand').val();
 		var price = $('#commodityPrice').val();
+		var vipVip = $('#vipVip').val();
+		var vipGold = $('#vipGold').val();
+		var vipDiamond = $('#vipDiamond').val();
+		var goldGold = $('#goldGold').val();
+		var goldDiamond = $('#goldDiamond').val();
+		var diamondDiamond = $('#diamondDiamond').val();
 		if(name === ''){
 			$('#tips').text('请输入商品名');
 			return false;
@@ -216,6 +219,30 @@ $(function(){
 			$('#tips').text('请输入合格的商品价格');
 			return false;
 		}	
+		if(vipVip === '' || isNaN(vipVip)){
+			$('#tips').text('请输入合格的价格提成');
+			return false;
+		}	
+		if(vipGold === '' || isNaN(vipGold)){
+			$('#tips').text('请输入合格的价格提成');
+			return false;
+		}	
+		if(vipDiamond === '' || isNaN(vipDiamond)){
+			$('#tips').text('请输入合格的价格提成');
+			return false;
+		}	
+		if(goldGold === '' || isNaN(goldGold)){
+			$('#tips').text('请输入合格的价格提成');
+			return false;
+		}	
+		if(goldDiamond === '' || isNaN(goldDiamond)){
+			$('#tips').text('请输入合格的价格提成');
+			return false;
+		}	
+		if(diamondDiamond === '' || isNaN(diamondDiamond)){
+			$('#tips').text('请输入合格的价格提成');
+			return false;
+		}	
 		return true;
 	});
 	
@@ -225,7 +252,6 @@ $(function(){
 		url:"/distributor/commodityList/0",
 	 	success: function(data) {
 	 		coreFunction(data);
-	 		
 		}
 	});
 	
@@ -236,8 +262,7 @@ $(function(){
 			$(data.content).each(function (key,value) { //遍历返回的json   
 				para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ value.brand+'·'+value.name + '</td><td>'
 						+ value.categoryName +'</td><td>'+ value.id +'</td><td>'+ value.displayPrice + 
-                        '</td><td>'+ value.description +'</td><td>'+
-                        '<a class="blue" href="/distributor/commodity/'+value.id+
+                        '</td><td><a class="blue" href="/distributor/commodity/'+value.id+
                         '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
 						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
 						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a></td></tr>';        
@@ -273,8 +298,7 @@ $(function(){
                 			$(data.content).each(function (key,value) { //遍历返回的json   
                 				para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ value.brand+'·'+value.name + '</td><td>'
                 					+ value.categoryName +'</td><td>'+ value.id +'</td><td>'+ value.displayPrice + 
-	                                '</td><td>'+ value.description +'</td><td>'+
-	                                '<a class="blue" href="/distributor/commodity/'+value.id+
+	                                '</td><td><a class="blue" href="/distributor/commodity/'+value.id+
 	                                '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
 	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
 	        						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a></td></tr>';        
@@ -288,7 +312,6 @@ $(function(){
                         		$("#deleteUrl").attr("href",url); 
                         		return true;
                         	});
-                            
                             $('.add2Order').click(function(){
                             	var id = $(this).attr('id').split(',')[1];
                             	$.ajax({
@@ -308,7 +331,6 @@ $(function(){
                             	});
                             	return false;
                             });
-                            
                         }
                     }
                 });
@@ -333,14 +355,12 @@ $(function(){
             	});
             	return false;
             });
-            
             $('.deleteBtn').click(function(){
         		var id = $(this).attr('id');
         		var url= "/distributor/commodity/delete/"+id;
         		$("#deleteUrl").attr("href",url); 
         		return true;
         	});
-            
     		var strs= new Array(); //定义一数组 
     		strs = data.categoriesStr.split(";"); ///字符分割 
     		for(var i = 0; i < strs.length-1; i++){ 
@@ -351,7 +371,6 @@ $(function(){
     		} 
 		}
 	}
-	
 })
 </script>
 </body>

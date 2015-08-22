@@ -54,7 +54,7 @@
 				<td width="20%">操作</td></tr>
 			<tbody id="content-table"><tr><td colspan='4'>暂无提成记录</td></tr></tbody>
 		</table>
-		<div style="background-color:#eff3f8;height:60px;margin-top:-20px">
+		<div id="bottom-tip" style="background-color:#eff3f8;height:60px;margin-top:-20px;display:none">
 			<div class="col-sm-3"><span id ="statics" style="line-height:60px"></span></div>
 			<div class="col-sm-9"><div id="pagination" style="float:right"></div></div>
 		</div>
@@ -151,6 +151,7 @@ $(function(){
 					$("#content-table").empty();
 		            $("#content-table").append(para);
 		            $("#statics").html('总记录数： '+data.total);
+		            $('#bottom-tip').css('display','block');
 		            
 		            //分页，PageCount是总条目数，这是必选参数，其它参数都是可选
 		            $('#pagination').pagination(data.total, {

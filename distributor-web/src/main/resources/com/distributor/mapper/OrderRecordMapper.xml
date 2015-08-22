@@ -141,12 +141,12 @@
      </if>
      
     <if test="startTime!=null and startTime!='' ">
-     and UNIX_TIMESTAMP(create_time) &gt;= UNIX_TIMESTAMP(#{startTime,jdbcType=TIMESTAMP})
+     and UNIX_TIMESTAMP(create_time) &gt; UNIX_TIMESTAMP(#{startTime,jdbcType=TIMESTAMP})
      </if>
      <if test="endTime!=null and endTime!=''">
      and UNIX_TIMESTAMP(create_time) &lt; UNIX_TIMESTAMP(#{endTime,jdbcType=TIMESTAMP})
      </if>
-	</where>
+	</where> 
 	order by create_time desc 
 	<if test="pageSize != null and offset != null">
 		limit #{offset,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -161,7 +161,7 @@
 	     distributor_id = #{distributorId,jdbcType=BIGINT}
 	     </if>
 	     <if test="startTime!=null and startTime!='' ">
-	     and UNIX_TIMESTAMP(create_time) &gt;= UNIX_TIMESTAMP(#{startTime,jdbcType=TIMESTAMP})
+	     and UNIX_TIMESTAMP(create_time) &gt; UNIX_TIMESTAMP(#{startTime,jdbcType=TIMESTAMP})
 	     </if>
 	     <if test="endTime!=null and endTime!=''">
 	     and UNIX_TIMESTAMP(create_time) &lt; UNIX_TIMESTAMP(#{endTime,jdbcType=TIMESTAMP})

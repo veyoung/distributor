@@ -1,7 +1,6 @@
 package com.distributor.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +26,7 @@ import com.distributor.model.DistributorInclude;
 import com.distributor.model.OrderCommodityInclude;
 import com.distributor.model.OrderRecord;
 import com.distributor.service.OrderService;
-import com.distributor.utils.CommonUtils;
 import com.distributor.utils.ConstantVariable;
-import com.distributor.utils.IdGenerator;
-import com.distributor.utils.TimeUtils;
 import com.distributor.mapper.DistributorCommissionMapper;
 import com.distributor.mapper.DistributorCommissionCommodityMapper;
 @Controller
@@ -91,7 +87,7 @@ public class OrderController extends BaseController{
 			){
 		try {
 			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-			SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Map<String, Object> param = new HashMap<String, Object>();
 			if(!startTime.equals("0")){
 				param.put("startTime", format1.parse(startTime));

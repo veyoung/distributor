@@ -87,6 +87,7 @@ public class DistributorController extends BaseController{
 			Long id = IdGenerator.getInstance().nextId();
 			if(distributor != null){
 				distributor.setId(id);
+				distributor.setBalance(0);
 				distributor.setStatus(1);
 				distributorMapper.insert(distributor);
 				
@@ -241,9 +242,7 @@ public class DistributorController extends BaseController{
 			@PathVariable("money") int money
 			){
 		try {
-			
-			
-			
+			money *= 100;
 			Distributor distributor = distributorMapper.selectByPrimaryKey(id);
 			if (distributor != null) {
 				Distributor updateDistributor = new Distributor();
@@ -258,7 +257,7 @@ public class DistributorController extends BaseController{
 				balance.setBalance(distributor.getBalance() + money);
 				balance.setCreateTime(new Date());
 				distributorBalanceMapper.insert(balance);
-				return success(distributor.getBalance() + money);
+				return success((distributor.getBalance() + money)/100);
 			} else {
 				return fail();
 			}
