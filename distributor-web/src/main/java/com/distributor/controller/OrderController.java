@@ -164,7 +164,7 @@ public class OrderController extends BaseController{
 			param.put("pageSize", ConstantVariable.Pagesize);
 			param.put("offset", page * ConstantVariable.Pagesize);
 			param.put("distributorId", distributorId);
-			
+			Distributor distributor = distributorMapper.selectByPrimaryKey(distributorId);
 			List<OrderRecord> orders = orderRecordMapper.selectOrdersSelective(param);
 			for(OrderRecord order : orders){
 				Map<String, Object> queryParam = new HashMap<String, Object>();
@@ -178,6 +178,7 @@ public class OrderController extends BaseController{
 			int total = orderRecordMapper.getCountSelective(param);
 			Map<String, Object> result = success(orders);
 			result.put("total", total);
+			result.put("distributor", distributor);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -214,7 +215,7 @@ public class OrderController extends BaseController{
 			param.put("offset", page * ConstantVariable.Pagesize);
 			param.put("distributorId", distributorId);
 			List<DistributorCommission> distributorcommisssions = distributorCommissionMapper.selectCommissionsSelective(param);
-			
+			Distributor distributor = distributorMapper.selectByPrimaryKey(distributorId);
 			for(DistributorCommission distributorcommisssion : distributorcommisssions){
 				//取Distributor
 				Long orderId = distributorcommisssion.getOrderId();
@@ -235,6 +236,7 @@ public class OrderController extends BaseController{
 			int total = distributorCommissionMapper.getCountSelective(param);
 			Map<String, Object> result = success(distributorcommisssions);
 			result.put("total", total);
+			result.put("distributor", distributor);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
