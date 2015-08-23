@@ -1,5 +1,6 @@
 package com.distributor.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,14 +41,19 @@ public class UserController extends BaseController{
 		return "login";
 	}
 	
+	@RequestMapping("dashboard")
+	public String dashboard(){
+		return "index";
+	}
+	
 	/**
 	 * 登录验证
 	 * @param userName
 	 * @param password
 	 * @return
 	 */
-	@RequestMapping("dashboard")
-	public String dashboard(HttpServletRequest request,
+	@RequestMapping("userLogin")
+	public String userLogin(HttpServletRequest request,
 			@RequestParam("userName") String userName,
 			@RequestParam("password") String password,
 			Model model){
@@ -61,14 +67,15 @@ public class UserController extends BaseController{
 				if(user != null && user.getPassword() != null && user.getPassword().equals(password)){
 					HttpSession session = request.getSession();
 					session.setAttribute("user", user);
-					model.addAttribute("name", user.getName());
-					return "index";
+					model.addAttribute("user", user);
+					return "redirect:/dashboard";
 				}
 				else{
+					model.addAttribute("status", "error");
 					return "login";
 				}
 			}
-			return "index";
+			return "login";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "login";
@@ -89,6 +96,10 @@ public class UserController extends BaseController{
 			@RequestParam("passwordconfirm") String passwordconfirm,
 			@RequestParam("role") int role){
 		try {
+			User dbUser = userMapper.selectByUserName(userName);
+			if(dbUser != null){
+				return "register";
+			}
 			if(password != null && password.equals(passwordconfirm)){
 				User user = new User();
 				user.setId(IdGenerator.getInstance().nextId());
@@ -97,6 +108,7 @@ public class UserController extends BaseController{
 				user.setName(userName);
 				user.setPassword(password);
 				user.setStatus(1);
+				user.setCreateTime(new Date());
 				userMapper.insert(user);
 				return "login";
 			}

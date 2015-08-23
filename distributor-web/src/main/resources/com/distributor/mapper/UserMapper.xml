@@ -220,4 +220,11 @@
     	</if>
     </where>
   </select> 
+  
+    <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>

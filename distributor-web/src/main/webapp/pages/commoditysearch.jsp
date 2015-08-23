@@ -74,7 +74,7 @@ $(function(){
 		 		if(data.success){
 		 			if(data.content != null){
 		 				var para ='<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ data.content.name + 
-	                    '</td><td>'+ data.content.id +'</td><td>'+ data.content.priceDisplay + 
+	                    '</td><td>'+ data.content.id +'</td><td>￥ '+ data.content.displayPrice + 
 	                    '</td><td>'+ data.content.description +'</td><td>'+
 	                    '<a class="blue" href="/distributor/commodity/'+data.content.id+
 	                    '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+data.content.id+

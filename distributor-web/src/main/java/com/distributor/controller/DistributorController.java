@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,7 @@ import com.distributor.mapper.OrderRecordMapper;
 import com.distributor.model.Distributor;
 import com.distributor.model.DistributorBalance;
 import com.distributor.model.DistributorInclude;
+import com.distributor.model.User;
 import com.distributor.utils.ConstantVariable;
 import com.distributor.utils.IdGenerator;
 
@@ -41,8 +45,13 @@ public class DistributorController extends BaseController{
 	 */
 	@RequestMapping(value="list/{page}", method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> distributorList(@PathVariable("page") int page){	
-		return getDistributorList(page);
+	public Map<String, Object> distributorList(
+			HttpServletRequest request,
+			@PathVariable("page") int page){
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		return getDistributorList(page,user);
+		
 	}
 	
 	/**
@@ -50,7 +59,7 @@ public class DistributorController extends BaseController{
 	 * @param page
 	 * @return
 	 */
-	private Map<String, Object> getDistributorList(int page){
+	private Map<String, Object> getDistributorList(int page, User user){
 		try {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("pageSize", ConstantVariable.Pagesize);
@@ -68,6 +77,7 @@ public class DistributorController extends BaseController{
 			}
 			Map<String, Object> result = success(distributors);
 			result.put("total", total);
+			result.put("user", user);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
