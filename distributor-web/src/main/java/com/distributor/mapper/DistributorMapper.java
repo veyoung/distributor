@@ -62,4 +62,6 @@ public interface DistributorMapper {
     
     int getCountAll();
     
+    Distributor selectByName(String name);
+    
 }

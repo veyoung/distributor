@@ -67,4 +67,6 @@ public interface UserMapper {
     void rejectRegisterUser(Long id);
     
     void deleteUser(Long id);
+    
+    User selectByUserName(String name);
 }

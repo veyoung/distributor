@@ -23,10 +23,12 @@ public class LoginFilter implements Filter {
 		HttpServletResponse response  =(HttpServletResponse) arg1;
 	    HttpSession session = request.getSession(true);
 	    
-	    if (session.getAttribute("user") == null) {
+	    if (!"/distributor/pages/register.jsp".equalsIgnoreCase(request.getRequestURI())
+	    		&& session.getAttribute("user") == null) {
 	    	response.sendRedirect(request.getContextPath() + "/login");     
 	    	return;
 	    }
+	    
 	    arg2.doFilter(arg0, arg1);     
         return; 
 	}

@@ -17,10 +17,12 @@
 	<div class="page-header">
 		<h4 class="header">
 			<b><em></em>商品分类列表</b>
-			<div class="pull-right action-group">               
+			<div class="pull-right action-group">     
+				<c:if test="${sessionScope.user.role == 1}">            
 				<button class="btn btn-success" data-toggle="modal" data-target="#myModal">
   					<i class="ace-icon fa fa-plus-circle"></i>添加商品分类
-				</button>                     
+				</button> 
+				</c:if>                    
 			</div>
 		</h4>
 		<!-- Modal -->

@@ -20,12 +20,6 @@
 		</h4>
 	</div>
 	<form id="commoditySearchForm" class="form-horizontal" role="form">
-		<div class="form-group">
-		    <label class="col-sm-2 control-label" for="distributorName">商品名称</label>
-		    <div class="col-sm-4">
-		    	<input type="text" name="commodityName" class="form-control" id="commodityName" placeholder="输入商品名称">
-		    </div>
-		 </div>
          <div class="form-group">
 		    <label class="col-sm-2 control-label" for="distributorName">商品ID</label>
 		    <div class="col-sm-4">
@@ -80,7 +74,7 @@ $(function(){
 		 		if(data.success){
 		 			if(data.content != null){
 		 				var para ='<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ data.content.name + 
-	                    '</td><td>'+ data.content.id +'</td><td>'+ data.content.priceDisplay + 
+	                    '</td><td>'+ data.content.id +'</td><td>￥ '+ data.content.displayPrice + 
 	                    '</td><td>'+ data.content.description +'</td><td>'+
 	                    '<a class="blue" href="/distributor/commodity/'+data.content.id+
 	                    '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+data.content.id+

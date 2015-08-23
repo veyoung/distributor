@@ -17,10 +17,12 @@
 	<div class="page-header">
 		<h4 class="header">
 			<b><em></em>分销商列表</b>
-			<div class="pull-right action-group">               
+			<div class="pull-right action-group">    
+				<c:if test="${sessionScope.user.role == 1}">              
 				<button class="btn btn-success" data-toggle="modal" data-target="#myModal">
   					<i class="ace-icon fa fa-plus-circle"></i>添加分销商
-				</button>                     
+				</button>      
+				</c:if>               
 			</div>
 		</h4>
 		<!-- Modal -->
@@ -162,6 +164,23 @@ $(function (){
 	localStorage.clear();
 	
 	
+	
+	$('#distributorName').on('blur',function(){
+		$.ajax({
+			url:'/distributor/validate/distributorName/' + $('#distributorName').val(),
+			type:'GET',
+			success: function(data){
+				if (data.success) {
+					if (data.content === "yes") {
+						$('#tips').text('分销商姓名不可用，请更换');
+					} else {
+						$('#tips').text('');
+					}
+				}
+			}
+		})
+	});
+	
 	//添加分销商
 	$('#distributorAddForm').on('submit',function(){
 		var name = $('#distributorName').val();
@@ -222,14 +241,21 @@ $(function (){
 			$(data.content).each(function (key,value) { //遍历返回的json   
 				var name = value.owner != null ? value.owner.name :'暂无';
 				var level = value.level == 1 ? '钻石会员':value.level == 2 ? '金牌会员':'VIP会员';
-				para += '<tr><td>'+ value.name + 
-                        '</td><td>'+ value.id +'</td><td>'+ level + 
-                        '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td id="money'+value.id+'">￥' + value.balance/100 +
-                        '</td><td><a class="blue" href="/distributor/distributorEdit/'+value.id+
+				var display = '';
+				if (data.user.role === 1) {
+					display += '<a class="blue" href="/distributor/distributorEdit/'+value.id+
                         '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
 						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
-						'<a class="green chargeBtn" data-toggle="modal" data-target="#rechargeModal" id="charge,'+value.id+'"><i class="ace-icon fa fa-check"></i>&nbsp;账户充值&nbsp;&nbsp;</a>'+
-                        '</td></tr>';        
+						'<a class="green chargeBtn" data-toggle="modal" data-target="#rechargeModal" id="charge,'+value.id+
+						'"><i class="ace-icon fa fa-check"></i>&nbsp;账户充值&nbsp;&nbsp;</a>';
+				} else {
+					display += '<a class="green chargeBtn" data-toggle="modal" data-target="#rechargeModal" id="charge,'+value.id+'"><i class="ace-icon fa fa-check"></i>&nbsp;账户充值&nbsp;&nbsp;</a>';
+				}
+				para += '<tr><td>'+ value.name + 
+                        '</td><td>'+ value.id +'</td><td>'+ level + 
+                        '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +
+                        '">查看</a></td><td id="money'+value.id+'">￥' + value.balance/100 +
+                        '</td><td>'+display+'</td></tr>';        
             });
 			$("#content-table").empty();
             $("#content-table").append(para);
@@ -271,14 +297,22 @@ $(function (){
             				$(data.content).each(function (key,value) { //遍历返回的json   
             					var name = value.owner != null ? value.owner.name :'暂无';
             					var level = value.level == 1 ? '钻石会员':value.level == 2 ? '金牌会员':'VIP会员';
+            					var display = "";
+            					if (data.user.role === 1) {
+            						display += '<a class="blue" href="/distributor/distributorEdit/'+value.id+
+            	                        '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
+            							'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
+            							'<a class="green chargeBtn" data-toggle="modal" data-target="#rechargeModal" id="charge,'+value.id+
+            							'"><i class="ace-icon fa fa-check"></i>&nbsp;账户充值&nbsp;&nbsp;</a>';
+            					} else {
+            						display += '<a class="green chargeBtn" data-toggle="modal" data-target="#rechargeModal" id="charge,'+value.id+'"><i class="ace-icon fa fa-check"></i>&nbsp;账户充值&nbsp;&nbsp;</a>';
+            					}
+            					
             					para += '<tr><td>'+ value.name + 
-	            					'</td><td>'+ value.id +'</td><td>'+ level + 
-	                                '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td id="money'+value.id+'">￥' + value.balance/100 +
-	                                '</td><td><a class="blue" href="/distributor/distributorEdit/'+value.id+
-	                                '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
-	        						'<a class="green chargeBtn" data-toggle="modal" data-target="#rechargeModal" id="charge,'+value.id+'"><i class="ace-icon fa fa-check"></i>&nbsp;账户充值&nbsp;&nbsp;</a>'+
-	                                '</td></tr>'; 
+		                                '</td><td>'+ value.id +'</td><td>'+ level + 
+		                                '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +
+		                                '">查看</a></td><td id="money'+value.id+'">￥' + value.balance/100 +
+		                                '</td><td>'+display+'</td></tr>';      
             				});
             				$("#content-table").empty();
                             $("#content-table").append(para);
@@ -296,7 +330,7 @@ $(function (){
                             	$('#rechargeDistributorId').val(id);
                             	return true;
                             });
-                            
+                            $('body').css({scrollTop:"-200px"});
                         }
                     }
                 });
@@ -342,7 +376,7 @@ $(function (){
 							$('#rechargeModal').modal('hide')
 							$('#info-modal').modal('show')
 		            		$('#info-modal').find('.btn-ok').attr('style', '');
-							$('#info-modal').find('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp&nbsp恭喜您充值成功，是否前往订单消费出结账？</span>');
+							$('#info-modal').find('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp&nbsp恭喜您充值成功，是否前往订单消费去结账？</span>');
 							$('#info-modal').find('.btn-ok').click(function(){
 								location.href = "/distributor/pages/ordersubmit.jsp";
 							})

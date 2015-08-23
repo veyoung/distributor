@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import com.distributor.mapper.CategoryMapper;
 import com.distributor.mapper.CommodityMapper;
 import com.distributor.model.Category;
 import com.distributor.model.Commodity;
+import com.distributor.model.User;
 import com.distributor.utils.ConstantVariable;
 import com.distributor.utils.IdGenerator;
 
@@ -34,7 +37,13 @@ public class CommodityController extends BaseController{
 	 */
 	@RequestMapping("commodityList/{page}")
 	@ResponseBody
-	public Map<String, Object> commodityList(@PathVariable("page") int page){	
+	public Map<String, Object> commodityList(
+			HttpServletRequest request, 
+			@PathVariable("page") int page){	
+		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		
 		try {
 			HashMap<String, Object> param = new HashMap<String, Object>();
 		    param.put("pageSize", ConstantVariable.Pagesize);
@@ -57,6 +66,7 @@ public class CommodityController extends BaseController{
 		    Map<String, Object> result = success(commoditys);
 		    result.put("total", total);
 		    result.put("categoriesStr", categoriesStr);
+		    result.put("user", user);
 		    return result;
 		} catch (Exception e) {
 			e.printStackTrace();

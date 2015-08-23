@@ -18,7 +18,9 @@
             <a class="navbar-brand" href="#" id="logo">会员分销管理系统</a>
         </div>
         <div class="login-box">
-           	<span>欢迎您:&nbsp;&nbsp;${name}&nbsp;</span> 
+           	<span>欢迎您:&nbsp;&nbsp;${user.name}（
+			<c:if test="${user.role == 1}">超级管理员</c:if>
+			<c:if test="${user.role == 2}">操作员</c:if>）&nbsp;</span> 
         </div>
     </div>
 </div>
@@ -28,7 +30,7 @@
             <ul id="main-nav" class="main-nav nav nav-tabs nav-stacked">
                 <li>
                     <a href="/distributor/pages/mainbody.jsp" target="view_window">
-                        <i class="glyphicon glyphicon-th-large"></i> 首页 		
+                        <i class="glyphicon glyphicon-th-large"></i> 首页 
                     </a>
                 </li>
                 <li>
@@ -88,7 +90,7 @@
             </ul>
         </div>
         <div class="col-md-10">
-        	<iframe name="view_window" src="/distributor/pages/distributorlist.jsp" width="100%" height="900px" scrolling="no" frameborder="0"></iframe>
+        	<iframe name="view_window" src="/distributor/pages/distributorlist.jsp" width="100%" height="800px" scrolling="no" frameborder="0"></iframe>
         </div>
     </div>
 </div>

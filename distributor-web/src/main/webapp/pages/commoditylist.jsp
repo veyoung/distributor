@@ -17,10 +17,12 @@
 	<div class="page-header">
 		<h4 class="header">
 			<b><em></em>商品列表</b>
-			<div class="pull-right action-group">               
-				<button class="btn btn-success" data-toggle="modal" data-target="#myModal">
-  					<i class="ace-icon fa fa-plus-circle"></i>添加商品
-				</button>                     
+			<div class="pull-right action-group">  
+				<c:if test="${sessionScope.user.role == 1}">             
+					<button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+	  					<i class="ace-icon fa fa-plus-circle"></i>添加商品
+					</button>  
+				</c:if>                   
 			</div>
 		</h4>
 		
@@ -261,13 +263,20 @@ $(function(){
 	function coreFunction(data){
 		if(data.success){
 			var para = '';
-			$(data.content).each(function (key,value) { //遍历返回的json   
-				para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ value.brand+'·'+value.name + '</td><td>'
-						+ value.categoryName +'</td><td>'+ value.id +'</td><td>'+ value.displayPrice + 
-                        '</td><td><a class="blue" href="/distributor/commodity/'+value.id+
+			$(data.content).each(function (key,value) { //遍历返回的json  
+				var display = '';
+				if (data.user.role === 1) {
+					display = '<a class="blue" href="/distributor/commodity/'+value.id+
                         '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
 						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
-						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a></td></tr>';        
+						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a>';
+				} else {
+					display = '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a>';
+				}
+				
+				para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ value.brand+'·'+value.name + '</td><td>'
+						+ value.categoryName +'</td><td>'+ value.id +'</td><td>￥ '+ value.displayPrice + 
+                        '</td><td>' + display+ '</td></tr>';        
             });
 			$("#content-table").empty();
             $("#content-table").append(para);
@@ -298,12 +307,19 @@ $(function(){
                         if (data.success) {
                         	var para = '';
                 			$(data.content).each(function (key,value) { //遍历返回的json   
+                				var display = '';
+                				if (data.user.role === 1) {
+                					display = '<a class="blue" href="/distributor/commodity/'+value.id+
+                                        '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
+                						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
+                						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a>';
+                				} else {
+                					display = '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a>';
+                				}
+                				
                 				para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ value.brand+'·'+value.name + '</td><td>'
-                					+ value.categoryName +'</td><td>'+ value.id +'</td><td>'+ value.displayPrice + 
-	                                '</td><td><a class="blue" href="/distributor/commodity/'+value.id+
-	                                '"><i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-	        						'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除&nbsp;&nbsp;</a>'+
-	        						 '<a class="green add2Order" id="add,'+value.id+'"><i class="ace-icon fa fa-check">&nbsp;加入订单</a></td></tr>';        
+                						+ value.categoryName +'</td><td>'+ value.id +'</td><td>￥ '+ value.displayPrice + 
+                                        '</td><td>' + display+ '</td></tr>';        
                             });
                 			$("#content-table").empty();
                             $("#content-table").append(para);
