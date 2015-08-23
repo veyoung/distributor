@@ -190,4 +190,10 @@
     from distributor
     where status = 1
   </select>  
+  
+  <select id="selectByName" resultMap="BaseResultMap">
+    select *
+    from distributor
+    where name = #{name,jdbcType=VARCHAR}
+  </select>  
 </mapper>

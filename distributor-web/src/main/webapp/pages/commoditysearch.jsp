@@ -20,12 +20,6 @@
 		</h4>
 	</div>
 	<form id="commoditySearchForm" class="form-horizontal" role="form">
-		<div class="form-group">
-		    <label class="col-sm-2 control-label" for="distributorName">商品名称</label>
-		    <div class="col-sm-4">
-		    	<input type="text" name="commodityName" class="form-control" id="commodityName" placeholder="输入商品名称">
-		    </div>
-		 </div>
          <div class="form-group">
 		    <label class="col-sm-2 control-label" for="distributorName">商品ID</label>
 		    <div class="col-sm-4">

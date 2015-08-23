@@ -162,6 +162,23 @@ $(function (){
 	localStorage.clear();
 	
 	
+	
+	$('#distributorName').on('blur',function(){
+		$.ajax({
+			url:'/distributor/validate/distributorName/' + $('#distributorName').val(),
+			type:'GET',
+			success: function(data){
+				if (data.success) {
+					if (data.content === "yes") {
+						$('#tips').text('分销商姓名不可用，请更换');
+					} else {
+						$('#tips').text('');
+					}
+				}
+			}
+		})
+	});
+	
 	//添加分销商
 	$('#distributorAddForm').on('submit',function(){
 		var name = $('#distributorName').val();
@@ -296,7 +313,7 @@ $(function (){
                             	$('#rechargeDistributorId').val(id);
                             	return true;
                             });
-                            
+                            $('body').css({scrollTop:"-200px"});
                         }
                     }
                 });

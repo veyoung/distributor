@@ -267,4 +267,24 @@ public class DistributorController extends BaseController{
 		}
 	}
 	
+	/**
+	 * 校验分销商姓名是否可用
+	 * @param name
+	 * @return
+	 */
+	@RequestMapping("validate/distributorName/{name}")
+	@ResponseBody
+	public Object validateDistributorName(@PathVariable("name") String name){
+		try {
+			Distributor distributor = distributorMapper.selectByName(name);
+			if (distributor != null) {
+				return success("yes");
+			} else {
+				return success("no");
+			}
+		} catch (Exception e) {
+			return fail();
+		}
+	}
+	
 }
