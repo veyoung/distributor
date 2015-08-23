@@ -20,54 +20,46 @@
 		</h4>
 	</div>
 	<div class="tabbable">
-	    <ul class="nav nav-tabs">
-	        <li class="active"><a href="#tab1" data-toggle="tab">周提成排行</a></li>
-	        <li><a href="#tab2" data-toggle="tab">月提成排行</a></li>
-	        <li><a href="#tab3" data-toggle="tab">年度提成排行</a></li>
+	    <ul class="nav nav-tabs trigger-tabs">
+	        <li class="active"><a href="#tab1" data-toggle="tab" data-id='1' class="init-tab">周提成排行</a></li>
+	        <li><a href="#tab2" data-toggle="tab" data-id='2'>月提成排行</a></li>
+	        <li><a href="#tab3" data-toggle="tab" data-id='3'>年度提成排行</a></li>
 	    </ul>
 	    <div class="tab-content">
 	        <div class="tab-pane active" id="tab1">
 	        	<br/>
 				<table class="table table-striped table-hover">
-					<tr class="table-title-grey"><td width="10%">名次</td><td width="15%">分销商姓名</td><td width="15%">分销商ID</td><td width="15%">提成金额(元)</td></tr>
-					<tr><td>1</td><td class="distributor-font">&nbsp;余扬</td><td>56235123</td><td>7998.5</td></tr>									
-					<tr><td>2</td><td class="distributor-font">&nbsp;王志华</td><td>262354223</td><td>6998.5</td></tr>
-					<tr><td>3</td><td class="distributor-font">&nbsp;李东升</td><td>33232323</td><td>5998.5</td></tr>
-					<tr><td>4</td><td class="distributor-font">&nbsp;刘春生</td><td>906235123</td><td>4998.5</td></tr>
-					<tr><td>5</td><td class="distributor-font">&nbsp;宗明</td><td>86235123</td><td>3998.5</td></tr>
-					<tr><td>6</td><td class="distributor-font">&nbsp;高山峰</td><td>99235123</td><td>2998.5</td></tr>
-					<tr><td>7</td><td class="distributor-font">&nbsp;风飞沙</td><td>45235123</td><td>998.5</td></tr>
-					<tr><td>8</td><td class="distributor-font">&nbsp;唐四藏</td><td>236235123</td><td>298.5</td></tr>
+					<tr class="table-title-blue"><td width="10%">名次</td><td width="15%">分销商姓名</td><td width="15%">分销商ID</td><td width="15%">提成金额(元)</td></tr>
+					<tbody id="content-table1"></tbody>
 				</table>
+				 <div id="bottom-tip1" style="background-color:#eff3f8;height:60px;margin-top:-20px;display:none">
+					<div class="col-sm-3"><span id ="statics1" style="line-height:60px"></span></div>
+					<div class="col-sm-9"><div id="pagination1" style="float:right"></div></div>
+				</div>
 			</div>
+		
 	        <div class="tab-pane fade" id="tab2">
 	        	<br/>
 				<table class="table table-striped table-hover">
-					<tr class="table-title-grey"><td width="10%">名次</td><td width="15%">分销商姓名</td><td width="15%">分销商ID</td><td width="15%">提成金额(元)</td></tr>
-					<tr><td>1</td><td class="distributor-font">&nbsp;余扬</td><td>56235123</td><td>7998.5</td></tr>									
-					<tr><td>2</td><td class="distributor-font">&nbsp;王志华</td><td>262354223</td><td>6998.5</td></tr>
-					<tr><td>3</td><td class="distributor-font">&nbsp;李东升</td><td>33232323</td><td>5998.5</td></tr>
-					<tr><td>4</td><td class="distributor-font">&nbsp;刘春生</td><td>906235123</td><td>4998.5</td></tr>
-					<tr><td>5</td><td class="distributor-font">&nbsp;宗明</td><td>86235123</td><td>3998.5</td></tr>
-					<tr><td>6</td><td class="distributor-font">&nbsp;高山峰</td><td>99235123</td><td>2998.5</td></tr>
-					<tr><td>7</td><td class="distributor-font">&nbsp;风飞沙</td><td>45235123</td><td>998.5</td></tr>
-					<tr><td>8</td><td class="distributor-font">&nbsp;唐四藏</td><td>236235123</td><td>298.5</td></tr>
+					<tr class="table-title-blue"><td width="10%">名次</td><td width="15%">分销商姓名</td><td width="15%">分销商ID</td><td width="15%">提成金额(元)</td></tr>
+					<tbody id="content-table2"></tbody>
 				</table>
+				<div id="bottom-tip2" style="background-color:#eff3f8;height:60px;margin-top:-20px;display:none">
+					<div class="col-sm-3"><span id ="statics2" style="line-height:60px"></span></div>
+					<div class="col-sm-9"><div id="pagination2" style="float:right"></div></div>
+				</div>
 			</div>
 			<div class="tab-pane fade" id="tab3">
 	        	<br/>
 				<table class="table table-striped table-hover">
-					<tr class="table-title-grey"><td width="10%">名次</td><td width="15%">分销商姓名</td><td width="15%">分销商ID</td><td width="15%">提成金额(元)</td></tr>
-					<tr><td>1</td><td class="distributor-font">&nbsp;余扬</td><td>56235123</td><td>7998.5</td></tr>									
-					<tr><td>2</td><td class="distributor-font">&nbsp;王志华</td><td>262354223</td><td>6998.5</td></tr>
-					<tr><td>3</td><td class="distributor-font">&nbsp;李东升</td><td>33232323</td><td>5998.5</td></tr>
-					<tr><td>4</td><td class="distributor-font">&nbsp;刘春生</td><td>906235123</td><td>4998.5</td></tr>
-					<tr><td>5</td><td class="distributor-font">&nbsp;宗明</td><td>86235123</td><td>3998.5</td></tr>
-					<tr><td>6</td><td class="distributor-font">&nbsp;高山峰</td><td>99235123</td><td>2998.5</td></tr>
-					<tr><td>7</td><td class="distributor-font">&nbsp;风飞沙</td><td>45235123</td><td>998.5</td></tr>
-					<tr><td>8</td><td class="distributor-font">&nbsp;唐四藏</td><td>236235123</td><td>298.5</td></tr>
+					<tr class="table-title-blue"><td width="10%">名次</td><td width="15%">分销商姓名</td><td width="15%">分销商ID</td><td width="15%">提成金额(元)</td></tr>
+					<tbody id="content-table3"></tbody>
 				</table>
-			</div>
+				<div id="bottom-tip3" style="background-color:#eff3f8;height:60px;margin-top:-20px;display:none">
+					<div class="col-sm-3"><span id ="statics3" style="line-height:60px"></span></div>
+					<div class="col-sm-9"><div id="pagination3" style="float:right"></div></div>
+				</div>
+	    	</div>
 	    </div>
 	</div>
 </div>
@@ -79,87 +71,81 @@
 $(function (){
 	var pageIndex = 0; //页面索引初始值
 	var pageSize = 10; //每页显示条数初始化，修改显示条数，修改这里即可
-	//初始化页面
-	$.ajax({
-		type:"GET",
-		url:"/distributor/users/list/0",
-	 	success: function(data) {
-	 		coreFunction(data);
-		}
-	})
+	/* var type = 1;   //排行类型 1：按周  2：按月 3：按年
+	var rank=1;     //初始化排名 
+	coreFunction(type, rank);*/
+	coreFunction(1, 1);
+	
+	$(".trigger-tabs a").click(function (e) {
+		var rank = 1;
+		var type = $(this).data('id');
+		$(this).tab('show');
+        coreFunction(type, rank);
+    });
 	
 	//核心方法
-	function coreFunction(data){
-		if(data.success){
-			var para = '';
-			$(data.content).each(function (key,value) { //遍历返回的json   
-				var status = value.status == 1 ? '新建':value.status == 2 ? '审核通过':'审核拒绝';
-				para += '<tr><td>'+ value.name + 
-                        '</td><td>'+ value.mobile +'</td><td>'+ status + 
-                        '</td><td>'+ value.displayCreateTime +'</td><td>' +
-                        '<a class="green"><i class="ace-icon fa fa-check"></i>&nbsp;通过&nbsp;&nbsp;</a>'+
-                        '<a class="orange"><i class="ace-icon fa fa-times"></i>&nbsp;拒绝&nbsp;&nbsp;</a>'+
-                        '<a class="red"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'+
-                        '</td></tr>';        
-            });
-			$("#content-table").empty();
-            $("#content-table").append(para);
-            $("#statics").html('总记录数： '+data.total);
-            
-            //分页，PageCount是总条目数，这是必选参数，其它参数都是可选
-            $('#pagination').pagination(data.total, {
-                callback: PageCallback, 
-                prev_text: '<<',
-                next_text: '>>',
-                items_per_page:pageSize,
-                num_edge_entries: 2, //两侧首尾分页条目数
-                num_display_entries: 5, //连续分页主体部分分页条目数
-                current_page: pageIndex, //当前页索引
-            });
-            
-          	//翻页调用
-            function PageCallback(index, jq) {
-                $.ajax({
-                    type: 'GET',
-                    url: "/distributor/list/" + index,
-                    error:function(XMLHttpRequest, textStatus, errorThrown){
-                    	alert(XMLHttpRequest.status);
-                        alert(XMLHttpRequest.readyState);
-                        alert(textStatus);
-                    },
-                    success: function(data) {
-                        if (data.success) {
-                        	var para = '';
-            				$(data.content).each(function (key,value) { //遍历返回的json   
-            					var name;
-            					var level;
-            					if (value.owner != null){
-            						name = value.owner.name;
-            					} else {
-            						name= '暂无';
-            					}
-            					para += '<tr><td>'+ value.name + 
-                                        '</td><td>'+ value.id +'</td><td>'+ value.level + 
-                                        '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +'">查看</a></td><td>' +
-                                        '<a class="blue" href="/distributor/distributorEdit/${item.id}">' +
-                                        '<i class="ace-icon fa fa-pencil"></i>&nbsp;编辑&nbsp;&nbsp;</a><a class="orange deleteBtn" id="'+value.id+
-            							'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
-                                        '</td></tr>';        
-                            });
-            				$("#content-table").empty();
-                            $("#content-table").append(para);
-                            $("#statics").html('总记录数： '+data.total);
-                            $('.deleteBtn').click(function(){
-                        		var id = $(this).attr('id');
-                        		var url= "/distributor/distributorDelete/"+id;
-                        		$("#deleteUrl").attr("href",url); 
-                        		return true;
-                        	});
-                        }
-                    }
-                });
-            };
-		}
+	function coreFunction(type, rank){
+		$.ajax({
+			type:"GET",
+			url:'/distributor/commission/ranking/'+ type+ '/' + pageIndex,
+		 	success: function(data) {
+		 		/* coreFunction(data.content); */
+		 		if(data.success){
+					var para = '';
+					for(var index in data.content.content){
+						var value = data.content.content[index];
+						para +='<tr class="row-color"><td class="column">' + (rank++) +
+								'</td><td>'+ value.distributor.name + 
+		                        '</td><td>'+ value.distributorId +'</td><td>'+ 
+		                        value.commission/100 +'</td></tr>';        
+					}
+					var selector = '#content-table'+ type
+					$(selector).empty();
+		            $(selector).append(para);
+		            $("#statics").html('总记录数： '+data.content.total);
+		            $('#bottom-tip').css('display','block'); 
+				}
+		 		//分页，PageCount是总条目数，这是必选参数，其它参数都是可选
+	            $('#pagination').pagination(data.total, {
+	                callback: PageCallback, 
+	                prev_text: '<<',
+	                next_text: '>>',
+	                items_per_page:pageSize,
+	                num_edge_entries: 2, //两侧首尾分页条目数
+	                num_display_entries: 5, //连续分页主体部分分页条目数
+	                current_page: pageIndex, //当前页索引
+	            });
+		 		
+	          //翻页调用
+	            function PageCallback(index, jq) {
+	                $.ajax({
+	                    type: 'GET',
+	                    url: '/distributor/commission/ranking/'+ type+ '/'  + index,
+	                    error:function(XMLHttpRequest, textStatus, errorThrown){
+	                    	alert(XMLHttpRequest.status);
+	                        alert(XMLHttpRequest.readyState);
+	                        alert(textStatus);
+	                    },
+	                    success: function(data) {
+	                        if (data.success) {
+	                        	var para = '';
+	            				$(data.content).each(function (key,value) { //遍历返回的json   
+	            					para +='<tr class="row"><td class="column">' + (rank++)
+	            							'<td><td>'+ value.distributor.name + 
+	            	                        '</td><td>'+ value.distributorId +'</td><td>'+ status + 
+	            	                        '</td><td>'+ value.commission +'</td></tr>';        
+	                            });
+	            				$("#content-table").empty();
+	                            $("#content-table").append(para);
+	                            $("#statics").html('总记录数： '+data.total);
+	                            $('#bottom-tip').css('display','block');
+
+	                        }
+	                    }
+	                });
+	            };
+			}
+		})
 	}
 })
 

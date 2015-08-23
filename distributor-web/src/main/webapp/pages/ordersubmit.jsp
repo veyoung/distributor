@@ -366,6 +366,7 @@ $(document).ready(function(){
     	if(bal  < total){
     		$('#myModal').modal('show');
 			$('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp&nbsp账户余额不足，是否前往请充值？</sapn>');
+			$('.btn-ok').attr("style","");
 			$('.btn-ok').click(function(){
 				localStorage['dsitributorId'] = JSON.stringify($('#distributorId').val());
 				location.href="/distributor/pages/distributorlist.jsp";
