@@ -46,6 +46,7 @@
 		 </div>		 					 
     </form>
 	<div>
+		<div class='distributor'></div>
 		<table class="table table-striped table-hover table-bordered">
 			<tr class="table-title-gray">
 				<td width="25%" class="distributor-font">提成时间</td>
@@ -70,7 +71,7 @@
               		提示
             	</h4>
          		</div>
-         		<div class="modal-body-dialog">
+         		<div class="modal-body-dialog">         		
          		<div class="commodity-detail">
          			<table class="table table-striped table-hover table-bordered" style="diplay:none;">
 						<tr class="table-title">
@@ -152,6 +153,7 @@ $(function(){
 		            $("#content-table").append(para);
 		            $("#statics").html('总记录数： '+data.total);
 		            $('#bottom-tip').css('display','block');
+		            $('.distributor').html('<span style="color:red;">' + data.distributor.name + '</span>先生/女士的积分详情如下：')
 		            
 		            //分页，PageCount是总条目数，这是必选参数，其它参数都是可选
 		            $('#pagination').pagination(data.total, {

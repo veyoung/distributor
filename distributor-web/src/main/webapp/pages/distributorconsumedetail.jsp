@@ -46,12 +46,14 @@
 		 </div>		 					 
     </form>
 	<div>
+		<div class='distributor'></div>
 		<table class="table table-striped table-hover table-bordered">
 			<tr class="table-title-gray">
 				<td width="25%" class="distributor-font">消费时间</td>
 				<td width="20%">消费金额(元)</td>
 				<td width="20%">所获积分(元)</td>
-				<!-- <td width="20%">操作</td></tr> -->
+				<!-- <td width="20%">操作</td> --></tr>
+			
 			<tbody id="content-table"><tr><td colspan='4'>暂无消费记录</td></tr></tbody>
 		</table>
 		<div id="bottom-tip" style="background-color:#eff3f8;height:60px;margin-top:-20px;display:none">
@@ -159,6 +161,7 @@ $(function(){
 		            $("#content-table").append(para);
 		            $("#statics").html('总记录数： '+data.total);
 		            $('#bottom-tip').css('display','block');
+		            $('.distributor').html('<span style="color:red;">' + data.distributor.name + '</span>先生/女士的消费详情如下：')
 		            
 		            //分页，PageCount是总条目数，这是必选参数，其它参数都是可选
 		            $('#pagination').pagination(data.total, {
