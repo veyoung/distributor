@@ -17,7 +17,8 @@
         file:${user.home}/paas/market.properties"
         ignore-resource-not-found="true" file-encoding="utf-8" />
     
-   <import resource="classpath:/context/distributor-dao-mysql.xml"/> 
+   <import resource="classpath:/context/distributor-dao-mysql.xml"/>
+   <context:component-scan base-package="com.distributor.service"/> 
    <!-- 该 BeanPostProcessor 将自动对标注 @Autowired 的 Bean 进行注入 -->  
    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>  
 	

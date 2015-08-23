@@ -62,7 +62,6 @@ public class OrderService{
 			order.setCreateTime(new Date());
 			order.setStatus(1);
 			orderRecordMapper.insertSelective(order);
-			
 			List<OrderCommodityInclude> orderCommodityIncludes = orderCommodityIncludeMapper.selectAllLatest();
 			if(getLevel(distributorId) == 3){//vip-vip 自己积分 没有下级
 				

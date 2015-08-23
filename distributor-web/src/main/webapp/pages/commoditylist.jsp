@@ -352,7 +352,7 @@ $(function(){
             			if (data.success) {
             				$('#modal-info').modal('show');
             				$('#modal-info').find('.btn-ok').attr('style','');
-            				$('.modal-body').html('恭喜您商品添加成功！您可以点击关闭继续添加商品或者确定前往订单消费结账！')
+            				$('.modal-body').html('恭喜您商品添加成功！您可以点击关闭继续添加商品或者确定前往订单消费处结账！')
             				$('#modal-info').find('.btn-ok').click(function(){
             					location.href = "/distributor/pages/ordersubmit.jsp";
             				})//alert('商品添加成功');

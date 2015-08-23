@@ -106,9 +106,9 @@
 		<div class="modal" id="rechargeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" style="background-color:#A3B0B8">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">分销商充值</h4>
+		        <h4 class="modal-title" id="myModalLabel"><strong style="color:red;">分销商充值</strong></h4>
 		      </div>
 		       <form id="rechargeForm" class="form-horizontal" role="form"> 	
 			      <div class="modal-body">	
@@ -138,10 +138,11 @@
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title" id="info-modal-label"><strong style="color:red;">提示</strong></h4>
 		      </div>		       	
-			      <div class="modal-body">				      		
+			      <div class="modal-body" style='padding:20px'>				      		
 				  </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary btn-close" data-dismiss="modal">关闭</button>
+			        <button type="button" class="btn btn-default btn-close" data-dismiss="modal">关闭</button>
+			      	<button type="button" class="btn btn-primary btn-ok" data-dismiss="modal" style="display:none;">确定</button>
 			      </div>		     
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
@@ -339,6 +340,13 @@ $(function (){
 							var v = '#money'+$('#rechargeDistributorId').val();
 							$(v).html('￥' + data.content);
 							$('#rechargeModal').modal('hide')
+							$('#info-modal').modal('show')
+		            		$('#info-modal').find('.btn-ok').attr('style', '');
+							$('#info-modal').find('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp&nbsp恭喜您充值成功，是否前往订单消费出结账？</span>');
+							$('#info-modal').find('.btn-ok').click(function(){
+								location.href = "/distributor/pages/ordersubmit.jsp";
+							})
+							
 						}else{
 							$('#info-modal').modal('show')
 		            		$('#info-modal').find('.modal-body').html('<span style="padding:20px;font-size:20px;">&nbsp&nbsp充值失败，请重试！</span>');
