@@ -98,7 +98,9 @@ public class DistributorController extends BaseController{
 			if(distributor != null){
 				distributor.setId(id);
 				distributor.setBalance(0);
+				distributor.setCommission(0);
 				distributor.setStatus(1);
+				distributor.setCreateTime(new Date());
 				distributorMapper.insert(distributor);
 				
 				if(ownerId != null ){//如果填写了父分销商ID，则添加父分销商信息

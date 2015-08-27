@@ -256,9 +256,10 @@ public class OrderController extends BaseController{
 	public Object exchangeForBalance(
 			@PathVariable("distributorId") Long distributorId) {
 		try {
-			DistributorCommission distributorCommission = distributorCommissionMapper
-					.selectLatestRecordById(distributorId);
-			return success(distributorCommission);
+			//DistributorCommission distributorCommission = distributorCommissionMapper
+			//		.selectLatestRecordById(distributorId);
+			Distributor distributor =distributorMapper.selectByPrimaryKey(distributorId);
+			return success(distributor);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return fail();
@@ -277,15 +278,20 @@ public class OrderController extends BaseController{
 			@RequestParam("reduceCommission") String reduceCommission,
 			@RequestParam("distributorCommissionId") Long distributorCommissionId) {
 		try {
-			DistributorCommission distributorCommission = distributorCommissionMapper
-					.selectByPrimaryKey(distributorCommissionId);
-			if(distributorCommission.getTotalcommission() - Float.parseFloat(reduceCommission)*100 < 0){
-				return fail("积分不足，充值失败");
-			}
-			distributorCommission.setTotalcommission((int)(distributorCommission.getTotalcommission() - Float.parseFloat(reduceCommission)*100));
-			distributorCommissionMapper.updateByPrimaryKeySelective(distributorCommission);
+//			DistributorCommission distributorCommission = distributorCommissionMapper
+//					.selectByPrimaryKey(distributorCommissionId);
+//			
+//			if(distributorCommission.getTotalcommission() - Float.parseFloat(reduceCommission)*100 < 0){
+//				return fail("积分不足，充值失败");
+//			}
+			//distributorCommission.setTotalcommission((int)(distributorCommission.getTotalcommission() - Float.parseFloat(reduceCommission)*100));
+			//distributorCommissionMapper.updateByPrimaryKeySelective(distributorCommission);
 			
 			Distributor distributor = distributorMapper.selectByPrimaryKey(distributorId);
+			if(distributor.getCommission() < Float.parseFloat(reduceCommission)*100){
+				return fail("积分不足，兑换失败");
+			}
+			distributor.setCommission(distributor.getCommission() - (int)Float.parseFloat(reduceCommission)*100);
 			if(distributor.getBalance() == null){
 				distributor.setBalance((int)Float.parseFloat(reduceCommission)*100);
 			}else{

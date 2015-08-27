@@ -80,7 +80,16 @@
 	
 	<div>
 		<table class="table table-striped table-hover">
-			<tr class="table-title-blue"><td width="10%" class="distributor-font">分销商姓名</td><td width="20%">ID</td><td width="15%">等级</td><td width="10%">所属会员</td><td width="10%">下属会员</td><td width="10%">账户余额(元)</td><td width="25%">操作</td></tr>
+			<tr class="table-title-blue">
+				<td width="10%" class="distributor-font">分销商姓名</td>
+				<td width="15%">ID</td>
+				<td width="10%">等级</td>
+				<td width="10%">所属会员</td>
+				<td width="10%">下属会员</td>
+				<td width="10%">账户余额(元)</td>
+				<td width="10%">账户积分(元)</td>
+				<td width="25%">操作</td>
+			</tr>
 			<tbody id="content-table"></tbody>							
 		</table>
 		<div style="background-color:#eff3f8;height:60px;margin-top:-20px">
@@ -126,7 +135,7 @@
 				  </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-			        <button type="submit" class="btn btn-primary">立即添加</button>
+			        <button type="submit" class="btn btn-primary">立即充值</button>
 			      </div>
 		      </form>	
 		    </div><!-- /.modal-content -->
@@ -254,7 +263,7 @@ $(function (){
 				para += '<tr><td>'+ value.name + 
                         '</td><td>'+ value.id +'</td><td>'+ level + 
                         '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +
-                        '">查看</a></td><td id="money'+value.id+'">￥' + value.balance/100 +
+                        '">查看</a></td><td id="money'+value.id+'">￥' + value.balance/100 + '</td><td>￥ ' + value.commission/100 +
                         '</td><td>'+display+'</td></tr>';        
             });
 			$("#content-table").empty();
@@ -311,7 +320,7 @@ $(function (){
             					para += '<tr><td>'+ value.name + 
 		                                '</td><td>'+ value.id +'</td><td>'+ level + 
 		                                '</td><td>'+ name +'</td><td><a href="/distributor/distributorSubmember/'+ value.id +
-		                                '">查看</a></td><td id="money'+value.id+'">￥' + value.balance/100 +
+		                                '">查看</a></td><td id="money'+value.id+'">￥' + value.balance/100 +'</td><td>￥ ' + value.commission/100 +
 		                                '</td><td>'+display+'</td></tr>';      
             				});
             				$("#content-table").empty();
