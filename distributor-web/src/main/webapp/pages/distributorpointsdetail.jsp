@@ -41,7 +41,7 @@
 		 <div class="form-group">
 		    <label class="col-sm-2 control-label" for="commission"></label>
 		    <div class="col-sm-4">
-		    	<button type="submit" class="btn btn-primary btn-primary">查询&nbsp;&nbsp;<i class="glyphicon glyphicon-search"></i></button>
+		    	<button type="submit" class="btn btn-primary btn-query">查询&nbsp;&nbsp;<i class="glyphicon glyphicon-search"></i></button>
 		    </div>
 		    <div class="col-sm-8 exchange" style="display:none;">
 		    	<button type="submit" class="btn btn-primary">积分兑换</button>
@@ -128,17 +128,17 @@
    		aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
    		<div class="modal-dialog">
       		<div class="modal-content">
-         		<div class="modal-header">
+         		<div class="modal-header" style="background-color:#4E8BBE">
             		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             	<h4 class="modal-title" id="myModalLabel">
-              		提示
+              		<strong style="color:white;">提示</strong>
             	</h4>
          		</div>
-         		<div class="modal-body-info">         		
+         		<div class="modal-body-info" style="padding: 30px; font-size:18px;">         		
          		
          		</div>
-         		<div class="modal-footer">
-            		<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+         		<div class="modal-footer" style="background-color:white">
+            		<button type="button" class="btn btn-primary btn-info-close" data-dismiss="modal">关闭</button>
          		</div>
       		</div>
 		</div>
@@ -260,7 +260,7 @@ $(function(){
             		$('.btn-exchange-ok').click(function(){
             			var distributorCommissionId = data.content.id
             			var reduceCommission = $('#reduceCommission').val()
-            			if(!isNaN($('#reduceCommission').val) && reduceCommission > data.content.totalcommission){
+            			if(isNaN($('#reduceCommission').val()) || reduceCommission > data.content.totalcommission){
             				$('#modal-info').modal('show')
             				$('.modal-body-info').html("输入不正确，请重新输入！")
             				//alert("请重新输入！")
@@ -273,6 +273,11 @@ $(function(){
                 	            		$('#modal-exchange').modal('hide')
                 	            		$('#modal-info').modal('show')
             							$('.modal-body-info').html("恭喜您，兑换成功！")
+            							$('.btn-info-close').click(function(){
+            								$('#distributorCommissionForm').find('.btn-query').trigger('click')
+            								return true
+            							})
+            							
                 	            	}else{
                 	            		$('#modal-exchange').modal('hide')
                 	            		$('#modal-info').modal('show')
