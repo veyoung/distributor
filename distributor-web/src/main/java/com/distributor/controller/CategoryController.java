@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -82,6 +83,67 @@ public class CategoryController extends BaseController{
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
+		}
+	}
+	
+	/**
+	 * 进入分类编辑页面
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="category/{id}", method=RequestMethod.GET)
+	public String category(@PathVariable("id") long id, Model model){
+		try {
+			Category category = categoryMapper.selectByPrimaryKey(id);
+			model.addAttribute("category", category);
+			return "commoditycategoryedit";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	/**
+	 * 编辑后的保存
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="category", method=RequestMethod.POST)
+	public String categorySave(
+			@RequestParam("id") Long id,
+			@RequestParam("name") String name){
+		try {
+			Category category = new Category();
+			category.setId(id);
+			category.setName(name);
+			categoryMapper.updateByPrimaryKey(category);
+			return "commoditycategorylist";	
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	
+	/**
+	 * 商品分类字符串
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value=("categoryString"), method=RequestMethod.GET)
+	@ResponseBody
+	public Object categoryString(){
+		try {
+			List<Category> categories = categoryMapper.selectAllCategorys();
+		    String categoriesStr = "";
+		    for(Category category : categories){
+		    	categoriesStr += category.getId() + "," + category.getName() + ";";
+		    }
+			return success(categoriesStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return fail();
 		}
 	}
 	

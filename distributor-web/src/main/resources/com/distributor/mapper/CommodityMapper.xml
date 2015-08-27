@@ -241,6 +241,22 @@
     from commodity
     where status = 1
   </select>  
+ 
+   <select id="selectByCategory" resultMap="BaseResultMap" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from commodity
+    where status = 1 and category_id = #{categoryId, jdbcType=BIGINT}
+    <if test="pageSize != null" >
+        limit #{offset, jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="countSelectByCategory" resultType="java.lang.Integer" >
+    select count(*)
+    from commodity
+    where status = 1 and category_id = #{categoryId, jdbcType=BIGINT}
+  </select>
   
   <update id="deleteByCategoryId" parameterType="java.lang.Integer" >
     update commodity

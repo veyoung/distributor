@@ -102,8 +102,10 @@ $(function(){
 				$(data.content).each(function (key,value) { //遍历返回的json 
 					var count = key+1;
 					para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ count + '</td><td>'
-							+ value.name +'</td><td><a class="orange deleteBtn" id="'+value.id+
-							'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
+							+ value.name +'</td><td><a class="blue" href="/distributor/category/'+value.id
+							+'"><i class="ace-icon fa fa-pencil"></i>&nbsp;查看&nbsp;&nbsp;&nbsp;</a>'
+							+'<a class="orange deleteBtn" id="'+value.id
+							+'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
 	                        '</td></tr>';        
 	            });
 				$("#content-table").empty();
@@ -137,9 +139,11 @@ $(function(){
 	                			$(data.content).each(function (key,value) { //遍历返回的json   
 	                				var count = key+1;
 	            					para += '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+ count + '</td><td>'
-	            							+ value.name +'</td><td><a class="orange deleteBtn" id="'+value.id+
-	            							'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
-	            	                        '</td></tr>'; 
+			    							+ value.name +'</td><td><a class="blue" href="/distributor/category/'+value.id
+			    							+'"><i class="ace-icon fa fa-pencil"></i>&nbsp;查看&nbsp;&nbsp;&nbsp;</a>'
+			    							+'<a class="orange deleteBtn" id="'+value.id
+			    							+'" data-toggle="modal" data-target="#deleteModal"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
+			    	                        '</td></tr>'; 
 	                            });
 	                			$("#content-table").empty();
 	                            $("#content-table").append(para);
@@ -161,9 +165,7 @@ $(function(){
 	        		$("#deleteUrl").attr("href",url); 
 	        		return true;
 	        	});
-	            
 			}
-	 		
 		}
 	})
 })
