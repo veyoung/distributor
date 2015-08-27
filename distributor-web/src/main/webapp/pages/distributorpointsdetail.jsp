@@ -70,7 +70,7 @@
       		<div class="modal-content">
          		<div class="modal-header">
             		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            	<h4 class="modal-title" id="myModalLabel">
+            	<h4 class="modal-title browse-title" id="myModalLabel">
               		提示
             	</h4>
          		</div>
@@ -95,9 +95,9 @@
 	</div>
 	
 	<div class="modal fade" id="modal-exchange" tabindex="-1" role="dialog" 
-   		aria-labelledby="exchange-modalLabel" aria-hidden="true" data-backdrop="static">
+   		aria-labelledby="exchange-modalLabel" aria-hidden="true" data-backdrop="static" style="margin-left: 20%;margin-top: 5%;">
    		<div class="modal-exchange-dialog">
-      		<div class="modal-content" style="width: 55%;">
+      		<div class="modal-content" style="width: 68%;">
          		<div class="modal-header" style="background-color:#4E8BBE">
             		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             	<h4 class="modal-title" id="exchange-modalLabel" style="color:white">
@@ -261,8 +261,13 @@ $(function(){
             			var distributorCommissionId = data.content.id
             			var reduceCommission = $('#reduceCommission').val()
             			if(isNaN($('#reduceCommission').val()) || reduceCommission > data.content.totalcommission){
+            				$('#modal-exchange').modal('hide')
             				$('#modal-info').modal('show')
             				$('.modal-body-info').html("输入不正确，请重新输入！")
+            				$('.btn-info-close').click(function(){
+            					$('#modal-exchange').modal('show')
+            					return true
+            				})
             				//alert("请重新输入！")
             			}else{
             				$.ajax({
@@ -310,7 +315,7 @@ $(function(){
 		})
 		$('#myModal').modal('show');
 		$('#commodity-detail').attr("style","")
-		$('.modal-title').html('该积分记录是由<span style="color:red;">' + distributor.name + '</span>购买如下商品产生：')
+		$('.browse-title').html('该积分记录是由<span style="color:red;">' + distributor.name + '</span>购买如下商品产生：')
 		var para = ''
 		$.each(distributorCommissionCommoditys, function(key, value){
 			para += '<tr><td>'+ value.commodityName + 
