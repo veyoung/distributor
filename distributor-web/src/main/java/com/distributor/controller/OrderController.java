@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.distributor.mapper.CommodityMapper;
+import com.distributor.mapper.DistributorBalanceMapper;
 import com.distributor.mapper.DistributorIncludeMapper;
 import com.distributor.mapper.DistributorMapper;
 import com.distributor.mapper.OrderCommodityIncludeMapper;
@@ -45,7 +46,8 @@ public class OrderController extends BaseController{
 	DistributorCommissionMapper distributorCommissionMapper;
 	@Autowired
 	DistributorCommissionCommodityMapper distributorCommissionCommodityMapper;
-	
+	@Autowired
+	DistributorBalanceMapper distributorBalanceMapper;
 	@Autowired
 	OrderService orderservice;
 	
@@ -238,6 +240,59 @@ public class OrderController extends BaseController{
 			result.put("total", total);
 			result.put("distributor", distributor);
 			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return fail();
+		}
+	}
+	
+	
+	/**
+	 * 分销商积分兑换
+	 * 
+	 */
+	@RequestMapping("exchangeCommission/{distributorId}")
+	@ResponseBody
+	public Object exchangeForBalance(
+			@PathVariable("distributorId") Long distributorId) {
+		try {
+			DistributorCommission distributorCommission = distributorCommissionMapper
+					.selectLatestRecordById(distributorId);
+			return success(distributorCommission);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return fail();
+		}
+	}
+	
+	/**
+	 * 分销商积分兑换后的积分和余额的变更
+	 * @param distributorId
+	 * return
+	 */
+	@RequestMapping(value="exchangeCommission/{distributorId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object changeBalanceAndCommission(
+			@PathVariable("distributorId") Long distributorId,
+			@RequestParam("reduceCommission") String reduceCommission,
+			@RequestParam("distributorCommissionId") Long distributorCommissionId) {
+		try {
+			DistributorCommission distributorCommission = distributorCommissionMapper
+					.selectByPrimaryKey(distributorCommissionId);
+			if(distributorCommission.getTotalcommission() - Float.parseFloat(reduceCommission)*100 < 0){
+				return fail("积分不足，充值失败");
+			}
+			distributorCommission.setTotalcommission((int)(distributorCommission.getTotalcommission() - Float.parseFloat(reduceCommission)*100));
+			distributorCommissionMapper.updateByPrimaryKeySelective(distributorCommission);
+			
+			Distributor distributor = distributorMapper.selectByPrimaryKey(distributorId);
+			if(distributor.getBalance() == null){
+				distributor.setBalance((int)Float.parseFloat(reduceCommission)*100);
+			}else{
+				distributor.setBalance(distributor.getBalance() + (int)Float.parseFloat(reduceCommission)*100);
+			}
+			distributorMapper.updateByPrimaryKeySelective(distributor);
+			return success();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return fail();
