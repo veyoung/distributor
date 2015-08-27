@@ -43,6 +43,9 @@
 		    <div class="col-sm-4">
 		    	<button type="submit" class="btn btn-primary btn-primary">查询&nbsp;&nbsp;<i class="glyphicon glyphicon-search"></i></button>
 		    </div>
+		    <div class="col-sm-8 exchange" style="display:none;">
+		    	<button type="submit" class="btn btn-primary">积分兑换</button>
+		    </div>
 		 </div>		 					 
     </form>
 	<div>
@@ -91,6 +94,36 @@
 		</div>
 	</div>
 	
+	<div class="modal fade" id="modal-exchange" tabindex="-1" role="dialog" 
+   		aria-labelledby="exchange-modalLabel" aria-hidden="true" data-backdrop="static">
+   		<div class="modal-exchange-dialog">
+      		<div class="modal-content" style="width: 55%;">
+         		<div class="modal-header" style="background-color:#4E8BBE">
+            		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<h4 class="modal-title" id="exchange-modalLabel" style="color:white">
+              		您的可兑换总积分为<span>&nbsp;&nbsp;<strong class="total-commission" style="color:red"></strong></span>
+            	</h4>
+         		</div>
+         		<div class="modal-exchange-body" style="padding: 30px;">
+						<form id="exchangeCommissionForm" class="form-horizontal"
+							role="form">
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="reduceCommission">兑换积分：</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="reduceCommission"
+										placeholder="请输入兑换积分">
+								</div>
+							</div>
+						</form>
+				</div>
+         		<div class="modal-footer" style="background-color:white">
+            		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            		<button type="button" class="btn btn-primary btn-exchange-ok">确定</button>
+         		</div>
+      		</div>
+		</div>
+	</div>
+	
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
@@ -124,6 +157,7 @@ $(function(){
 			return false;
 		}else{
 			distributorId = $('#distributorId').val()
+			$('.exchange').attr('style', '').attr('style', 'float:left;  margin-left: 25%;margin-top: -34px;')
 		}
 		if($('#startTime').val() == ''){
 			startTime = 0 + '' 
@@ -192,6 +226,44 @@ $(function(){
 		});
 		return false;
 	});
+	
+	
+	$('.exchange').click(function(){
+		var distributorId = $('#distributorId').val()
+		$.ajax({
+            type: 'GET',
+            url: '/distributor/exchangeCommission/' + distributorId,
+            success: function(data) {
+            	if(data.success){
+            		$('#modal-exchange').modal('show')
+        			$('.total-commission').text(data.content.totalcommission/100 + '元')
+            		$('.btn-exchange-ok').click(function(){
+            			var distributorCommissionId = data.content.id
+            			var reduceCommission = $('#reduceCommission').val()
+            			if(!isNaN($('#reduceCommission').val) && reduceCommission > data.content.totalcommission){
+            				alert("请重新输入！")
+            			}else{
+            				$.ajax({
+                	            type: 'POST',
+                	            url: '/distributor/exchangeCommission/' + distributorId + '?reduceCommission=' +reduceCommission +'&distributorCommissionId='+distributorCommissionId,
+                	            success: function(reduceData) {
+                	            	if(reduceData.success){
+                	            		$('#modal-exchange').modal('hide')
+                	            	}else{
+                	            		$('#modal-exchange').modal('hide')
+                	            	}
+                	            }
+                			})
+            			}
+            		})
+        			
+            	}else{
+            		$('#modal-exchange').modal('hide')
+            	}
+            }
+		})
+		
+	})
 	
 	$("body").on('click', '.detail', function(){
 		var dccid = $(this).data("id")
