@@ -137,11 +137,9 @@ public class RankingController extends BaseController{
 	 public static Map<Long, DistributorCommission> sortMap(Map<Long, DistributorCommission> oldMap) {  
 	        ArrayList<Map.Entry<Long, DistributorCommission>> list = new ArrayList<Map.Entry<Long, DistributorCommission>>(oldMap.entrySet());  
 	        Collections.sort(list, new Comparator<Map.Entry<Long, DistributorCommission>>() {  
-	  
 	            @Override  
 	            public int compare(Entry<Long, DistributorCommission> arg0,  
 	                    Entry<Long, DistributorCommission> arg1) {  
-	                
 	            	return arg0.getValue().getCommission() - arg1.getValue().getCommission();  
 	            }  
 	        });  
