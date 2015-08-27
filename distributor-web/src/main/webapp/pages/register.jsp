@@ -30,13 +30,6 @@
 				<span class="input-title-long">确认密码:</span>
 				<input class="inp" id="passwordconfirm" tabindex="1" type="password" value="" name="passwordconfirm"/>
 			</div>
-			<div class="rows">
-				<span class="input-title-long">用户权限:</span>
-				<select class="inp" name='role' style="width:200px;height:35px;">
-					<option value='1'>超级管理员</option>
-					<option value='2' selected >普通管理员</option>
-				</select>	
-			</div>
 			<div class="remember">
 				<label class="checkbox">
 					<input type="checkbox" name="rememberMe"/>

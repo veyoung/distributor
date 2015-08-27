@@ -54,7 +54,7 @@
 			<tr class="table-title-gray">
 				<td width="25%" class="distributor-font">提成时间</td>
 				<td width="20%">单次提成金额(元)</td>
-				<td width="20%">账户提成总数(元)</td>
+				<td width="20%">当前提成总额(元)</td>
 				<td width="20%">操作</td></tr>
 			<tbody id="content-table"><tr><td colspan='4'>暂无提成记录</td></tr></tbody>
 		</table>
@@ -256,7 +256,7 @@ $(function(){
             success: function(data) {
             	if(data.success){
             		$('#modal-exchange').modal('show')
-        			$('.total-commission').text(data.content.totalcommission/100 + '元')
+        			$('.total-commission').text(data.content.commission/100 + '元')
             		$('.btn-exchange-ok').click(function(){
             			var distributorCommissionId = data.content.id
             			var reduceCommission = $('#reduceCommission').val()

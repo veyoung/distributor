@@ -63,26 +63,22 @@ public class OrderService{
 			order.setStatus(1);
 			orderRecordMapper.insertSelective(order);
 			List<OrderCommodityInclude> orderCommodityIncludes = orderCommodityIncludeMapper.selectAllLatest();
-			if(getLevel(distributorId) == 3){//vip-vip 自己积分 没有下级
-				
+			if (getLevel(distributorId) == 3) {//vip-vip 自己积分 没有下级
 				commodityCommission(orderCommodityIncludes, order, distributorId, 0);
-				
-				if(hasSuperior(distributorId) != null){//vip-gold 有上级  上级积分
-					
+				if (hasSuperior(distributorId) != null) {//vip-gold 有上级  上级积分
 					commodityCommission(orderCommodityIncludes, order, hasSuperior(distributorId), 1);
 				}
-				
-				if(hasSuperiorDouble(distributorId) != null){
+				if (hasSuperiorDouble(distributorId) != null) {
 					commodityCommission(orderCommodityIncludes, order, hasSuperiorDouble(distributorId), 2);
 				}
 			}
-			else if(getLevel(distributorId) == 2){
+			else if (getLevel(distributorId) == 2) {
 				commodityCommission(orderCommodityIncludes, order, distributorId, 3);
-				if(hasSuperior(distributorId) != null){
+				if (hasSuperior(distributorId) != null) {
 					commodityCommission(orderCommodityIncludes, order, hasSuperior(distributorId), 2);
 				}
 			}
-			else if(getLevel(distributorId) == 1){//钻石会员 
+			else if (getLevel(distributorId) == 1) {//钻石会员 
 				commodityCommission(orderCommodityIncludes, order, distributorId, 5);
 			}
 				
@@ -193,7 +189,7 @@ public class OrderService{
 	 * @param distributorId应该增加积分的分销商，不一定是订单所属分销商
 	 * @param category订单分销商与积分分销商的关系
 	 */
-	void commodityCommission(List<OrderCommodityInclude> orderCommodityIncludes, OrderRecord order, Long distributorId,
+	private void commodityCommission(List<OrderCommodityInclude> orderCommodityIncludes, OrderRecord order, Long distributorId,
 			int category){
 		//先拿到订单所属的所有商品
 		int commissionAddPrice = 0;
@@ -216,6 +212,7 @@ public class OrderService{
 		}
 		
 		//写分销商总提成数据库
+		Distributor updateDistributor = distributorMapper.selectByPrimaryKey(distributorId);
 		DistributorCommission distributorCommission = new DistributorCommission();
 		distributorCommission.setId(distributorCommissionId);
 		distributorCommission.setDistributorId(distributorId);
@@ -225,16 +222,26 @@ public class OrderService{
 		DistributorCommission dc = distributorCommissionMapper.selectLatestRecordById(distributorId);
 		if(dc == null){
 			distributorCommission.setTotalcommission(commissionAddPrice);
+			updateDistributor.setCommission(commissionAddPrice);
+			distributorMapper.updateByPrimaryKeySelective(updateDistributor);
 		}else{
 			if(dc.getTotalcommission() != null){
 				Integer totalcommission = dc.getTotalcommission() + commissionAddPrice;
 				distributorCommission.setTotalcommission(totalcommission);
+				updateDistributor.setCommission(totalcommission);
+				distributorMapper.updateByPrimaryKeySelective(updateDistributor);
 			}
 		}
 		distributorCommissionMapper.insert(distributorCommission);
 	}
 	
-	int getCommissionRule(Commodity commodity, int category){
+	/**
+	 * rule
+	 * @param commodity
+	 * @param category
+	 * @return
+	 */
+	private int getCommissionRule(Commodity commodity, int category){
 		int rule=0;
 		switch(category){
 		case 0:

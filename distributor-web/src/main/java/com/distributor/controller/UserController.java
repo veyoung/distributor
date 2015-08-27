@@ -93,8 +93,7 @@ public class UserController extends BaseController{
 			@RequestParam("username") String userName,
 			@RequestParam("mobile") String mobile,
 			@RequestParam("password") String password,
-			@RequestParam("passwordconfirm") String passwordconfirm,
-			@RequestParam("role") int role){
+			@RequestParam("passwordconfirm") String passwordconfirm){
 		try {
 			User dbUser = userMapper.selectByUserName(userName);
 			if(dbUser != null){
@@ -104,7 +103,7 @@ public class UserController extends BaseController{
 				User user = new User();
 				user.setId(IdGenerator.getInstance().nextId());
 				user.setMobile(mobile);
-				user.setRole(role);
+				user.setRole(2);
 				user.setName(userName);
 				user.setPassword(password);
 				user.setStatus(1);
