@@ -26,9 +26,9 @@
 		<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" style="background-color:#4E8BBE">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">添加下属分销商</h4>
+		        <h4 class="modal-title" id="myModalLabel"><strong style="color:white;">添加下属分销商</strong></h4>
 		      </div>
 		      <form id="addBranchForm" class="form-horizontal" role="form" action="/distributor/distributorSubmemberAdd" method="post">
 			      <div class="modal-body">
@@ -40,7 +40,7 @@
 					    </div>
 					 </div>					 
 			      </div>
-			      <div class="modal-footer">
+			      <div class="modal-footer" style="background-color:white">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			        <button type="submit" class="btn btn-primary">添加</button>
 			      </div>

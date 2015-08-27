@@ -68,10 +68,10 @@
    		aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
    		<div class="modal-dialog">
       		<div class="modal-content">
-         		<div class="modal-header">
+         		<div class="modal-header" style="background-color:#4E8BBE">
             		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             	<h4 class="modal-title browse-title" id="myModalLabel">
-              		提示
+              		<strong style="color:white;">提示</strong>
             	</h4>
          		</div>
          		<div class="modal-body-dialog">         		
@@ -86,8 +86,8 @@
 					</table>
          		</div>
          		</div>
-         		<div class="modal-footer">
-            		<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+         		<div class="modal-footer" style="background-color:white">
+            		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             		<button type="button" class="btn btn-primary btn-ok">确定</button>
          		</div>
       		</div>
@@ -171,7 +171,7 @@ $(function(){
 		var endTime = '';
 		if($('#distributorId').val() == ''){
 			$('#myModal').modal('show');
-			$('.modal-body-dialog').html('<div style="padding:20px;font-size:20px;color:red;">&nbsp;&nbsp;&nbsp;&nbsp;请输入分销商ID</div>');
+			$('.modal-body-dialog').html('<div style="padding:20px;font-size:18px;">&nbsp;&nbsp;&nbsp;&nbsp;请输入分销商ID</div>');
 			$('.btn-ok').attr("style","display:none;");
 			//alert('请输入分销商ID');
 			return false;

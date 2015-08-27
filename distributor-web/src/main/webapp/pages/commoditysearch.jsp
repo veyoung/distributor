@@ -50,14 +50,14 @@
 		<div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" style="background-color:#4E8BBE">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">提示</h4>
+		        <h4 class="modal-title" id="myModalLabel"><strong style="color:white;">提示</strong></h4>
 		      </div>
 		      <div class="modal-body">			
 		      	是否下线商品？ 					 
 			  </div>
-			      <div class="modal-footer">
+			      <div class="modal-footer" style="background-color:white">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			        <a type="button" id="deleteUrl" class="btn btn-danger">立即下线</a>
 			      </div>
@@ -68,13 +68,13 @@
 		 <div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		   <div class="modal-dialog">
 		      <div class="modal-content">
-		         <div class="modal-header" style="background-color:#A3B0B8">
+		         <div class="modal-header" style="background-color:#4E8BBE">
 		            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 		                  &times;</button>
-		            <h4 class="modal-title" id="myModalLabel"><strong style="color:red;">提示</strong></h4>
+		            <h4 class="modal-title" id="myModalLabel"><strong style="color:white;">提示</strong></h4>
 		         </div>
 		         <div class="modal-body" style="padding:20px;font-size:18px;"></div>
-		         <div class="modal-footer" style="background-color:">
+		         <div class="modal-footer" style="background-color:white">
 		            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
 		            </button>
 		            <button type="button" class="btn btn-primary btn-ok" data-dismiss="modal">确定

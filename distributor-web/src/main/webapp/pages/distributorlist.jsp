@@ -29,9 +29,9 @@
 		<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" style="background-color:#4E8BBE">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">添加分销商</h4>
+		        <h4 class="modal-title" id="myModalLabel"><strong style="color:white;">添加分销商</strong></h4>
 		      </div>
 		      <form action="/distributor/distributorAdd" method="post" class="form-horizontal" id="distributorAddForm" role="form">
 			      <div class="modal-body">
@@ -68,7 +68,7 @@
 					    <label class="col-sm-8" id="tips" style="color:red"></label>
 					 </div>				 					 
 			      </div>
-			      <div class="modal-footer">
+			      <div class="modal-footer" style="background-color:white">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			        <button type="submit" class="btn btn-primary">立即添加</button>
 			      </div>
@@ -99,14 +99,14 @@
 		<div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" style="background-color:#4E8BBE">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">提示</h4>
+		        <h4 class="modal-title" id="myModalLabel"><strong style="color:white;">提示</strong></h4>
 		      </div>
 		      <div class="modal-body">			
 		      	是否删除分销商？ 					 
 			  </div>
-			      <div class="modal-footer">
+			      <div class="modal-footer" style="background-color:white">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			        <a type="button" id="deleteUrl" class="btn btn-danger">确定</a>
 			      </div>
@@ -117,9 +117,9 @@
 		<div class="modal" id="rechargeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header" style="background-color:#A3B0B8">
+		      <div class="modal-header" style="background-color:#4E8BBE">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel"><strong style="color:red;">分销商充值</strong></h4>
+		        <h4 class="modal-title" id="myModalLabel"><strong style="color:white;">分销商充值</strong></h4>
 		      </div>
 		       <form id="rechargeForm" class="form-horizontal" role="form"> 	
 			      <div class="modal-body">	
@@ -133,7 +133,7 @@
 						</div>
 						<br>
 				  </div>
-			      <div class="modal-footer">
+			      <div class="modal-footer" style="background-color:white">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			        <button type="submit" class="btn btn-primary">立即充值</button>
 			      </div>
@@ -145,13 +145,13 @@
 		<div class="modal" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="info-modal-label" aria-hidden="true" data-backdrop="static">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" style="background-color:#4E8BBE">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="info-modal-label"><strong style="color:red;">提示</strong></h4>
+		        <h4 class="modal-title" id="info-modal-label"><strong style="color:white;">提示</strong></h4>
 		      </div>		       	
 			      <div class="modal-body" style='padding:20px'>				      		
 				  </div>
-			      <div class="modal-footer">
+			      <div class="modal-footer" style="background-color:white"> 
 			        <button type="button" class="btn btn-default btn-close" data-dismiss="modal">关闭</button>
 			      	<button type="button" class="btn btn-primary btn-ok" data-dismiss="modal" style="display:none;">确定</button>
 			      </div>		     

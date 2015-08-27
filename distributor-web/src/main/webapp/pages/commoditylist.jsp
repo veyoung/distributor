@@ -30,9 +30,9 @@
 		<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
-		      <div class="modal-header">
+		      <div class="modal-header" style="background-color:#4E8BBE">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">添加商品</h4>
+		        <h4 class="modal-title" id="myModalLabel"><strong style="color:white;">添加商品</strong></h4>
 		      </div>
 		      <form id="commodityAddForm" action="/distributor/commodity" method="post" class="form-horizontal" role="form">
 			      <div class="modal-body">
@@ -129,7 +129,7 @@
 					    <label class="col-sm-8" id="tips" style="color:red"></label>
 					 </div>				 
 			      </div>
-			      <div class="modal-footer">
+			      <div class="modal-footer" style="background-color:white">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			        <button type="submit" class="btn btn-primary">保存</button>
 			      </div>
@@ -158,12 +158,12 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title" id="myModalLabel">提示</h4>
+		        <h4 class="modal-title" id="myModalLabel"><strong style="color:white;">提示</strong></h4>
 		      </div>
 		      <div class="modal-body">			
 		      	是否下线商品？ 					 
 			  </div>
-			      <div class="modal-footer">
+			      <div class="modal-footer" style="background-color:white">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			        <a type="button" id="deleteUrl" class="btn btn-danger">立即下线</a>
 			      </div>
@@ -175,7 +175,7 @@
  <div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog">
       <div class="modal-content">
-         <div class="modal-header" style="background-color:#A3B0B8">
+         <div class="modal-header" style="background-color:#4E8BBE">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                   &times;</button>
             <h4 class="modal-title" id="myModalLabel"><strong style="color:red;">提示</strong></h4>

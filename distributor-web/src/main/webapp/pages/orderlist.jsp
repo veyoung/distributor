@@ -60,10 +60,10 @@
    		aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
    		<div class="modal-dialog">
       		<div class="modal-content">
-         		<div class="modal-header">
+         		<div class="modal-header" style="background-color:#4E8BBE">
             		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             	<h4 class="modal-title" id="myModalLabel">
-              		提示
+              		<strong style="color:white;">提示</strong>
             	</h4>
          		</div>
          		<div class="modal-body-dialog">
@@ -77,7 +77,7 @@
 					</table>
          		</div>
          		</div>
-         		<div class="modal-footer">
+         		<div class="modal-footer" style="background-color:white">
             		<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
             		<button type="button" class="btn btn-primary btn-ok">确定</button>
          		</div>
