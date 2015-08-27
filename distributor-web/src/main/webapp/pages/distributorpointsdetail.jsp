@@ -124,6 +124,26 @@
 		</div>
 	</div>
 	
+	<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" 
+   		aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+   		<div class="modal-dialog">
+      		<div class="modal-content">
+         		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<h4 class="modal-title" id="myModalLabel">
+              		提示
+            	</h4>
+         		</div>
+         		<div class="modal-body-info">         		
+         		
+         		</div>
+         		<div class="modal-footer">
+            		<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+         		</div>
+      		</div>
+		</div>
+	</div>
+	
 </div>
 <script src="/distributor/js/jquery-1.9.1.min.js"></script>
 <script src="/distributor/js/bootstrap.min.js"></script>
@@ -241,7 +261,9 @@ $(function(){
             			var distributorCommissionId = data.content.id
             			var reduceCommission = $('#reduceCommission').val()
             			if(!isNaN($('#reduceCommission').val) && reduceCommission > data.content.totalcommission){
-            				alert("请重新输入！")
+            				$('#modal-info').modal('show')
+            				$('.modal-body-info').html("输入不正确，请重新输入！")
+            				//alert("请重新输入！")
             			}else{
             				$.ajax({
                 	            type: 'POST',
@@ -249,8 +271,12 @@ $(function(){
                 	            success: function(reduceData) {
                 	            	if(reduceData.success){
                 	            		$('#modal-exchange').modal('hide')
+                	            		$('#modal-info').modal('show')
+            							$('.modal-body-info').html("恭喜您，兑换成功！")
                 	            	}else{
                 	            		$('#modal-exchange').modal('hide')
+                	            		$('#modal-info').modal('show')
+            							$('.modal-body-info').html("对不起，兑换失败！")
                 	            	}
                 	            }
                 			})
@@ -259,6 +285,8 @@ $(function(){
         			
             	}else{
             		$('#modal-exchange').modal('hide')
+            		$('#modal-info').modal('show')
+            		$('.modal-body-info').html("对不起，兑换失败！")
             	}
             }
 		})
