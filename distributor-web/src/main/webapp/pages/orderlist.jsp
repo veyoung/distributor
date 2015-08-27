@@ -23,13 +23,13 @@
 		 <div class="form-group">
 		    <label class="col-sm-2 control-label" for="commission">起始日期</label>
 		    <div class="col-sm-4">
-		    	<input type="text" class="form-control" value="" data-date-format="yyyy-mm-dd" id="startTime" >
+		    	<input type="text" class="form-control" value="" data-date-format="yyyy-mm-dd" id="startTime" placeholder="请选择起始日期">
 		    </div>
 		 </div>	
 		 <div class="form-group">
 		    <label class="col-sm-2 control-label" for="commission">截止日期</label>
 		    <div class="col-sm-4">
-		    	<input type="text" class="form-control" value="" data-date-format="yyyy-mm-dd" id="endTime" >
+		    	<input type="text" class="form-control" value="" data-date-format="yyyy-mm-dd" id="endTime" placeholder="请选择截止日期">
 		    </div>
 		 </div>	
 		 <div class="form-group">
@@ -50,7 +50,7 @@
 				<td width="15%">操作</td></tr>
 			<tbody id="content-table"><tr><td colspan="6">暂无订单</td></tr></tbody>										
 		</table>
-		<div style="background-color:#eff3f8;height:60px;margin-top:-20px">
+		<div id="bottom-tip" style="background-color:#eff3f8;height:60px;margin-top:-20px;display:none">
 			<div class="col-sm-3"><span id ="statics" style="line-height:60px"></span></div>
 			<div class="col-sm-9"><div id="pagination" style="float:right"></div></div>
 		</div>
@@ -120,7 +120,7 @@ $(function(){
         			$("#content-table").empty();
                     $("#content-table").append(t);
                     $("#statics").html('总订单数： '+data.total);
-                    
+                    $('#bottom-tip').css('display','block');
                   	//分页，PageCount是总条目数，这是必选参数，其它参数都是可选
                     $('#pagination').pagination(data.total, {
                         callback: PageCallback, 

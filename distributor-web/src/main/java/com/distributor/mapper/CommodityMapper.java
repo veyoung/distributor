@@ -64,4 +64,8 @@ public interface CommodityMapper {
     Commodity selectByNameAndBrand(Map<String, Object> param);
     
     Commodity selectWithSearhName(String name);
+    
+    List<Commodity> selectByCategory(Map<String, Object> param);
+    
+    int countSelectByCategory(Map<String, Object> param);
 }

@@ -74,6 +74,51 @@ public class CommodityController extends BaseController{
 		}	
 	}
 	
+	/**
+	 * 商品搜素
+	 * @return
+	 */
+	@RequestMapping("commodityList/{categoryId}/{page}")
+	@ResponseBody
+	public Map<String, Object> commoditySearch(
+			HttpServletRequest request,
+			@PathVariable("categoryId") Long categoryId,
+			@PathVariable("page") int page){	
+		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		
+		try {
+			HashMap<String, Object> param = new HashMap<String, Object>();
+			param.put("categoryId", categoryId);
+		    param.put("pageSize", ConstantVariable.Pagesize);
+		    param.put("offset", ConstantVariable.Pagesize * page);
+		    
+		    List<Commodity> commoditys = commodityMapper.selectByCategory(param);
+		    for(Commodity commodity : commoditys){
+		    	Category category = categoryMapper.selectByPrimaryKey(commodity.getCategoryId());
+		    	if (category != null) {
+		    		commodity.setCategoryName(category.getName());
+		    	} 
+		    }
+		    int total = commodityMapper.countSelectByCategory(param);
+		    List<Category> categories = categoryMapper.selectAllCategorys();
+		    String categoriesStr = "";
+		    for(Category category : categories){
+		    	categoriesStr += category.getId() + "," + category.getName() + ";";
+		    }
+		    
+		    Map<String, Object> result = success(commoditys);
+		    result.put("total", total);
+		    result.put("categoriesStr", categoriesStr);
+		    result.put("user", user);
+		    return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return fail();
+		}	
+	}
+	
 //	/**
 //	 * 分页异步
 //	 * @param page
