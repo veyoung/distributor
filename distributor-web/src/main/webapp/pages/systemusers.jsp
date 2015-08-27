@@ -61,8 +61,6 @@ $(function (){
 				para += '<tr><td>'+ value.name + 
                         '</td><td>'+ value.mobile +'</td><td>'+ status + 
                         '</td><td>'+ value.displayCreateTime +'</td><td>' +
-                        '<a class="green"><i class="ace-icon fa fa-check"></i>&nbsp;通过&nbsp;&nbsp;</a>'+
-                        '<a class="orange"><i class="ace-icon fa fa-times"></i>&nbsp;拒绝&nbsp;&nbsp;</a>'+
                         '<a class="red"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'+
                         '</td></tr>';        
             });
