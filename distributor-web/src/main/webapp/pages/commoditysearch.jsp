@@ -35,11 +35,11 @@
 	<div>
 		<table class="table table-striped table-hover">
 			<tr class="table-title-blue">
-				<td width="10%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称</td>
-				<td width="15%">商品ID</td>
-				<td width="15%">商品价格(元)</td>
-				<td width="15%">商品说明</td>
-				<td width="20%">操作</td></tr>
+			<td width="20%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商品名称</td>
+			<td width="10%">商品分类</td>
+			<td width="15%">商品ID</td>
+			<td width="15%">商品价格(元)</td>
+			<td width="30%">操作</td></tr>
 			<tbody id="content-table"><tr><td colspan="5">暂无查询结果</td></tr></tbody>
 		</table>
 		<div id="bottom-tip" style="background-color:#eff3f8;height:60px;margin-top:-20px;display:none">
@@ -248,6 +248,7 @@ $(function(){
 		        	});
 		    		var strs= new Array(); //定义一数组 
 		    		strs = data.categoriesStr.split(";"); ///字符分割 
+		    		$("#category").empty();
 		    		for(var i = 0; i < strs.length-1; i++){ 
 		    			var ss = new Array();
 		    			ss = strs[i].split(',');
