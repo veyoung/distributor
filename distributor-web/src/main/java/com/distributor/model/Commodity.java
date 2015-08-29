@@ -4,6 +4,8 @@ import com.distributor.utils.CommonUtils;
 
 public class Commodity {
 	
+	private Integer count;
+	
 	private String categoryName;
 	
     /**
@@ -463,6 +465,14 @@ public class Commodity {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
 	}
     
 }

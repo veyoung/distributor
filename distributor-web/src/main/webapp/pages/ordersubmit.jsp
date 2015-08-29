@@ -203,14 +203,15 @@ $(document).ready(function(){
     		if (data.success){
     			var t = "";
 				var totalPrice = 0;
+				var count = data.content.length
     			$(data.content).each(function (key,value) { //遍历返回的json                     
-                    t += '<tr class="for-total-price" data-id="'+ value.id +'"><td>'+ value.name +'</td><td>'+ changeNum(value.displayPrice) + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">1</span>'
+                    t += '<tr class="for-total-price" data-id="'+ value.id +'"><td>'+ value.name +'</td><td>'+ changeNum(value.displayPrice) + '</td><td id="commodity-count"><a class="adjustbox subtracting">-</a><span class="countbox">'+ value.count +'</span>'
                     		+ '<a class="adjustbox adding">+</a></td><td id="priceDisplay">' 
-                    		+ changeNum(value.displayPrice * 1) + '</td><td>'
+                    		+ changeNum(value.displayPrice * value.count) + '</td><td>'
 							+ '<a href="/distributor/deleteCommodity/' 
 							+ value.id + '" class="orange"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
                     		+ '</td></tr>';
-                    totalPrice += changeNum(parseFloat(value.displayPrice));
+                    totalPrice += changeNum(parseFloat(value.displayPrice * value.count));
                 });
     			
     			$("#content-table").empty();

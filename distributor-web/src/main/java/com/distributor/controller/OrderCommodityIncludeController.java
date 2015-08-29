@@ -35,6 +35,7 @@ public class OrderCommodityIncludeController extends BaseController{
 			List<Commodity> commodities = new ArrayList<Commodity>();
 			for(OrderCommodityInclude orderCommodityInclude : orderCommodityIncludes){
 				Commodity commodity = commodityMapper.selectByPrimaryKey(orderCommodityInclude.getCommodityId());
+				commodity.setCount(orderCommodityInclude.getCommodityCount());
 				commodities.add(commodity);
 			}
 			return success(commodities);
