@@ -260,7 +260,7 @@ $(function(){
             		$('.btn-exchange-ok').click(function(){
             			var distributorCommissionId = data.content.id
             			var reduceCommission = $('#reduceCommission').val()
-            			if(isNaN($('#reduceCommission').val()) || reduceCommission > data.content.totalcommission){
+            			if(isNaN($('#reduceCommission').val()) || reduceCommission > data.content.commission || reduceCommission < 0){
             				$('#modal-exchange').modal('hide')
             				$('#modal-info').modal('show')
             				$('.modal-body-info').html("输入不正确，请重新输入！")

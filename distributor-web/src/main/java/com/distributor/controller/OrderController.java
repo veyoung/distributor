@@ -286,7 +286,9 @@ public class OrderController extends BaseController{
 //			}
 			//distributorCommission.setTotalcommission((int)(distributorCommission.getTotalcommission() - Float.parseFloat(reduceCommission)*100));
 			//distributorCommissionMapper.updateByPrimaryKeySelective(distributorCommission);
-			
+			if(Float.parseFloat(reduceCommission) < 0){
+				return fail("输入不正确，兑换失败");
+			}
 			Distributor distributor = distributorMapper.selectByPrimaryKey(distributorId);
 			if(distributor.getCommission() < Float.parseFloat(reduceCommission)*100){
 				return fail("积分不足，兑换失败");
