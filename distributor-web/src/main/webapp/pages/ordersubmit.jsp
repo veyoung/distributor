@@ -212,6 +212,8 @@ $(document).ready(function(){
 							+ value.id + '" class="orange"><i class="ace-icon fa fa-trash-o"></i>&nbsp;删除</a>'
                     		+ '</td></tr>';
                     totalPrice += changeNum(parseFloat(value.displayPrice * value.count));
+                    
+                    
                 });
     			
     			$("#content-table").empty();
@@ -219,8 +221,19 @@ $(document).ready(function(){
     				t='<tr><td colspan="5">订单下暂无商品</td></tr>';
     			}
                 $("#content-table").append(t);
+                
+                $('#content-table').find('tr').each(function(key,value){
+                	var count = $(value).find('#commodity-count').find('.countbox').text()
+                	if(count == 1){
+                		$(value).find('#commodity-count').find('.subtracting').addClass("disable-background");
+                    }else if(count > 1){
+                    	$(value).find('#commodity-count').find('.subtracting').removeClass("disable-background");
+                    }
+                })
+                
+                
                 $("#totalPrice").text(changeNum(totalPrice));
-                $('.subtracting').addClass("disable-background");
+                
     		} else {
     			
     		}
@@ -261,7 +274,7 @@ $(document).ready(function(){
         		    	$('#totalPrice').html(changeNum(totalPrice))
     		    	}
     		    	
-    			} else{
+    			} else{ 
     				$('#myModal').modal('show');
         			$('.modal-body').html("分销商不存在!!");
         			$('.btn-ok').attr("style","display:none;");
